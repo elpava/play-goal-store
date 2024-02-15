@@ -2,5 +2,6 @@
   "singleQuote": true,
   "arrowParens": "avoid",
   "jsxBracketSameLine": false,
-  "semi": false
+  "semi": false,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
