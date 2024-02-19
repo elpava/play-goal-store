@@ -22,6 +22,15 @@ const icons = {
   address: 'location-dot',
   success: 'badge-check',
   back: 'right-long',
+  nike: 'nike',
+  adidas: 'adidas',
+  mikasa: 'mikasa',
+  wilson: 'wilson',
+  classicBall: 'classic-ball',
+  youtube: 'youtube',
+  pinterest: 'pinterest',
+  instagram: 'instagram',
+  telegram: 'telegram',
 }
 
 export default icons
