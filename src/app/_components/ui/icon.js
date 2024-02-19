@@ -7,13 +7,19 @@ const iconSize = {
   large: '1.75rem',
 }
 
-export default function Icon({ name, href, size = 'medium', ...props }) {
+export default function Icon({
+  name,
+  href,
+  size = 'medium',
+  className,
+  ...props
+}) {
   return href ? (
     <Link href={href}>
-      <SVG size={size} name={name} {...props} />
+      <SVG className={className} size={size} name={name} {...props} />
     </Link>
   ) : (
-    <SVG size={size} name={name} {...props} />
+    <SVG className={className} size={size} name={name} {...props} />
   )
 }
 
@@ -22,10 +28,11 @@ Icon.propTypes = {
   name: PropTypes.string.isRequired,
 }
 
-const SVG = ({ name, size, ...props }) => (
+const SVG = ({ name, size, className, ...props }) => (
   <svg
     width={iconSize[size] ? iconSize[size] : size}
     viewBox="0 0 88 100"
+    className={`inline-block ${className}`}
     {...props}
   >
     <use href={`/icons/icons.svg#${name}`} />
