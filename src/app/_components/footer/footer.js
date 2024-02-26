@@ -45,21 +45,21 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-blue-950 pt-6 text-gray-100 sm:pt-10">
-      <div className="mb-8 grid gap-8 px-4 text-center sm:grid-cols-4 sm:items-center">
+    <footer className="bg-blue-950 pt-6 text-gray-100 md:pt-10">
+      <div className="mb-8 grid gap-8 px-4 text-center md:grid-cols-4 md:items-center">
         <div>
-          <Image src={Logo} alt="logo" className="mx-auto mb-2 w-16 sm:w-24" />
+          <Image src={Logo} alt="logo" className="mx-auto mb-2 w-16 md:w-24" />
 
           <h3 className="text-2xl">
             پلی‌گل عرضه کننده توپ‌های فوتبال برندهای معتبر دنیا
           </h3>
         </div>
 
-        <NeonDivider className="sm:hidden" />
+        <NeonDivider className="md:hidden" />
 
-        <div className="flex gap-20 text-right sm:mr-4">
+        <div className="flex gap-20 text-right md:mr-4">
           <div>
-            <div className="mb-8 flex gap-2 sm:mb-4 sm:border-b sm:border-b-yellow-200 sm:pb-4">
+            <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
               <h4 className="text-xl">
                 <Link href="/prodcuts">محصولات</Link>
               </h4>
@@ -85,7 +85,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="mb-8 flex gap-2 sm:mb-4 sm:border-b sm:border-b-yellow-200 sm:pb-4">
+            <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
               <h4 className="text-xl">
                 <Link href="/prodcuts">لینک‌های مرتبط</Link>
               </h4>
@@ -108,13 +108,13 @@ export default function Footer() {
           </div>
         </div>
 
-        <NeonDivider className="sm:hidden" />
+        <NeonDivider className="md:hidden" />
 
-        <div className="sm:grid sm:grid-cols-2 sm:grid-rows-2 sm:gap-2 sm:place-self-center">
+        <div className="md:grid md:grid-cols-2 md:grid-rows-2 md:gap-2 md:place-self-center">
           {socialLinks.map(({ href, icon }) => (
             <span
               key={href}
-              className="mx-2 inline-block size-12 rounded-lg bg-cyan-500 shadow-lg shadow-cyan-300 sm:bg-zinc-200 sm:shadow-md sm:shadow-zinc-400"
+              className="mx-2 inline-block size-12 rounded-lg bg-cyan-500 shadow-lg shadow-cyan-300 md:bg-zinc-200 md:shadow-md md:shadow-zinc-400"
             >
               <Icon name={icon} href={href} size={41} />
             </span>
@@ -122,16 +122,16 @@ export default function Footer() {
         </div>
 
         <div className="space-x-4 space-x-reverse">
-          <span className="relative inline-block size-28 rounded-lg bg-zinc-200 p-2 sm:size-40">
+          <span className="relative inline-block size-28 rounded-lg bg-zinc-200 p-2 md:size-40">
             <Image src={E_Namad} alt="اینماد" className="mx-auto w-11/12" />
           </span>
-          <span className="relative inline-block size-28 rounded-lg bg-zinc-200 p-2 sm:size-40">
+          <span className="relative inline-block size-28 rounded-lg bg-zinc-200 p-2 md:size-40">
             <Image src={Namad} alt="اینماد" className="mx-auto w-11/12" />
           </span>
         </div>
       </div>
 
-      <div className="bg-black px-4 py-2 text-center text-xs sm:text-sm">
+      <div className="bg-black px-4 py-2 text-center text-xs md:text-sm">
         تمام حقوق این سایت متعلق به شرکت بازرگانی تجاری پلی‌گل می‌باشد.
         2024-1403©
       </div>

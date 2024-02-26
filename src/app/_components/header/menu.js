@@ -12,8 +12,8 @@ export default function Menu({ className, ...props }) {
   return (
     <div className={` ${className}`} {...props}>
       <Link href="/">
-        <Image src={Logo} alt="لوگو" className="hidden w-7 sm:block" priority />
-        <span className="sm:hidden">صفحه اصلی</span>
+        <Image src={Logo} alt="لوگو" className="hidden w-7 md:block" priority />
+        <span className="md:hidden">صفحه اصلی</span>
       </Link>
       {menu.map(({ name, href }) => (
         <Link key={name} href={href} className="">

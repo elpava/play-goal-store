@@ -26,7 +26,7 @@ const gridImages = [
 
 export default function Home() {
   return (
-    <main className="grow">
+    <main className="min-h-svh">
       <HeroBanner />
       <GridImages />
       <ImageAndText />
@@ -53,7 +53,7 @@ function HeroBanner({ className, ...props }) {
 function GridImages({ className, ...props }) {
   return (
     <section className={`bg-zinc-950 p-1 ${className}`} {...props}>
-      <div className="grid auto-rows-[130px] grid-cols-2 gap-1 bg-zinc-700 p-1 sm:h-svh sm:grid-cols-4 sm:grid-rows-3">
+      <div className="grid auto-rows-[130px] grid-cols-2 gap-1 bg-zinc-700 p-1 md:h-svh md:grid-cols-4 md:grid-rows-3">
         {gridImages.map(({ id, image, alt }) => (
           <Image
             key={id}
@@ -64,9 +64,9 @@ function GridImages({ className, ...props }) {
               'row-span-3': id === 3 || id === 6,
 
               // desktop
-              'sm:col-span-2': id === 1 || id === 2 || id === 5,
-              'sm:col-span-1 sm:row-span-2': id === 3,
-              'sm:col-span-1 sm:row-span-1': id === 6 || id === 7 || id === 8,
+              'md:col-span-2': id === 1 || id === 2 || id === 5,
+              'md:col-span-1 md:row-span-2': id === 3,
+              'md:col-span-1 md:row-span-1': id === 6 || id === 7 || id === 8,
             })}
           />
         ))}
@@ -78,7 +78,7 @@ function GridImages({ className, ...props }) {
 function ImageAndText({ className, ...props }) {
   return (
     <section
-      className={`grid h-svh grid-rows-2 bg-blue-400 sm:grid-cols-2 sm:grid-rows-1 ${className}`}
+      className={`grid h-svh grid-rows-2 bg-blue-400 md:grid-cols-2 md:grid-rows-1 ${className}`}
       {...props}
     >
       <div className="relative">
@@ -90,9 +90,9 @@ function ImageAndText({ className, ...props }) {
         />
       </div>
 
-      <div className="flex flex-col place-content-center gap-5 px-8 text-blue-900 sm:gap-16 sm:p-14 sm:text-center">
-        <h2 className="text-3xl font-bold sm:text-6xl">فوتبال و احساسات</h2>
-        <div className="text-justify sm:text-3xl">
+      <div className="flex flex-col place-content-center gap-5 px-8 text-blue-900 md:gap-16 md:p-14 md:text-center">
+        <h2 className="text-3xl font-bold md:text-6xl">فوتبال و احساسات</h2>
+        <div className="text-justify md:text-3xl">
           هیچ ورزشی مانند فوتبال، نمی‌تواند مردم را به شور و هیجان بیاورد. این
           بازی، مردم را در کافه‌ها، مکان‌های عمومی و حتی جلوی تلویزیون جمع
           می‌کند. هیجانات مثبت و منفی تماشای فوتبال، یکی از عواملی است که این
@@ -108,19 +108,19 @@ function ImageAndText({ className, ...props }) {
 function ImageWithText({ className, ...props }) {
   return (
     <section
-      className={`relative h-[36.15vh] bg-amber-800 sm:h-72 ${className}`}
+      className={`relative h-[36.15vh] bg-amber-800 md:h-72 ${className}`}
       {...props}
     >
       <Image
         src={SoccerStadium2}
         alt="استادیوم"
-        className="object-contain mix-blend-multiply sm:object-cover"
+        className="object-contain mix-blend-multiply md:object-cover"
         fill
       />
 
-      <h2 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center text-2xl text-zinc-200 sm:text-6xl">
+      <h2 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center text-2xl text-zinc-200 md:text-6xl">
         تجربه سرعت، دقت، هیجان با{' '}
-        <span className="rounded-xl bg-zinc-900 p-2 text-amber-300 sm:rounded-2xl sm:px-4 sm:py-2">
+        <span className="rounded-xl bg-zinc-900 p-2 text-amber-300 md:rounded-2xl md:px-4 md:py-2">
           پلی‌گل
         </span>
       </h2>
@@ -131,7 +131,7 @@ function ImageWithText({ className, ...props }) {
 function Brands({ className, ...props }) {
   return (
     <section className={`${className}`} {...props}>
-      <div className={`flex justify-evenly gap-4 *:w-16 sm:*:w-36`} {...props}>
+      <div className={`flex justify-evenly gap-4 *:w-16 md:*:w-36`} {...props}>
         <Icon name={icons.nike} />
         <Icon name={icons.adidas} />
         <Icon name={icons.wilson} />

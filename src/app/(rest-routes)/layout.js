@@ -1,8 +1,8 @@
-import VAZIRMATN_FONT from 'util/share-font'
+import { VAZIRMATN_FONT } from 'util/share-font'
+import MainHeader from '@/_components/header/main-header'
 import Footer from '@/_components/footer/footer'
-import Header from '@/_components/header/header'
 
-import './globals.css'
+import '../globals.css'
 
 export const metadata = {
   title: 'پلی گل',
@@ -12,8 +12,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html className={VAZIRMATN_FONT.className} lang="fa" dir="rtl">
-      <body className="flex min-h-svh flex-col">
-        <Header />
+      <body>
+        <MainHeader />
         {children}
         <Footer />
       </body>
