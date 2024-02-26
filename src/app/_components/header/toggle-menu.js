@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Menu from './menu'
 import { Menu as MenuIcon, X } from 'lucide-react'
-import useClickOutsideElement from 'hook/useClickOutsideElement'
+import Popup from '@/_components/ui/popup'
 
 export default function ToggleMenu({ className, ...props }) {
   return (
@@ -16,23 +16,24 @@ export default function ToggleMenu({ className, ...props }) {
 }
 
 function MenuContainer({ children }) {
-  const [state, setState] = React.useState(false)
-  const { ref } = useClickOutsideElement(setState)
+  const [isOpen, setIsOpen] = React.useState(false)
 
   function clickHandler() {
-    setState(!state)
+    setIsOpen(!isOpen)
   }
 
   return (
-    <div ref={ref}>
+    <div onClick={clickHandler}>
       <button
         className="rounded-lg border border-dashed border-zinc-700 p-1"
         onClick={clickHandler}
       >
-        {state ? <X /> : <MenuIcon />}
+        {isOpen ? <X /> : <MenuIcon />}
       </button>
 
-      {state && children}
+      <Popup open={isOpen} onClose={setIsOpen}>
+        {children}
+      </Popup>
     </div>
   )
 }
