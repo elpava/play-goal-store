@@ -97,42 +97,51 @@ function CartMenu({ cartMenuData }) {
       <div className="rounded-lg border-2 border-lime-400 px-2 py-2">
         <div className="h-96 w-80 overflow-auto overscroll-none pe-2 scrollbar scrollbar-w-1 scrollbar-track-transparent scrollbar-corner-transparent scrollbar-thumb-lime-700 scrollbar-thumb-rounded-full md:w-96 md:scrollbar-w-2">
           <ul className="divide-y-2 divide-lime-400">
-            {cartMenuData.map(({ _id, name, thumbnail, quantity }, idx) => (
-              <li
-                key={_id}
-                className={clsx(
-                  'flex space-x-2 space-x-reverse py-3 md:space-x-4 md:space-x-reverse md:py-4',
-                  {
-                    'pt-0 md:pt-4': idx === 0,
-                    'md:pb-0': idx === LAST_ITEM,
-                  },
-                )}
-              >
-                <div className="relative size-14 shrink-0 basis-1/6 md:size-16">
-                  <Image
-                    src={`/images/sample images/${thumbnail}`}
-                    alt="عکس محصول"
-                    className="object-contain"
-                    fill
-                    sizes="100vw"
-                  />
-                </div>
+            {cartMenuData.map(
+              ({ _id, name, thumbnail, quantity, stock }, idx) => (
+                <li
+                  key={_id}
+                  className={clsx(
+                    'flex space-x-2 space-x-reverse py-3 md:space-x-4 md:space-x-reverse md:py-4',
+                    {
+                      'pt-0 md:pt-4': idx === 0,
+                      'md:pb-0': idx === LAST_ITEM,
+                    },
+                  )}
+                >
+                  <div className="relative size-14 shrink-0 basis-1/6 md:size-16">
+                    <Image
+                      src={`/images/sample images/${thumbnail}`}
+                      alt="عکس محصول"
+                      className="object-contain"
+                      fill
+                      sizes="100vw"
+                    />
+                  </div>
 
-                <div className="flex w-0 grow flex-col gap-1 md:gap-3">
-                  <h4 className="truncate text-sm md:text-base">{name}</h4>
+                  <div className="flex w-0 grow flex-col gap-1 md:gap-3">
+                    <h4 className="truncate text-sm md:text-base">{name}</h4>
 
-                  <div className="mt-auto flex space-x-10 space-x-reverse pr-2 md:items-end">
-                    <div>
-                      <ChangeQuantityProduct initialQuantity={quantity} />
-                    </div>
+                    <div className="mt-auto flex space-x-10 space-x-reverse pr-2 md:items-end">
+                      <div>
+                        <ChangeQuantityProduct
+                          initialQuantity={quantity}
+                          maxQuantity={stock}
+                        />
+                      </div>
 
-                    <div>
-                      <RemoveButton label="حذف" productId={_id} icon={false} />
+                      <div>
+                        <RemoveButton
+                          label="حذف"
+                          productId={_id}
+                          icon={false}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              ),
+            )}
           </ul>
         </div>
 

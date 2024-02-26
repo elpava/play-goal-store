@@ -7,11 +7,13 @@ import { Plus, Minus } from 'lucide-react'
 export default function ChangeQuantityProduct({
   className,
   initialQuantity,
+  maxQuantity,
   ...props
 }) {
   const [quantity, setQuantity] = React.useState(initialQuantity || 1)
 
   const isMinimumQty = quantity < 2
+  const isMaximumQty = quantity === maxQuantity
 
   React.useEffect(() => {
     // TODO read/write from local storage for cart
@@ -27,7 +29,11 @@ export default function ChangeQuantityProduct({
 
   return (
     <div className={clsx('flex gap-1.5', className)} {...props}>
-      <button onClick={clickIncreaseButton}>
+      <button
+        onClick={clickIncreaseButton}
+        className={clsx({ 'text-zinc-500': isMaximumQty })}
+        disabled={isMaximumQty}
+      >
         <Plus className="w-3 md:w-5" />
       </button>
 
@@ -37,8 +43,8 @@ export default function ChangeQuantityProduct({
 
       <button
         onClick={clickDecreaseButton}
-        disabled={isMinimumQty}
         className={clsx({ 'text-zinc-500': isMinimumQty })}
+        disabled={isMinimumQty}
       >
         <Minus className="w-3 md:w-5" />
       </button>

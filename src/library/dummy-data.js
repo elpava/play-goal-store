@@ -117,7 +117,7 @@ const DUMMY_DATA = [
     ],
   },
   {
-    slug: 'adidas_uwcl_league_23/24_knockout_ball',
+    slug: 'adidas_uwcl_league_23_24_knockout_ball',
     _id: 'ObjectId03',
     name: 'UWCL LEAGUE 23/24 KNOCKOUT BALL',
     description:
@@ -1376,6 +1376,7 @@ const randomAddedProductsToCart = randomPositions.map(position => ({
   name: DUMMY_DATA[position].name,
   thumbnail: DUMMY_DATA[position].thumbnails[0],
   quantity: Math.trunc(randomNumber() / 4) + 1,
+  stock: DUMMY_DATA[position].stock,
 }))
 const randomAddedProductsIds = randomPositions.map(
   position => DUMMY_DATA[position]._id,
