@@ -1,6 +1,6 @@
 import localFont from 'next/font/local'
 
-const VAZIRMATN_FONT = localFont({
+export const VAZIRMATN_FONT = localFont({
   src: [
     {
       path: '../../public/fonts/Vazirmatn-FD-Light.woff2',
@@ -20,4 +20,17 @@ const VAZIRMATN_FONT = localFont({
   ],
 })
 
-export default VAZIRMATN_FONT
+export const VTF_REDZONE_CLASSIC = localFont({
+  src: [
+    {
+      path: '../../public/fonts/VTFRedzone-Classic.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/VTFRedzone-ClassicOblique.woff2',
+      weight: '500',
+      style: 'oblique',
+    },
+  ],
+})
