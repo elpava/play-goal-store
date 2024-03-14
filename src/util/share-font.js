@@ -33,4 +33,5 @@ export const VTF_REDZONE_CLASSIC = localFont({
       style: 'oblique',
     },
   ],
+  variable: '--vtfredzone-classic-font',
 })

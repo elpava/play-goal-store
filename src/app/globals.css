@@ -20,6 +20,9 @@ html {
 }
 
 @layer utilities {
+  .vtf-font {
+    font-family: var(--vtfredzone-classic-font);
+  }
   .vertical-text {
     writing-mode: vertical-lr;
   }
