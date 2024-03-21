@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb'
+import { ObjectId } from 'mongodb'
 
 const DATABASE_NAME = process.env.DB_NAME
 const PRODUCTS_COLLECTION = 'products'
@@ -13,7 +14,7 @@ async function connectToDatabase(caller) {
     await client.connect()
     console.log(`🆕 [${caller}]: connect to the database.`)
   } catch (error) {
-    console.log(`❌ [${caller}]: couldn't connect to the database.`)
+    console.log(`[${caller}]: couldn't connect to the database.`)
   }
 }
 
@@ -24,4 +25,5 @@ export {
   ORDERS_COLLECTION,
   client,
   connectToDatabase,
+  ObjectId,
 }
