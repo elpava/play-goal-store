@@ -61,7 +61,7 @@ export default function Footer() {
           <div>
             <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
               <h4 className="text-xl">
-                <Link href="/prodcuts">محصولات</Link>
+                <Link href="/products">محصولات</Link>
               </h4>
               <Icon name={classicBall} size={20} />
             </div>
@@ -70,7 +70,7 @@ export default function Footer() {
               {productsLink.map(({ name, href, icon }) => (
                 <li key={href}>
                   <Link
-                    href={`/prodcuts?query=${href}`}
+                    href={`/products?query=${href}`}
                     className="flex gap-2 pr-2"
                   >
                     <span className="inline-block w-10 rounded-full bg-zinc-200">
@@ -87,7 +87,7 @@ export default function Footer() {
           <div>
             <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
               <h4 className="text-xl">
-                <Link href="/prodcuts">لینک‌های مرتبط</Link>
+                <Link href="/products">لینک‌های مرتبط</Link>
               </h4>
               <ExternalLink size={20} />
             </div>

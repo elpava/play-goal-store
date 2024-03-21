@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormState, useFormStatus } from 'react-dom'
-import { searchQuery } from 'action/search'
+import { searchQuery } from 'action/products/search'
 import { Search as SearchIcon, Loader } from 'lucide-react'
 
 const initialState = { message: '' }

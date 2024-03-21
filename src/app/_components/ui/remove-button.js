@@ -3,6 +3,8 @@
 import * as React from 'react'
 import clsx from 'clsx'
 import { Trash2 } from 'lucide-react'
+import { useQueryClient } from '@tanstack/react-query'
+import { deleteOrderAction } from 'action/orders/delete-order'
 
 export default function RemoveButton({
   label,
@@ -11,12 +13,15 @@ export default function RemoveButton({
   className,
   ...props
 }) {
+  const queryClient = useQueryClient()
+
   React.useEffect(() => {
     // TODO read/write from local storage for cart
   }, [])
 
-  function removeProductFromCartHandler() {
-    console.log(productId)
+  async function removeProductFromCartHandler() {
+    await deleteOrderAction(productId)
+    queryClient.invalidateQueries({ queryKey: ['cart'] })
   }
 
   return (

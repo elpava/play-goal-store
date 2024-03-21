@@ -1,5 +1,4 @@
 import ProductsHeader from '@/_components/header/products-header'
-import { randomAddedProductsToCart } from 'library/dummy-data'
 
 import '../globals.css'
 
@@ -14,7 +13,7 @@ export const metadata = {
 export default function ProductsGroupLayout({ children }) {
   return (
     <>
-      <ProductsHeader cartMenuData={randomAddedProductsToCart} />
+      <ProductsHeader />
       {children}
     </>
   )

@@ -2,22 +2,45 @@ import Link from 'next/link'
 import Image from 'next/image'
 import ProductsTabelContent from '@/_components/ui/products-table-content'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
-import {
-  brandsAnchors,
-  groupedDataArray,
-  randomAddedProductsIds,
-} from 'library/dummy-data'
+import { getProducts } from 'database/products/get-produtcs'
 import { ArrowUpRight } from 'lucide-react'
 import ShoppingButton from '@/_components/ui/shopping-button'
 import clsx from 'clsx'
 
 export default async function ProductsPage() {
+  const ProductsData = await getProducts()
+
+  const groupedData = {}
+  ProductsData.forEach(item => {
+    const { brand } = item
+
+    if (!groupedData[brand]) {
+      groupedData[brand] = { brandName: brand, products: [] }
+    }
+
+    groupedData[brand].products.push(item)
+  })
+
+  const groupedProducts = Object.values(groupedData)
+
+  ProductsData.sort((a, b) => {
+    if (a.brand < b.brand) return -1
+    if (a.brand > b.brand) return 1
+    return 0
+  })
+  const filteredByBrand = ProductsData.map(data => data.brand)
+  const uniqueBrand = [...new Set(filteredByBrand)]
+  const brandsAnchors = uniqueBrand.map(brand => ({
+    name: brand,
+    href: `#${brand}`,
+  }))
+
   return (
     <main className="min-h-svh bg-zinc-900 text-zinc-100">
       <ProductsTabelContent brandsAnchors={brandsAnchors} />
 
-      <section className="space-y-48 py-4 ps-4 md:relative">
-        {groupedDataArray.map(({ brandName, products }, idx) => (
+      <section className="space-y-48 py-4 ps-4 pt-16 md:relative md:pt-20">
+        {groupedProducts.map(({ brandName, products }, idx) => (
           <div
             key={brandName}
             className={clsx('md:flex md:items-start', {
@@ -42,7 +65,7 @@ export default async function ProductsPage() {
                         src={`/images/sample images/${thumbnails[0]}`}
                         alt="عکس محصول"
                         fill
-                        sizes="100vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
 
@@ -54,11 +77,11 @@ export default async function ProductsPage() {
                           {truncate(description, 190)}
                         </p>
 
-                        <div className="md: relative rounded-md bg-lime-300 p-1.5 md:basis-auto">
+                        <div className="relative rounded-md bg-lime-300 p-1.5 md:basis-auto">
                           <div className="text-sm font-bold text-zinc-800 md:text-lg">
                             {formateNumber(price * 56_000)}
                           </div>{' '}
-                          <div className="absolute -top-3 right-0 rounded-md bg-zinc-900 px-0.5 pb-0.5 text-xs">
+                          <div className="absolute -top-3 left-0 rounded-md bg-zinc-900 px-0.5 pb-0.5 text-xs">
                             تومان
                           </div>
                         </div>
@@ -72,9 +95,7 @@ export default async function ProductsPage() {
                             <ArrowUpRight className="absolute -top-3 right-0 w-4 stroke-1" />
                           </Link>
 
-                          <ShoppingButton
-                            addedProducts={randomAddedProductsIds.includes(_id)}
-                          />
+                          <ShoppingButton productId={_id} />
                         </div>
                       </div>
                     </div>

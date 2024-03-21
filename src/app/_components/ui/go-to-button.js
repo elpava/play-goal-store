@@ -13,7 +13,7 @@ export default function GoToButton({ label, href }) {
 
   return (
     <button
-      className="w-full rounded-lg bg-lime-500 p-2 font-semibold text-lime-950 md:text-lg"
+      className="w-full rounded-lg bg-lime-500 p-2 text-base font-semibold text-lime-950 md:text-lg"
       onClick={clickButtonHandler}
     >
       {label}
