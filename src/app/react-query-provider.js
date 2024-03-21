@@ -3,38 +3,23 @@
 import * as React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { getProductsAction } from 'action/products/get-products'
 
-function makeQueryClient() {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000,
-        gcTime: Infinity,
-      },
-    },
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { gcTime: Infinity } },
+})
+
+async function prefetchQuery() {
+  await queryClient.prefetchQuery({
+    queryKey: ['products'],
+    queryFn: () => getProductsAction(),
   })
 }
 
-let browserQueryClient = undefined
-
-function getQueryClient() {
-  if (typeof window === 'undefined') {
-    return makeQueryClient()
-  } else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient()
-    return browserQueryClient
-  }
-}
-
-if (typeof window !== 'undefined') {
-  const userId = localStorage.getItem('pg-user-id')
-  if (!userId) {
-    localStorage.setItem('pg-user-id', crypto.randomUUID())
-  }
-}
-
 export default function ReactQueryProvider({ children }) {
-  const queryClient = getQueryClient()
+  React.useEffect(() => {
+    prefetchQuery()
+  }, [])
 
   return (
     <QueryClientProvider client={queryClient}>
