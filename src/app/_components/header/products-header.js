@@ -100,8 +100,10 @@ export default function ProductsHeader() {
         </button>
       </div>
 
-      <div className="relative h-7 w-5 sm:h-8 sm:w-6">
-        <Image src={Logo} alt="لوگو" fill priority />
+      <div>
+        <Link href="/" className="relative block h-7 w-5 sm:h-8 sm:w-6">
+          <Image src={Logo} alt="لوگو" fill priority />
+        </Link>
       </div>
     </header>
   )
