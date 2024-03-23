@@ -80,7 +80,7 @@ export default async function ProductPage({ params: { slug } }) {
                   productId={_id}
                   defaultColorId={colors[0].colorId}
                   defaultSizeId={sizes[0].sizeId}
-                  productPrice={price * 56_000}
+                  productPrice={price}
                   className="mr-6 mt-2"
                 />
               </div>
