@@ -54,7 +54,7 @@ export default async function ProductPage({ params: { slug } }) {
         className="before:vtf-font relative isolate space-y-6 px-4 pb-4 pt-16 before:absolute before:left-2 before:top-40 before:z-[-1] before:text-8xl before:text-zinc-900 before:shadow-lime-400/50 before:content-[attr(data-content)] before:text-shadow-md before:[writing-mode:vertical-rl] sm:max-h-svh sm:pt-4 sm:before:top-24 sm:before:text-9xl"
         data-content={brand}
       >
-        <div className="space-y-8 pl-24 sm:pl-32">
+        <div className="space-y-8 pl-24 sm:mb-14 sm:pl-32">
           <h1 className="text-3xl sm:h-14 sm:text-4xl">{name}</h1>
 
           <div className="space-y-8">

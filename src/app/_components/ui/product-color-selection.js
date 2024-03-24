@@ -25,7 +25,7 @@ export default function ProductColorSelection({ colorsData, ...props }) {
   }
 
   return (
-    <div className="mr-6 mt-2 flex flex-col space-y-2" {...props}>
+    <div className="mr-6 mt-2 flex flex-col space-y-2 sm:relative" {...props}>
       <ul className="flex gap-4">
         {colorsData.map(({ colorId, filename }, idx) => (
           <li key={colorId} className="flex items-center gap-4">
@@ -50,7 +50,7 @@ export default function ProductColorSelection({ colorsData, ...props }) {
         ))}
       </ul>
 
-      <div>
+      <div className="sm:absolute sm:left-0 sm:right-0 sm:top-full sm:w-112">
         <h4 className="border-b border-b-transparent text-sm transition-[border] sm:text-base">
           {colorsData[selectedIndex].title}
         </h4>
