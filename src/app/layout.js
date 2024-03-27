@@ -7,6 +7,8 @@ import {
 } from '@tanstack/react-query'
 import { getProductsAction } from 'action/products/get-products'
 
+import './globals.css'
+
 export const metadata = {
   title: 'پلی گل',
   description: 'فروشگاه پلی گل',
