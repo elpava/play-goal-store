@@ -3,7 +3,14 @@
 import * as React from 'react'
 import clsx from 'clsx'
 import { Plus, Minus } from 'lucide-react'
-import { useQueryClient, QueriesObserver } from '@tanstack/react-query'
+import {
+  useQueryClient,
+  QueriesObserver,
+  useMutation,
+} from '@tanstack/react-query'
+import { useDebounce } from 'use-debounce'
+import updateQuantityOrderAction from 'action/orders/update-quantity-order'
+import { Loader } from 'lucide-react'
 
 export default function ChangeQuantityProduct({
   className,
@@ -13,11 +20,23 @@ export default function ChangeQuantityProduct({
   defaultColorId,
   defaultSizeId,
   productPrice,
+  updateDirectlyOnServer,
+  orderId,
   ...props
 }) {
   const queryClient = useQueryClient()
   const [quantity, setQuantity] = React.useState(initialQuantity || 1)
   const [selectNewType, setSelectNewType] = React.useState(false)
+  // for update quantity directly on server
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({ orderId, quantity }) =>
+      updateQuantityOrderAction(orderId, quantity),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+    },
+  })
+  const [allowUpdateOnServer, setAllowUpdateOnServer] = React.useState(false)
+  const [debouncedQuantity] = useDebounce(allowUpdateOnServer && quantity, 750)
 
   const activeColorIdRef = React.useRef(defaultColorId)
   const activeSizeIdRef = React.useRef(defaultSizeId)
@@ -58,7 +77,6 @@ export default function ChangeQuantityProduct({
         sizeId: activeSizeIdRef.current,
         quantity,
         price: productPrice,
-        totalAmount: productPrice * quantity,
       }
 
       const productsSelectionIdx = prevState.findIndex(
@@ -70,7 +88,6 @@ export default function ChangeQuantityProduct({
       if (productsSelectionIdx > -1) {
         prevState[productsSelectionIdx].quantity = order.quantity
         prevState[productsSelectionIdx].price = order.price
-        prevState[productsSelectionIdx].totalAmount = order.totalAmount
 
         return prevState
       }
@@ -83,16 +100,31 @@ export default function ChangeQuantityProduct({
     // TODO read/write from local storage for cart
   }, [queryClient, selectNewType, productId, productPrice, quantity])
 
+  // for update quantity directly on server
+  React.useEffect(() => {
+    if (allowUpdateOnServer && updateDirectlyOnServer && debouncedQuantity) {
+      mutate({ orderId, quantity: debouncedQuantity })
+    }
+  }, [
+    allowUpdateOnServer,
+    debouncedQuantity,
+    mutate,
+    orderId,
+    updateDirectlyOnServer,
+  ])
+
   function clickIncreaseButton() {
+    setAllowUpdateOnServer(true)
     setQuantity(prevState => prevState + 1)
   }
 
   function clickDecreaseButton() {
+    setAllowUpdateOnServer(true)
     setQuantity(prevState => prevState - 1)
   }
 
   return (
-    <div className={clsx('flex gap-1.5', className)} {...props}>
+    <div className={clsx('relative flex gap-1.5', className)} {...props}>
       <button
         onClick={clickIncreaseButton}
         className={clsx({ 'text-zinc-500': isMaximumQty })}
@@ -112,6 +144,12 @@ export default function ChangeQuantityProduct({
       >
         <Minus className="w-3 md:w-5" />
       </button>
+
+      {isPending && (
+        <div className="absolute inset-0 flex justify-center backdrop-blur-[1px]">
+          <Loader className="animate-spin" />
+        </div>
+      )}
     </div>
   )
 }

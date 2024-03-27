@@ -50,7 +50,6 @@ export default function ShoppingButton({ className, productId, ...props }) {
       sizeId: sizes[0].sizeId,
       quantity: 1,
       price: price,
-      totalAmount: price,
     }
 
     mutate(order)
