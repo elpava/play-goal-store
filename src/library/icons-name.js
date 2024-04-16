@@ -31,6 +31,11 @@ const icons = {
   pinterest: 'pinterest',
   instagram: 'instagram',
   telegram: 'telegram',
+  emptyBag: 'empty-bag',
+  post: 'post',
+  tipax: 'tipax',
+  motorcycleCourier: 'motorcycle-courier',
+  snapp: 'snapp',
 }
 
 export default icons
