@@ -6,8 +6,12 @@ import {
   ObjectId,
 } from 'database/connect'
 
-export async function updateQuantityOrder(orderId, orderProductId, quantity) {
-  const caller = updateQuantityOrder.name
+export async function updateShipmentOrder(
+  orderId,
+  shipmentForm,
+  totalAmountPayment,
+) {
+  const caller = updateShipmentOrder.name
 
   try {
     await connectToDatabase(caller)
@@ -15,12 +19,12 @@ export async function updateQuantityOrder(orderId, orderProductId, quantity) {
     await db
       .collection(ORDERS_COLLECTION)
       .updateOne(
-        { _id: new ObjectId(orderId), 'orders.id': orderProductId },
-        { $set: { 'orders.$.quantity': quantity } },
+        { _id: new ObjectId(orderId) },
+        { $set: { shipment: shipmentForm, totalAmountPayment } },
       )
   } catch (error) {
     throw new Error(
-      `[${caller}]: Couldn't update the order quantity.\n message: ${error}`,
+      `[${caller}]: Couldn't update the order shipment.\n message: ${error}`,
     )
   }
 
@@ -29,7 +33,7 @@ export async function updateQuantityOrder(orderId, orderProductId, quantity) {
 
   return {
     success: true,
-    message: 'The order quantity updated successfully.',
+    message: 'The order shipment updated successfully.',
     orderId,
   }
 }

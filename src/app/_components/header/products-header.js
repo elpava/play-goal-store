@@ -13,27 +13,38 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getOrdersAction } from 'action/orders/get-orders'
 import Logo from '/public/play-goal.png'
 
+const DOLLAR_RATE = 56_000
+
 export default function ProductsHeader() {
-  const { data, isSuccess } = useQuery({
+  const [unknownUserId, setUnknownUserId] = React.useState(null)
+  let { data: ordersData, isSuccess } = useQuery({
     queryKey: ['cart'],
-    queryFn: () => getOrdersAction(),
+    queryFn: () => getOrdersAction(unknownUserId),
+    enabled: Boolean(unknownUserId),
   })
-  let ordersData = []
+  let lastOrderData
   const { back, push } = useRouter()
   const [isCameFromInternalLink, setIsCameFromExternalLink] =
     React.useState(false)
   const [isOpenPopup, setIsOpenPopup] = React.useState(false)
 
-  const isOrdersData = data?.length > 0
+  let isLastOrderData = false
   const isAuthurized = false
-  const addedToCartCount = data?.length
-  const isCounterShow = Boolean(addedToCartCount)
+  let ordersCount = 0
+  let isShowCounter = false
 
-  if (isOrdersData) {
-    ordersData = data
+  if (isSuccess) {
+    lastOrderData = ordersData?.at(-1)
+    isLastOrderData = lastOrderData?.orders.length > 0 && !lastOrderData?.isPaid
+    ordersCount = isLastOrderData ? lastOrderData.orders.length : 0
+    isShowCounter = Boolean(ordersCount)
   }
 
   React.useEffect(() => {
+    if (window !== undefined) {
+      const userId = localStorage.getItem('pg-user-id')
+      setUnknownUserId(userId)
+    }
     // TODO read/write from local storage for cart
     // authurize states
 
@@ -63,25 +74,33 @@ export default function ProductsHeader() {
           onClick={clickPopupButtonHandler}
         >
           <ShoppingBag className="w-5 stroke-1 md:w-6" />
-          {isSuccess && isCounterShow && (
+          {isShowCounter && (
             <span
               className={clsx(
                 'absolute rounded-full bg-red-600 px-1 text-xs md:text-base',
                 {
                   '-right-1.5 -top-1 w-4 md:-right-3 md:-top-3 md:w-6':
-                    addedToCartCount < 10,
+                    ordersCount < 10,
                   '-right-2.5 -top-2.5 w-5 py-0.5 md:-right-3 md:-top-3 md:w-6 md:text-sm':
-                    addedToCartCount >= 10,
+                    ordersCount >= 10,
                 },
               )}
             >
-              {addedToCartCount}
+              {ordersCount}
             </span>
           )}
         </button>
       </div>
-      <Popup open={isOpenPopup && isOrdersData} onClose={setIsOpenPopup}>
-        <CartMenu ordersData={ordersData} />
+      <Popup open={isOpenPopup} onClose={setIsOpenPopup}>
+        {isLastOrderData ? (
+          <CartMenu
+            orderId={lastOrderData._id}
+            userId={lastOrderData.userId}
+            ordersData={lastOrderData.orders}
+          />
+        ) : (
+          <EmptyCartMenu />
+        )}
       </Popup>
 
       <div>
@@ -109,28 +128,33 @@ export default function ProductsHeader() {
   )
 }
 
-function CartMenu({ ordersData }) {
+function CartMenu({ orderId, ordersData }) {
   const queryClient = useQueryClient()
   const products = queryClient.getQueryData(['products'])
   let cartMenuData = []
 
   if (ordersData.length > 0) {
-    ordersData?.forEach(order => {
-      const product = products.find(product => product._id === order.productId)
+    ordersData?.forEach(orderProduct => {
+      const product = products.find(
+        product => product._id === orderProduct.productId,
+      )
       const productColor = product.attributes.colors.find(
-        color => color.colorId === order.colorId,
+        color => color.colorId === orderProduct.colorId,
       )
       const productSize = product.attributes.sizes.find(
-        size => size.sizeId === order.sizeId,
+        size => size.sizeId === orderProduct.sizeId,
       )
 
       cartMenuData.push({
-        id: order._id,
+        id: orderProduct.id,
+        slug: product.slug,
         name: product.name,
         thumbnail: productColor.filename,
         size: productSize.size,
-        quantity: order.quantity,
+        quantity: orderProduct.quantity,
+        price: orderProduct.price,
         stock: product.stock,
+        totalAmount: orderProduct.quantity * product.price * DOLLAR_RATE,
       })
     })
   }
@@ -143,39 +167,54 @@ function CartMenu({ ordersData }) {
         <div className="max-h-96 w-80 overflow-auto overscroll-none pe-2 scrollbar scrollbar-w-1 scrollbar-track-transparent scrollbar-corner-transparent scrollbar-thumb-lime-700 scrollbar-thumb-rounded-full md:w-96 md:scrollbar-w-2">
           <ul className="divide-y-2 divide-lime-400">
             {cartMenuData.map(
-              ({ id, name, thumbnail, size, quantity }, idx) => (
+              (
+                { id, slug, name, thumbnail, size, quantity, totalAmount },
+                idx,
+              ) => (
                 <li
                   key={id}
-                  className={clsx(
-                    'flex space-x-2 space-x-reverse py-3 md:space-x-4 md:space-x-reverse md:py-4',
-                    {
-                      'pt-0 md:pt-0': idx === 0,
-                      'md:pb-0': idx === LAST_ITEM,
-                    },
-                  )}
+                  className={clsx('flex gap-2 py-3 md:gap-4 md:py-4', {
+                    'pt-0 md:pt-0': idx === 0,
+                    'md:pb-0': idx === LAST_ITEM,
+                  })}
                 >
-                  <div className="relative size-14 shrink-0 basis-1/6 md:size-16">
-                    <Image
-                      src={`/images/sample images/${thumbnail}`}
-                      alt="عکس محصول"
-                      className="object-contain"
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
+                  <Link
+                    href={`/products/${slug}`}
+                    className="flex basis-5/6 gap-2 md:gap-4"
+                  >
+                    <div className="relative size-10 shrink-0 basis-1/6 md:size-16">
+                      <Image
+                        src={`/images/sample images/${thumbnail}`}
+                        alt="عکس محصول"
+                        className="object-contain"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
 
-                  <div className="flex w-0 grow flex-col gap-1 md:gap-3">
-                    <h4 className="truncate text-sm md:text-base">{name}</h4>
+                    <div className="flex w-0 grow flex-col gap-1 md:gap-3">
+                      <h4 className="truncate text-sm md:text-base">{name}</h4>
 
-                    <div className="mt-auto flex items-center justify-between px-2 md:items-end">
-                      <h4 className="text-sm md:text-base">
-                        {quantity} عدد × اندازه {size}
-                      </h4>
+                      <div className="mt-auto flex items-center justify-between px-2 text-sm md:items-end md:text-base">
+                        <h4>
+                          {quantity} عدد × اندازه {size}
+                        </h4>
 
-                      <div>
-                        <RemoveButton label="حذف" productId={id} icon={false} />
+                        <span className="text-zinc-400">
+                          {formateNumber(totalAmount)}{' '}
+                          <span className="text-xs">تومان</span>
+                        </span>
                       </div>
                     </div>
+                  </Link>
+
+                  <div className="basis-1/6 self-end">
+                    <RemoveButton
+                      label="حذف"
+                      orderId={orderId}
+                      itemId={id}
+                      icon={false}
+                    />
                   </div>
                 </li>
               ),
@@ -189,4 +228,18 @@ function CartMenu({ ordersData }) {
       </div>
     </div>
   )
+}
+
+function EmptyCartMenu() {
+  return (
+    <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
+      <div className="grid h-28 w-80 place-items-center rounded-lg border-2 border-lime-400 px-2 py-2 text-center">
+        <h4 className="text-base sm:text-lg">سبد خرید شما خالی است.</h4>
+      </div>
+    </div>
+  )
+}
+
+function formateNumber(number) {
+  return Intl.NumberFormat('fa').format(number)
 }

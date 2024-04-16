@@ -5,14 +5,14 @@ import {
   client,
 } from 'database/connect'
 
-export async function getOrders() {
+export async function getOrders(userId) {
   const caller = getOrders.name
   let data
 
   try {
     await connectToDatabase(caller)
-    const db = await client.db(DATABASE_NAME)
-    data = await db.collection(ORDERS_COLLECTION).find({}).toArray()
+    const db = client.db(DATABASE_NAME)
+    data = await db.collection(ORDERS_COLLECTION).find({ userId }).toArray()
     data = JSON.parse(JSON.stringify(data))
   } catch (error) {
     throw new Error(

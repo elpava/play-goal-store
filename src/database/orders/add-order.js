@@ -3,25 +3,18 @@ import {
   ORDERS_COLLECTION,
   connectToDatabase,
   client,
-  ObjectId,
 } from 'database/connect'
 
-export async function addOrder(document, filter = 0) {
+export async function addOrder(newOrder) {
   const caller = addOrder.name
 
   try {
     await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
-    await db
-      .collection(ORDERS_COLLECTION)
-      .updateOne(
-        { _id: new ObjectId(filter) },
-        { $set: document },
-        { upsert: true },
-      )
+    await db.collection(ORDERS_COLLECTION).insertOne({ ...newOrder })
   } catch (error) {
     throw new Error(
-      `[${caller}]: Couldn't add/update the order data.\n message: ${error}`,
+      `[${caller}]: Couldn't add the order data.\n message: ${error}`,
     )
   }
 
@@ -30,7 +23,7 @@ export async function addOrder(document, filter = 0) {
 
   return {
     success: true,
-    message: 'The product added successfully.',
-    product: document.productId,
+    message: 'The order added successfully.',
+    order: newOrder,
   }
 }

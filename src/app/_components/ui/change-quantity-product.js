@@ -7,8 +7,10 @@ import {
   useQueryClient,
   QueriesObserver,
   useMutation,
+  useQuery,
 } from '@tanstack/react-query'
 import { useDebounce } from 'use-debounce'
+import { getOrdersAction } from 'action/orders/get-orders'
 import updateQuantityOrderAction from 'action/orders/update-quantity-order'
 import { Loader } from 'lucide-react'
 
@@ -22,15 +24,23 @@ export default function ChangeQuantityProduct({
   productPrice,
   updateDirectlyOnServer,
   orderId,
+  orderProductId,
   ...props
 }) {
   const queryClient = useQueryClient()
+  const [unknownUserId, setUnknownUserId] = React.useState(null)
+  let { data: ordersData, isSuccess } = useQuery({
+    queryKey: ['cart'],
+    queryFn: () => getOrdersAction(unknownUserId),
+    enabled: Boolean(unknownUserId),
+  })
+  let lastOrderData
   const [quantity, setQuantity] = React.useState(initialQuantity || 1)
   const [selectNewType, setSelectNewType] = React.useState(false)
   // for update quantity directly on server
-  const { mutate, isPending } = useMutation({
-    mutationFn: ({ orderId, quantity }) =>
-      updateQuantityOrderAction(orderId, quantity),
+  const { mutate: mutateToUpdateQuantityOrder, isPending } = useMutation({
+    mutationFn: ({ orderId, orderProductId, quantity }) =>
+      updateQuantityOrderAction(orderId, orderProductId, quantity),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cart'] })
     },
@@ -48,11 +58,23 @@ export default function ChangeQuantityProduct({
   if (isUndefinedCache) {
     queryClient.setQueryData(['products-selection'], [])
   }
+  let isLastOrderData
+
+  if (isSuccess) {
+    lastOrderData = ordersData?.at(-1)
+    isLastOrderData =
+      lastOrderData !== undefined && lastOrderData.orders.length > 0
+  }
 
   const isMinimumQty = quantity < 2
   const isMaximumQty = quantity === maxQuantity
 
   React.useEffect(() => {
+    if (window !== undefined) {
+      const userId = localStorage.getItem('pg-user-id')
+      setUnknownUserId(userId)
+    }
+
     const observer = new QueriesObserver(queryClient, [
       { queryKey: ['active-color-id'] },
       { queryKey: ['active-size-id'] },
@@ -69,9 +91,16 @@ export default function ChangeQuantityProduct({
     })
 
     queryClient.setQueryData(['products-selection'], (prevState = []) => {
+      let lastOrderProductId = 1
+
       setSelectNewType(false)
 
+      if (isLastOrderData) {
+        lastOrderProductId = lastOrderData.orders.at(-1).id + 1
+      }
+
       const order = {
+        id: lastOrderProductId,
         productId,
         colorId: activeColorIdRef.current,
         sizeId: activeSizeIdRef.current,
@@ -98,18 +127,31 @@ export default function ChangeQuantityProduct({
     })
 
     // TODO read/write from local storage for cart
-  }, [queryClient, selectNewType, productId, productPrice, quantity])
+  }, [
+    isLastOrderData,
+    lastOrderData,
+    productId,
+    productPrice,
+    quantity,
+    queryClient,
+    selectNewType,
+  ])
 
   // for update quantity directly on server
   React.useEffect(() => {
     if (allowUpdateOnServer && updateDirectlyOnServer && debouncedQuantity) {
-      mutate({ orderId, quantity: debouncedQuantity })
+      mutateToUpdateQuantityOrder({
+        orderId,
+        orderProductId,
+        quantity: debouncedQuantity,
+      })
     }
   }, [
     allowUpdateOnServer,
     debouncedQuantity,
-    mutate,
+    mutateToUpdateQuantityOrder,
     orderId,
+    orderProductId,
     updateDirectlyOnServer,
   ])
 

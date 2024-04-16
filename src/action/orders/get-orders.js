@@ -2,6 +2,6 @@
 
 import { getOrders } from 'database/orders/get-orders'
 
-export async function getOrdersAction() {
-  return await getOrders()
+export async function getOrdersAction(userId) {
+  return await getOrders(userId)
 }

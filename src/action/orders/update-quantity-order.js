@@ -2,6 +2,10 @@
 
 import { updateQuantityOrder } from 'database/orders/update-quantity-order'
 
-export default async function updateQuantityOrderAction(filter, quantity) {
-  return await updateQuantityOrder(filter, quantity)
+export default async function updateQuantityOrderAction(
+  orderId,
+  orderProductId,
+  quantity,
+) {
+  return await updateQuantityOrder(orderId, orderProductId, quantity)
 }

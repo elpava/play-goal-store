@@ -9,16 +9,32 @@ import {
 } from '@tanstack/react-query'
 import { getOrdersAction } from 'action/orders/get-orders'
 import { addOrderAction } from 'action/orders/add-order'
+import updateProductOrderAction from 'action/orders/update-product-order'
+import clsx from 'clsx'
 
-export default function AddCartButton({ label, productId, ...props }) {
+export default function AddCartButton({
+  label,
+  productId,
+  className,
+  ...props
+}) {
   const queryClient = useQueryClient()
-  const { data: ordersData } = useQuery({
+  const [unknownUserId, setUnknownUserId] = React.useState(null)
+  const { data: ordersData, isSuccess } = useQuery({
     queryKey: ['cart'],
-    queryFn: () => getOrdersAction(),
+    queryFn: () => getOrdersAction(unknownUserId),
+    enabled: Boolean(unknownUserId),
   })
-  const { mutate } = useMutation({
-    mutationFn: ({ newOrder, existOrderId }) =>
-      addOrderAction(newOrder, existOrderId),
+  let lastOrderData
+  const { mutate: mutateToAddOrder } = useMutation({
+    mutationFn: newOrder => addOrderAction(newOrder),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+    },
+  })
+  const { mutate: mutateToUpdateOrderProducts } = useMutation({
+    mutationFn: ({ orderId, existOrderProductId, newOrder }) =>
+      updateProductOrderAction(orderId, existOrderProductId, newOrder),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cart'] })
     },
@@ -27,6 +43,8 @@ export default function AddCartButton({ label, productId, ...props }) {
   const activeColorIdRef = React.useRef(null)
   const activeSizeIdRef = React.useRef(null)
   const productsSelectionRef = React.useRef(null)
+
+  let isLastOrderData
 
   const observer = new QueriesObserver(queryClient, [
     { queryKey: ['active-color-id'] },
@@ -45,8 +63,16 @@ export default function AddCartButton({ label, productId, ...props }) {
     }
   })
 
+  if (isSuccess) {
+    lastOrderData = ordersData?.at(-1)
+    isLastOrderData = lastOrderData !== undefined && !lastOrderData?.isPaid
+  }
+
   React.useEffect(() => {
-    // localStorage.setItem('pg-user-id')
+    if (window !== undefined) {
+      const userId = localStorage.getItem('pg-user-id')
+      setUnknownUserId(userId)
+    }
   }, [])
 
   // TODO define load state
@@ -60,21 +86,46 @@ export default function AddCartButton({ label, productId, ...props }) {
     )
     const productSelection = productsSelectionRef.current[productSelectionIdx]
 
-    const orderIdx = ordersData?.findIndex(
-      order =>
-        order.productId === productSelection.productId &&
-        order.colorId === productSelection.colorId &&
-        order.sizeId === productSelection.sizeId,
-    )
-    const orderId = orderIdx > -1 ? ordersData[orderIdx]._id : 0
+    if (!isLastOrderData) {
+      mutateToAddOrder({
+        userId: unknownUserId,
+        orders: [productSelection],
+        isPaid: null,
+        isDelivered: null,
+        isFailured: null,
+        shipment: {},
+        totalAmountPayment: null,
+        orderDate: new Date().getTime(),
+        updatedOrderAt: null,
+        paymentDate: null,
+        deliveryDate: null,
+        trackingCode: null,
+      })
+    } else {
+      const orderProductIdx = lastOrderData?.orders.findIndex(
+        order => order.id === productSelection.id,
+      )
 
-    mutate({ newOrder: productSelection, existOrderId: orderId })
+      const existOrderProductId =
+        orderProductIdx > -1 ? lastOrderData.orders[orderProductIdx].id : 0
+
+      mutateToUpdateOrderProducts({
+        orderId: lastOrderData._id,
+        existOrderProductId,
+        newOrder: productSelection,
+      })
+    }
   }
 
   return (
     <button
-      className="w-full rounded-lg bg-lime-500 p-2 font-semibold text-lime-950 md:text-lg"
+      className={clsx(
+        'w-full rounded-lg bg-lime-500 p-2 font-semibold text-lime-950 md:text-lg',
+        className,
+        { 'bg-zinc-300 text-zinc-400': !unknownUserId },
+      )}
       onClick={clickAddToOrdersHandler}
+      disabled={!isSuccess}
       {...props}
     >
       {label || 'افزدون به سبد خرید'}

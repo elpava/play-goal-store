@@ -2,6 +2,6 @@
 
 import { addOrder } from 'database/orders/add-order'
 
-export async function addOrderAction(document, filter) {
-  return await addOrder(document, filter)
+export async function addOrderAction(newOrder) {
+  return await addOrder(newOrder)
 }

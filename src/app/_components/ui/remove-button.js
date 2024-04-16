@@ -8,6 +8,7 @@ import { deleteOrderAction } from 'action/orders/delete-order'
 
 export default function RemoveButton({
   label,
+  orderId,
   itemId,
   icon,
   className,
@@ -20,7 +21,7 @@ export default function RemoveButton({
   }, [])
 
   async function removeProductFromCartHandler() {
-    await deleteOrderAction(itemId)
+    await deleteOrderAction(orderId, itemId)
     queryClient.invalidateQueries({ queryKey: ['cart'] })
   }
 
