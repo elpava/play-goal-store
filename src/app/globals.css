@@ -17,6 +17,20 @@ html {
   button {
     user-select: none;
   }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  p {
+    @apply mb-4;
+  }
+  textarea {
+    @apply disabled:bg-zinc-200;
+  }
 }
 
 @layer utilities {
