@@ -28,6 +28,9 @@ html {
   p {
     @apply mb-4;
   }
+  button {
+    @apply align-middle;
+  }
   textarea {
     @apply disabled:bg-zinc-200;
   }
