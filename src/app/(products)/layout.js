@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import ProductsHeader from '@/_components/header/products-header'
 
 import '../globals.css'
@@ -10,10 +11,20 @@ export const metadata = {
   description: 'محصولات فروشگاه',
 }
 
-export default function ProductsGroupLayout({ children }) {
+export default async function ProductsGroupLayout({ children }) {
+  const { user } = await auth()
+
+  let isAuthurized
+
+  if (user.email) {
+    isAuthurized = true
+  } else {
+    isAuthurized = false
+  }
+
   return (
     <>
-      <ProductsHeader />
+      <ProductsHeader isAuthurized={isAuthurized} />
       {children}
     </>
   )

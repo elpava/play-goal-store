@@ -5,17 +5,18 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import clsx from 'clsx'
-import { ShoppingBag, ArrowLeft, User, UserCheck } from 'lucide-react'
+import { ShoppingBag, ArrowLeft } from 'lucide-react'
 import Popup from '@/_components/ui/popup'
 import RemoveButton from '@/_components/ui/remove-button'
 import GoToButton from '@/_components/ui/go-to-button'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getOrdersAction } from 'action/orders/get-orders'
 import Logo from '/public/play-goal.png'
+import LoginButton from './login-button'
 
 const DOLLAR_RATE = 56_000
 
-export default function ProductsHeader() {
+export default function ProductsHeader({ isAuthurized }) {
   const [unknownUserId, setUnknownUserId] = React.useState(null)
   let { data: ordersData, isSuccess } = useQuery({
     queryKey: ['cart'],
@@ -29,7 +30,6 @@ export default function ProductsHeader() {
   const [isOpenPopup, setIsOpenPopup] = React.useState(false)
 
   let isLastOrderData = false
-  const isAuthurized = false
   let ordersCount = 0
   let isShowCounter = false
 
@@ -104,13 +104,10 @@ export default function ProductsHeader() {
       </Popup>
 
       <div>
-        <Link href={`${isAuthurized ? '/profile' : '/login'}`}>
-          {isAuthurized ? (
-            <UserCheck className="w-6 rounded-full bg-emerald-700 stroke-1 px-0.5" />
-          ) : (
-            <User className="w-5 stroke-1 md:w-7" />
-          )}
-        </Link>
+        <LoginButton
+          isAuthurized={isAuthurized}
+          iconClassName="w-4 h-4 stroke-1 md:w-7"
+        />
       </div>
 
       <div>

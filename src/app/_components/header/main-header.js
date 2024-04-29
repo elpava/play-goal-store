@@ -1,10 +1,20 @@
-import Link from 'next/link'
-import { User } from 'lucide-react'
 import ToggleMenu from './toggle-menu'
 import Menu from './menu'
 import Search from './search'
+import LoginButton from './login-button'
+import { auth } from '@/auth'
 
-export default function MainHeader() {
+export default async function MainHeader() {
+  const { user } = await auth()
+
+  let isAuthurized
+
+  if (user.email) {
+    isAuthurized = true
+  } else {
+    isAuthurized = false
+  }
+
   return (
     <header className="absolute left-0 top-0 w-full">
       <nav className="relative flex items-center justify-between px-4 py-2 md:px-8 md:py-5">
@@ -14,9 +24,7 @@ export default function MainHeader() {
 
         <Search />
 
-        <Link href={'/login'} className="justify-self-end">
-          <User className="md:hover:stroke-zinc-700" />
-        </Link>
+        <LoginButton className="justify-self-end" isAuthurized={isAuthurized} />
       </nav>
     </header>
   )
