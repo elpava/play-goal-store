@@ -1,3 +1,4 @@
+import NextAuthProvider from '@/next-auth-provider'
 import ReactQueryProvider from '@/react-query-provider'
 import { VAZIRMATN_FONT } from 'util/share-font'
 import {
@@ -25,11 +26,13 @@ export default async function RootLayout({ children }) {
   return (
     <html className={VAZIRMATN_FONT.className} lang="fa" dir="rtl">
       <body>
-        <ReactQueryProvider>
-          <HydrationBoundary state={dehydrate(queryClient)}>
-            {children}
-          </HydrationBoundary>
-        </ReactQueryProvider>
+        <NextAuthProvider>
+          <ReactQueryProvider>
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              {children}
+            </HydrationBoundary>
+          </ReactQueryProvider>
+        </NextAuthProvider>
       </body>
     </html>
   )
