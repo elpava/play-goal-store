@@ -106,7 +106,8 @@ export default function ProductsHeader({ isAuthurized }) {
       <div>
         <LoginButton
           isAuthurized={isAuthurized}
-          iconClassName="w-4 h-4 stroke-1 md:w-7"
+          className="md:p-0"
+          iconClassName="w-4 h-4 stroke-1 md:w-6 md:h-6"
         />
       </div>
 

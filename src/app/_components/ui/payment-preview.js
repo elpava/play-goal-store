@@ -300,7 +300,15 @@ export default function PaymentPreview() {
 
                                   <span className="text-sm text-zinc-500">
                                     {deliveryDay
-                                      ? `دریافت ${deliveryDay / ONE_DAY} روز بعد در تاریخ ${
+                                      ? `دریافت ${
+                                          new Intl.DateTimeFormat('fa-IR', {
+                                            weekday: 'long',
+                                          }).format(
+                                            new Date().getTime() + deliveryDay,
+                                          ) === 'جمعه'
+                                            ? (deliveryDay + ONE_DAY) / ONE_DAY
+                                            : deliveryDay / ONE_DAY
+                                        } روز بعد در تاریخ ${
                                           new Intl.DateTimeFormat('fa-IR', {
                                             weekday: 'long',
                                           }).format(
