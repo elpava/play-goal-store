@@ -63,6 +63,23 @@ const formSchema = z.object({
 
 export const signUpFormSchema = z.intersection(passwordSchema, formSchema)
 
+const editFormSchema = z.object({
+  firstName: z
+    .string()
+    .refine(value => isOnlyAlphabet(value), { message: 'عدد غیرمجاز است' }),
+  lastName: z
+    .string()
+    .refine(value => isOnlyAlphabet(value), { message: 'عدد غیرمجاز است' }),
+  mobile: z.string().refine(value => value.length === NUMBERS_LENGTH.mobile, {
+    message: 'شماره موبایل نامعتبر است',
+  }),
+})
+
+export const editProfileFormSchema = z.intersection(
+  passwordSchema,
+  editFormSchema,
+)
+
 function isOnlyAlphabet(text) {
   return /^[a-zA-Z\u0600-\u06FF\s]+$/.test(text)
 }

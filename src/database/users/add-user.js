@@ -4,6 +4,7 @@ import {
   connectToDatabase,
   client,
 } from 'database/connect'
+import { CredentialsError } from '@/auth'
 
 export async function addUser(props) {
   const caller = addUser.name
@@ -14,6 +15,13 @@ export async function addUser(props) {
   try {
     await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
+    const emailRegistered = await db
+      .collection(USERS_COLLECTION)
+      .findOne({ email })
+    if (emailRegistered) {
+      throw new Error('email registered')
+    }
+
     data = await db.collection(USERS_COLLECTION).insertOne({
       firstName,
       lastName,
@@ -25,11 +33,17 @@ export async function addUser(props) {
       role,
     })
   } catch (error) {
+    if (error.message === 'email registered') {
+      throw new CredentialsError(
+        'EmailRegistered',
+        `[${caller}]: The email is already registered.\n message: ${error}`,
+      )
+    }
     throw new Error(`[${caller}]: Couldn't add the user.\n message: ${error}`)
+  } finally {
+    await client.close()
+    console.log(`🔒 [${caller}]: close connection.`)
   }
-
-  client.close()
-  console.log(`🔒 [${caller}]: close connection.`)
 
   return data
 }

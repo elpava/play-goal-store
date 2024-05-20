@@ -14,13 +14,13 @@ export async function getOrders(userId) {
     const db = client.db(DATABASE_NAME)
     data = await db.collection(ORDERS_COLLECTION).find({ userId }).toArray()
     data = JSON.parse(JSON.stringify(data))
+    await client.close()
   } catch (error) {
     throw new Error(
       `[${caller}]: Couldn't find the orders data.\n message: ${error}`,
     )
   }
 
-  client.close()
   console.log(`🔒 [${caller}]: close connection.`)
 
   return data

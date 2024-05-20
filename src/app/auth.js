@@ -1,8 +1,20 @@
 import NextAuth from 'next-auth'
+import { AuthError } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-import { getUser } from 'database/users/getUser'
-import { addUser } from 'database/users/addUser'
+import { userExists } from 'database/users/user-exists'
+import { getUser } from 'database/users/get-user'
+import { addUser } from 'database/users/add-user'
 import encryptPassword from 'library/encryption'
+
+export class CredentialsError extends AuthError {
+  static type
+
+  constructor(type, message) {
+    super()
+    this.message = message
+    this.type = type
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: { signIn: '/login' },
@@ -18,7 +30,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (isSignIn) {
           const { email } = authorize
-          user = await getUser({ email, password: hashedPassword })
+
+          await userExists({ email })
+
+          user = await getUser({
+            email,
+            password: hashedPassword,
+          })
           user = {
             id: user._id,
             name: `${user.firstName} ${user.lastName}`,
@@ -33,12 +51,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         }
 
-        if (!user) {
-          return null
-        }
-
         return user
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }) {
+      if (token.sub) {
+        session.user.id = token.sub
+      }
+
+      return session
+    },
+  },
 })

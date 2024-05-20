@@ -5,22 +5,31 @@ import {
   connectToDatabase,
 } from '../connect'
 
+const cache = {}
+const KEY = '/products'
+
 export async function getProducts() {
   const caller = getProducts.name
   let data
+
+  if (cache[KEY]) {
+    console.log('Serve produtcs data from cache.')
+    return cache[KEY]
+  }
 
   try {
     await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     data = await db.collection(PRODUCTS_COLLECTION).find({}).toArray()
     data = JSON.parse(JSON.stringify(data))
+    cache[KEY] = data
   } catch (error) {
     throw new Error(
       `[${caller}]: Couldn't find the products data.\n message: ${error}`,
     )
   }
 
-  client.close()
+  await client.close()
   console.log(`🔒 [${caller}]: close connection.`)
 
   return data
