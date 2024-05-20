@@ -3,10 +3,10 @@ import Login from '@/_components/ui/login'
 import { auth } from '@/auth'
 
 export default async function LoginPage({ searchParams }) {
-  const { user } = await auth()
+  const authentication = await auth()
 
-  if (user.email) {
-    redirect('/products')
+  if (authentication?.user.email) {
+    redirect('/')
   }
 
   return (

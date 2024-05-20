@@ -5,11 +5,11 @@ import LoginButton from './login-button'
 import { auth } from '@/auth'
 
 export default async function MainHeader() {
-  const { user } = await auth()
+  const authentication = await auth()
 
   let isAuthurized
 
-  if (user.email) {
+  if (authentication?.user.email) {
     isAuthurized = true
   } else {
     isAuthurized = false

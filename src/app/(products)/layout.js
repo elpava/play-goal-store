@@ -12,11 +12,11 @@ export const metadata = {
 }
 
 export default async function ProductsGroupLayout({ children }) {
-  const { user } = await auth()
+  const authentication = await auth()
 
   let isAuthurized
 
-  if (user.email) {
+  if (authentication?.user.email) {
     isAuthurized = true
   } else {
     isAuthurized = false
