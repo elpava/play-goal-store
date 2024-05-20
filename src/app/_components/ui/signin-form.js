@@ -1,27 +1,31 @@
 'use client'
 
 import * as React from 'react'
+import { useRouter } from 'next/navigation'
 import Input from './input'
-import GoToButton from '@/_components/ui/go-to-button'
+import GoToButton from './go-to-button'
+import FormErrorMessage from './form-error-message'
+import FormSuccessMessage from './form-success-message'
 import { signInFormSchema } from 'library/inputs-schema'
 import { loginAction } from 'action/auth/login'
-import { MessageCircleWarning } from 'lucide-react'
+import Form from './form'
 
 export default function SignInForm() {
+  const { push } = useRouter()
   const [signInForm, setSignInForm] = React.useState({
     email: '',
     password: '',
   })
-  const focusedInputRef = React.useRef(null)
-  const isEmptyFormRef = React.useRef({
-    email: false,
-    password: false,
-  })
-  const signInResultRef = React.useRef(null)
   const inputsError = {
     email: '',
     password: '',
   }
+  const isEmptyFormRef = React.useRef({
+    email: false,
+    password: false,
+  })
+  const focusedInputRef = React.useRef(null)
+  const signInResultRef = React.useRef(null)
 
   const validation = signInFormSchema.safeParse({
     ...(signInForm.email && { email: signInForm.email }),
@@ -80,14 +84,23 @@ export default function SignInForm() {
     const formData = { ...signInForm, state: 'sign-in' }
 
     const result = await loginAction(formData)
-    if (result?.error === 'invalid email') {
-      signInResultRef.current = 'ایمیل یا رمز عبور اشتباه است'
+    if (result?.error) {
+      const { error } = result
+      signInResultRef.current = error
       refresh({ ...e, target: e.target[0] })
+    } else {
+      signInResultRef.current = 'signin successfully'
+      refresh({ ...e, target: e.target[0] })
+      setTimeout(() => {
+        push('/')
+      }, 3000)
     }
   }
 
-  return (
-    <form className="flex h-full flex-col gap-6" onSubmit={submitFormHandler}>
+  return signInResultRef.current === 'signin successfully' ? (
+    <FormSuccessMessage type={signInResultRef.current} icon />
+  ) : (
+    <Form onSubmit={submitFormHandler}>
       <Input
         id="email"
         type="text"
@@ -110,16 +123,13 @@ export default function SignInForm() {
       />
 
       {signInResultRef.current && (
-        <label className="flex gap-4 rounded-md border-2 border-blue-900 bg-blue-100 px-4 py-2">
-          <MessageCircleWarning className="w-5" />
-          {signInResultRef.current}
-        </label>
+        <FormErrorMessage type={signInResultRef.current} />
       )}
 
       <GoToButton
         label="ورود به حساب کاربری"
-        className="text-blue-9.0 mt-auto !bg-blue-600 text-zinc-100"
+        className="mt-auto !bg-blue-600 text-zinc-100"
       />
-    </form>
+    </Form>
   )
 }

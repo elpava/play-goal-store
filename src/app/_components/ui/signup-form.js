@@ -1,8 +1,11 @@
 'use client'
 
 import * as React from 'react'
+import { useRouter } from 'next/navigation'
 import Input from './input'
-import GoToButton from '@/_components/ui/go-to-button'
+import GoToButton from './go-to-button'
+import FormErrorMessage from './form-error-message'
+import FormSuccessMessage from './form-success-message'
 import {
   signUpFormSchema,
   NUMBERS_LENGTH,
@@ -10,8 +13,11 @@ import {
   VALUES_WITHOUT_TRIMMING,
 } from 'library/inputs-schema'
 import { loginAction } from 'action/auth/login'
+import Row from './row'
+import Form from './form'
 
 export default function SignUpForm() {
+  const { push } = useRouter()
   const [signUpForm, setSignUpForm] = React.useState({
     firstName: '',
     lastName: '',
@@ -40,6 +46,7 @@ export default function SignUpForm() {
     mobile: false,
   })
   const focusedInputRef = React.useRef(null)
+  const signUpResultRef = React.useRef(null)
 
   const validation = signUpFormSchema.safeParse({
     ...(signUpForm.firstName && { firstName: signUpForm.firstName }),
@@ -95,6 +102,7 @@ export default function SignUpForm() {
     const { name } = e.target
     focusedInputRef.current = name
     isEmptyFormRef.current[name] = false
+    signUpResultRef.current = null
 
     refresh(e)
   }
@@ -118,12 +126,25 @@ export default function SignUpForm() {
       role: 'user',
     }
 
-    await loginAction(formData)
+    const result = await loginAction(formData)
+    if (result?.error) {
+      const { error } = result
+      signUpResultRef.current = error
+      refresh({ target: e.target[0] })
+    } else {
+      signUpResultRef.current = 'signup successfully'
+      refresh({ target: e.target[0] })
+      setTimeout(() => {
+        push('/')
+      }, 3000)
+    }
   }
 
-  return (
-    <form className="flex h-full flex-col gap-y-6" onSubmit={submitFormHandler}>
-      <div className="flex flex-col gap-6 sm:flex-row">
+  return signUpResultRef.current === 'signup successfully' ? (
+    <FormSuccessMessage type={signUpResultRef.current} icon />
+  ) : (
+    <Form onSubmit={submitFormHandler}>
+      <Row>
         <Input
           id="firstName"
           type="text"
@@ -146,7 +167,7 @@ export default function SignUpForm() {
           onChange={changeInputHandler}
           onFocus={focusInputHandler}
         />
-      </div>
+      </Row>
       <Input
         id="nationalId"
         type="number"
@@ -167,7 +188,7 @@ export default function SignUpForm() {
         onChange={changeInputHandler}
         onFocus={focusInputHandler}
       />
-      <div className="flex flex-col gap-6 sm:flex-row">
+      <Row>
         <Input
           id="password"
           type="password"
@@ -190,7 +211,7 @@ export default function SignUpForm() {
           onChange={changeInputHandler}
           onFocus={focusInputHandler}
         />
-      </div>
+      </Row>
       <Input
         id="mobile"
         type="number"
@@ -202,10 +223,14 @@ export default function SignUpForm() {
         onFocus={focusInputHandler}
       />
 
+      {signUpResultRef.current && (
+        <FormErrorMessage type={signUpResultRef.current} />
+      )}
+
       <GoToButton
         label="ثبت حساب کاربری جدید"
-        className="text-blue-9.0 mt-auto bg-green-600 text-zinc-100"
+        className="mt-auto bg-green-600 text-zinc-100"
       />
-    </form>
+    </Form>
   )
 }
