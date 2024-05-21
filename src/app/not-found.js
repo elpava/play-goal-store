@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import clsx from 'clsx'
 import { Sticker } from 'lucide-react'
 import Icon from '@/_components/ui/icon'
 import icons from 'library/icons-name'
@@ -14,53 +13,129 @@ const data = [
 
 export default function RootNotFound() {
   return (
-    <main className="grid h-svh max-h-svh w-full place-content-center place-items-center space-y-6 bg-gradient-to-t from-zinc-200 to-yellow-300 text-center">
+    <main
+      style={{
+        width: '100%',
+        height: '100svh',
+        maxHeight: '100svh',
+        display: 'grid',
+        placeContent: 'center',
+        placeItems: 'center',
+        gap: '1.5rem',
+        backgroundImage: 'linear-gradient(to top, #e4e4e7, #fde047)',
+        textAlign: 'center',
+      }}
+    >
       <div>
-        <h2 className="inline text-5xl font-bold">404</h2>
+        <h2
+          style={{
+            display: 'inline',
+            fontSize: '3rem',
+            fontWeight: 700,
+            lineHeight: 1,
+          }}
+        >
+          404
+        </h2>
 
         <Sticker
-          className="inline fill-zinc-300 stroke-1 align-text-bottom"
+          style={{
+            display: 'inline',
+            fill: '#d4d4d8',
+            strokeWidth: 1,
+            verticalAlign: 'text-bottom',
+          }}
           size={50}
         />
 
-        <p className="text-xl font-bold">صفحه مورد نظر یافت نشد!</p>
+        <p
+          style={{
+            fontSize: '1.25rem',
+            fontWeight: 700,
+            lineHeight: '1.75rem',
+          }}
+        >
+          صفحه مورد نظر یافت نشد!
+        </p>
       </div>
 
-      <div className="">
+      <div>
         <p>می‌توانید از پیوندهای زیر استفاده نمایید:</p>
       </div>
 
-      <div className="flex">
+      <div style={{ display: 'flex' }}>
         {data.map(({ text, href }, idx) => (
           <div
             key={text}
-            className={clsx(
-              '-m-1 h-32 w-32 overflow-hidden rounded-full mix-blend-multiply',
-              {
-                'bg-red-500': idx === 0,
-                'bg-orange-500': idx === 1,
-                'bg-amber-500': idx === 2,
-              },
-            )}
+            style={{
+              width: '8rem',
+              height: '8rem',
+              overflow: 'hidden',
+              borderRadius: '9999px',
+              mixBlendMode: 'multiply',
+              margin: '-0.25rem',
+              ...(idx === 0 && { backgroundColor: 'rgb(239 68 68)' }),
+              ...(idx === 1 && { backgroundColor: 'rgb(249 115 22)' }),
+              ...(idx === 2 && { backgroundColor: 'rgb(245 158 11)' }),
+            }}
           >
-            <Link href={href} className="relative inline-block h-full w-full">
+            <Link
+              href={href}
+              style={{
+                position: 'relative',
+                display: 'inline-block',
+                width: '100%',
+                height: '100%',
+              }}
+            >
               <Icon
                 name={classicBall}
                 alt="توپ فوتبال"
                 size="6rem"
-                className={clsx(
-                  'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 mix-blend-multiply',
-                  {
-                    'rotate-90': idx === 1,
-                    'rotate-180': idx === 2,
-                  },
-                )}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  mixBlendMode: 'multiply',
+                  ...(idx === 1 && {
+                    transform: 'translate(-50%, -50%) rotate(90deg)',
+                  }),
+                  ...(idx === 2 && {
+                    transform: 'translate(-50%, -50%) rotate(180deg)',
+                  }),
+                }}
               />
 
-              <div className="absolute inset-x-0 top-2/3 h-1/3 w-full text-center text-zinc-100">
-                <span className="absolute inset-0 h-full w-full bg-zinc-400 mix-blend-multiply"></span>
+              <div
+                style={{
+                  position: 'absolute',
+                  insetInline: '0',
+                  top: '66.666667%',
+                  width: '100%',
+                  textAlign: 'center',
+                  color: 'rgb(244 244 245)',
+                }}
+              >
+                <span
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    height: '100%',
+                    width: '100%',
+                    backgroundColor: 'rgb(161 161 170)',
+                    mixBlendMode: 'multiply',
+                  }}
+                ></span>
 
-                <span className="absolute inset-x-0 top-1/3 -translate-y-1/2">
+                <span
+                  style={{
+                    display: 'absolute',
+                    insetInline: 0,
+                    top: '33.333333%',
+                    transform: 'translateY(-50%)',
+                  }}
+                >
                   {text}
                 </span>
               </div>
@@ -69,7 +144,16 @@ export default function RootNotFound() {
         ))}
       </div>
 
-      <div className="mx-auto h-4 w-full rounded-[50%] bg-zinc-800/30 blur-sm"></div>
+      <div
+        style={{
+          width: '100%',
+          height: '1rem',
+          borderRadius: '50%',
+          backgroundColor: 'rgb(39 39 42 / 0.3)',
+          marginInline: 'auto',
+          filter: 'blur(4px)',
+        }}
+      ></div>
     </main>
   )
 }
