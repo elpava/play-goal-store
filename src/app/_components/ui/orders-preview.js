@@ -8,7 +8,7 @@ import { getOrdersAction } from 'action/orders/get-orders'
 import ChangeQuantityProduct from '@/_components/ui/change-quantity-product'
 import RemoveButton from './remove-button'
 import GoToButton from './go-to-button'
-import EmptyCart from './empty-cart'
+import Empty from './empty'
 
 const DOLLAR_RATE = 56_000
 
@@ -187,7 +187,7 @@ export default function OrdersPreview() {
               </ol>
             </>
           ) : (
-            <EmptyCart />
+            <Empty />
           )}
         </div>
 

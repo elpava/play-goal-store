@@ -7,7 +7,7 @@ import updateShipmentOrderAction from 'action/orders/update-shipment-order'
 import GoToButton from './go-to-button'
 import clsx from 'clsx'
 import { Loader, SquarePen } from 'lucide-react'
-import EmptyCart from './empty-cart'
+import Empty from './empty'
 import successfulPaymentOrderAction from 'action/orders/successful-payment-order'
 import failurePaymentOrderAction from 'action/orders/failure-payment-order'
 import resetPaymentOrderAction from 'action/orders/reset-payment-order'
@@ -428,7 +428,7 @@ export default function PaymentPreview() {
                   </form>
                 </>
               ) : (
-                <EmptyCart />
+                <Empty />
               )}
             </div>
 
