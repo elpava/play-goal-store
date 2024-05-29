@@ -36,6 +36,7 @@ const icons = {
   tipax: 'tipax',
   motorcycleCourier: 'motorcycle-courier',
   snapp: 'snapp',
+  emptySearch: 'empty-search',
 }
 
 export default icons
