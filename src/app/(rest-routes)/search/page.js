@@ -53,7 +53,7 @@ export default async function Search({ searchParams }) {
                   >
                     <div className="relative ml-4 size-16 basis-1/5 sm:size-28 sm:basis-2/12">
                       <Image
-                        src={`/images/sample images/${thumbnails[0]}`}
+                        src={`/images/products/${thumbnails[0]}`}
                         alt={name}
                         fill
                         style={{ objectFit: 'contain' }}

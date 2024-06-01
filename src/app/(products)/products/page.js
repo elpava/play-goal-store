@@ -58,18 +58,24 @@ export default async function ProductsPage() {
               className="space-y-14 pe-20 md:grow md:pe-56 md:ps-20"
             >
               {products.map(
-                ({ _id, slug, name, price, description, thumbnails }) => (
+                ({ _id, slug, name, price, description, thumbnails }, idx) => (
                   <div key={_id} className="flex gap-4">
                     <div className="relative size-16 shrink-0 overflow-hidden rounded-lg lg:h-36 lg:w-36">
                       <Image
-                        src={`/images/sample images/${thumbnails[0]}`}
+                        src={`/images/products/${thumbnails[0]}`}
                         alt="عکس محصول"
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
                       />
                     </div>
 
-                    <div className="grow space-y-2 border-b pb-2 md:flex md:flex-col">
+                    <div
+                      className={clsx(
+                        'grow space-y-2 border-b pb-2 md:flex md:flex-col',
+                        idx === products.length - 1 && 'border-none',
+                      )}
+                    >
                       <h2 className="text-1xl lg:text-4xl">{name}</h2>
 
                       <div className="flex items-end justify-between space-x-2 space-x-reverse p-0.5 md:grow md:text-lg">

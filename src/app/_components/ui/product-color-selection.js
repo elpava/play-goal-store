@@ -34,7 +34,7 @@ export default function ProductColorSelection({ colorsData, ...props }) {
               onClick={() => clickThumbnailHandler(colorId, idx)}
             >
               <Image
-                src={`/images/sample images/${filename}`}
+                src={`/images/products/${filename}`}
                 alt="تصویر بند انگشتی محصول"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

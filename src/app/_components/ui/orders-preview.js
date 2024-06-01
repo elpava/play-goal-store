@@ -122,7 +122,7 @@ export default function OrdersPreview() {
                             className="relative inline-block size-14 sm:size-24"
                           >
                             <Image
-                              src={`/images/sample images/${thumbnail}`}
+                              src={`/images/products/${thumbnail}`}
                               alt="عکس توپ"
                               fill
                               className="object-cover"

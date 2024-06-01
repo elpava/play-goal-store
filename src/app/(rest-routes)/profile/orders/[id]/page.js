@@ -202,7 +202,7 @@ export default async function OrderDetailsPage({ params }) {
                         >
                           <div className="relative size-14 w-full">
                             <Image
-                              src={`/images/sample images/${thumbnail}`}
+                              src={`/images/products/${thumbnail}`}
                               alt="توپ"
                               fill
                               className="object-contain"

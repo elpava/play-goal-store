@@ -47,9 +47,9 @@ export default function ImageGallery({ slides, options }) {
               className="relative aspect-square min-w-full max-w-full sm:aspect-auto sm:h-[36.8rem]"
             >
               <Image
-                src={`/images/sample images/${filename}`}
+                src={`/images/products/${filename}`}
                 alt="عکس توپ فوتبال"
-                className="object-cover"
+                className="object-contain"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
@@ -74,7 +74,7 @@ export default function ImageGallery({ slides, options }) {
               onClick={() => onThumbClick(idx)}
             >
               <Image
-                src={`/images/sample images/${filename}`}
+                src={`/images/products/${filename}`}
                 alt="عکس توپ فوتبال"
                 className={clsx('object-cover', {
                   'opacity-50': idx === selectedIndex,

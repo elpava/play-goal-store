@@ -182,7 +182,7 @@ function CartMenu({ orderId, ordersData }) {
                   >
                     <div className="relative size-10 shrink-0 basis-1/6 md:size-16">
                       <Image
-                        src={`/images/sample images/${thumbnail}`}
+                        src={`/images/products/${thumbnail}`}
                         alt="عکس محصول"
                         className="object-contain"
                         fill
