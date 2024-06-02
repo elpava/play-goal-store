@@ -3,12 +3,11 @@ import Link from 'next/link'
 import Logo from '/public/play-goal.png'
 import E_Namad from '/public/logo/e-nemad.png'
 import Namad from '/public/logo/namad.png'
-import { ExternalLink, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import Icon from '@/_components/ui/icon'
 import icons from 'library/icons-name'
 
 const {
-  classicBall,
   adidas,
   nike,
   mikasa,
@@ -21,10 +20,10 @@ const {
 
 const productLink = (name, href, icon) => ({ name, href, icon })
 const productsLink = [
-  productLink('برند آدیداس', 'adidas', adidas),
-  productLink('برند نایک', 'nike', nike),
-  productLink('برند میکاسا', 'mikasa', mikasa),
-  productLink('برند ویلسون', 'wilson', wilson),
+  productLink('برند آدیداس', '#adidas', adidas),
+  productLink('برند نایک', '#nike', nike),
+  productLink('برند میکاسا', '#mikasa', mikasa),
+  productLink('برند ویلسون', '#wilson', wilson),
 ]
 
 const usefulLink = (name, href) => ({ name, href })
@@ -46,8 +45,8 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer className="bg-blue-950 pt-6 text-gray-100 md:pt-10">
-      <div className="mb-8 grid gap-8 px-4 text-center md:grid-cols-4 md:items-center">
-        <div>
+      <div className="mb-8 flex flex-col gap-8 px-4 text-center md:flex-row md:items-center md:gap-0">
+        <div className="md:basis-3/12">
           <Image src={Logo} alt="logo" className="mx-auto mb-2 w-16 md:w-24" />
 
           <h3 className="text-2xl">
@@ -57,28 +56,19 @@ export default function Footer() {
 
         <NeonDivider className="md:hidden" />
 
-        <div className="flex gap-20 text-right md:mr-4">
+        <div className="flex gap-20 text-right md:mr-4 md:basis-5/12 md:justify-evenly">
           <div>
             <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
-              <h4 className="text-xl">
-                <Link href="/products">محصولات</Link>
-              </h4>
-              <Icon name={classicBall} size={20} />
+              <h4 className="text-xl">محصولات</h4>
             </div>
 
             <ul className="space-y-4">
               {productsLink.map(({ name, href, icon }) => (
-                <li key={href}>
-                  <Link
-                    href={`/products?query=${href}`}
-                    className="flex gap-2 pr-2"
-                  >
-                    <span className="inline-block w-10 rounded-full bg-zinc-200">
-                      <Icon name={icon} className="mr-2" />
-                    </span>
-
-                    {name}
-                  </Link>
+                <li key={href} className="flex items-center gap-2">
+                  <div className="rounded-full bg-zinc-200 px-2.5 py-0.5">
+                    <Icon name={icon} size={24} />
+                  </div>
+                  <Link href={`/products${href}`}>{name}</Link>
                 </li>
               ))}
             </ul>
@@ -86,19 +76,16 @@ export default function Footer() {
 
           <div>
             <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
-              <h4 className="text-xl">
-                <Link href="/products">لینک‌های مرتبط</Link>
-              </h4>
-              <ExternalLink size={20} />
+              <h4 className="text-xl">لینک‌های مرتبط</h4>
             </div>
 
-            <ul className="space-y-4">
+            <ul className="space-y-6">
               {usefulLinks.map(({ name, href }) => (
-                <li key={href}>
-                  <Link href={`/${href}`} className="flex gap-2 pr-2">
+                <li key={href} className="flex gap-2">
+                  <Link href={`/${href}`} className="relative">
                     <ArrowUpRight
-                      size={15}
-                      className="inline align-top text-zinc-200"
+                      size={12}
+                      className="absolute -right-3 -top-0.5 text-zinc-200"
                     />
                     {name}
                   </Link>
@@ -110,18 +97,18 @@ export default function Footer() {
 
         <NeonDivider className="md:hidden" />
 
-        <div className="md:grid md:grid-cols-2 md:grid-rows-2 md:gap-2 md:place-self-center">
+        <div className="flex justify-center gap-2 md:basis-1/12 md:flex-col md:items-end md:place-self-center">
           {socialLinks.map(({ href, icon }) => (
-            <span
+            <div
               key={href}
-              className="mx-2 inline-block size-12 rounded-lg bg-cyan-500 shadow-lg shadow-cyan-300 md:bg-zinc-200 md:shadow-md md:shadow-zinc-400"
+              className="rounded-lg bg-cyan-500 p-1 shadow-lg shadow-cyan-300 md:bg-zinc-200 md:shadow-md md:shadow-zinc-400"
             >
-              <Icon name={icon} href={href} size={41} />
-            </span>
+              <Icon name={icon} href={href} className="w-10 md:w-5" />
+            </div>
           ))}
         </div>
 
-        <div className="space-x-4 space-x-reverse">
+        <div className="space-x-4 space-x-reverse md:basis-3/12">
           <span className="relative inline-block size-28 rounded-lg bg-zinc-200 p-2 md:size-40">
             <Image src={E_Namad} alt="اینماد" className="mx-auto w-11/12" />
           </span>
