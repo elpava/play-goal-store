@@ -3,23 +3,16 @@
 import * as React from 'react'
 import clsx from 'clsx'
 import { ShoppingBag, PackageCheck } from 'lucide-react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getOrdersAction } from 'action/orders/get-orders'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import useUserId from 'hook/useUserId'
+import useOrders from 'hook/useOrders'
 import { addOrderAction } from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
 
 export default function ShoppingButton({ className, productId, ...props }) {
   const queryClient = useQueryClient()
-  const [unknownUserId, setUnknownUserId] = React.useState(null)
-  const {
-    data: ordersData,
-    isLoading,
-    isSuccess,
-  } = useQuery({
-    queryKey: ['cart'],
-    queryFn: () => getOrdersAction(unknownUserId),
-    enabled: Boolean(unknownUserId),
-  })
+  const { userId } = useUserId()
+  const { ordersData, isLoading, isSuccess } = useOrders()
   const { mutate: mutateToAddOrder } = useMutation({
     mutationFn: newOrder => addOrderAction(newOrder),
     onSuccess: () => {
@@ -49,14 +42,6 @@ export default function ShoppingButton({ className, productId, ...props }) {
     }
   }
 
-  React.useEffect(() => {
-    if (window !== undefined) {
-      const userId = localStorage.getItem('pg-user-id')
-      setUnknownUserId(userId)
-    }
-    // TODO read/write from local storage for cart
-  }, [])
-
   function clickAddToOrdersHandler() {
     const products = queryClient.getQueryData(['products'])
 
@@ -82,7 +67,7 @@ export default function ShoppingButton({ className, productId, ...props }) {
 
     if (!isLastOrderData) {
       mutateToAddOrder({
-        userId: unknownUserId,
+        userId,
         orders: [order],
         isPaid: null,
         isDelivered: null,

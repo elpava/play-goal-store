@@ -9,20 +9,15 @@ import { ShoppingBag, ArrowLeft } from 'lucide-react'
 import Popup from '@/_components/ui/popup'
 import RemoveButton from '@/_components/ui/remove-button'
 import GoToButton from '@/_components/ui/go-to-button'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { getOrdersAction } from 'action/orders/get-orders'
+import { useQueryClient } from '@tanstack/react-query'
+import useOrders from 'hook/useOrders'
 import Logo from '/public/play-goal.png'
 import LoginButton from './login-button'
 
 const DOLLAR_RATE = 56_000
 
 export default function ProductsHeader({ isAuthurized }) {
-  const [unknownUserId, setUnknownUserId] = React.useState(null)
-  let { data: ordersData, isSuccess } = useQuery({
-    queryKey: ['cart'],
-    queryFn: () => getOrdersAction(unknownUserId),
-    enabled: Boolean(unknownUserId),
-  })
+  const { ordersData, isSuccess } = useOrders()
   let lastOrderData
   const { back, push } = useRouter()
   const [isCameFromInternalLink, setIsCameFromExternalLink] =
@@ -41,13 +36,6 @@ export default function ProductsHeader({ isAuthurized }) {
   }
 
   React.useEffect(() => {
-    if (window !== undefined) {
-      const userId = localStorage.getItem('pg-user-id')
-      setUnknownUserId(userId)
-    }
-    // TODO read/write from local storage for cart
-    // authurize states
-
     //BUG maybe!!
     if (history.length > 1 && document.referrer !== '') {
       setIsCameFromExternalLink(true)

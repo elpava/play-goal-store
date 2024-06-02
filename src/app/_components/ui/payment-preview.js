@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getOrdersAction } from 'action/orders/get-orders'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import useOrders from 'hook/useOrders'
 import updateShipmentOrderAction from 'action/orders/update-shipment-order'
 import GoToButton from './go-to-button'
 import clsx from 'clsx'
@@ -56,17 +56,8 @@ const TAX_RATE = 9
 const DOLLAR_RATE = 56_000
 
 export default function PaymentPreview() {
-  const [unknownUserId, setUnknownUserId] = React.useState(null)
   const queryClient = useQueryClient()
-  const {
-    data: ordersData,
-    isLoading,
-    isSuccess,
-  } = useQuery({
-    queryKey: ['cart'],
-    queryFn: () => getOrdersAction(unknownUserId),
-    enabled: Boolean(unknownUserId),
-  })
+  const { ordersData, isLoading, isSuccess } = useOrders()
   const {
     mutate: mutateToRegisterShipmentForm,
     isSuccess: isRegisteredSuccessfully,
@@ -132,22 +123,12 @@ export default function PaymentPreview() {
   }
 
   React.useEffect(() => {
-    if (window !== undefined) {
-      const userId = localStorage.getItem('pg-user-id')
-      setUnknownUserId(userId)
-    }
-
-    // TODO read/write from local storage for cart
-  }, [])
-
-  React.useEffect(() => {
     if (isLastOrderData) {
       if (!isEmptyObject(lastOrderData.shipment)) {
         setIsShipmentData(true)
         setShipmentForm(lastOrderData.shipment)
       }
     }
-    // TODO read/write from local storage for cart
   }, [isLastOrderData, isRegisteredSuccessfully, lastOrderData])
 
   function changeShippingFormHandler(e) {

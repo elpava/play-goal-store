@@ -3,8 +3,8 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { getOrdersAction } from 'action/orders/get-orders'
+import { useQueryClient } from '@tanstack/react-query'
+import useOrders from 'hook/useOrders'
 import ChangeQuantityProduct from '@/_components/ui/change-quantity-product'
 import RemoveButton from './remove-button'
 import GoToButton from './go-to-button'
@@ -13,17 +13,8 @@ import Empty from './empty'
 const DOLLAR_RATE = 56_000
 
 export default function OrdersPreview() {
-  const [unknownUserId, setUnknownUserId] = React.useState(null)
-  const {
-    data: ordersData,
-    isLoading,
-    isSuccess,
-  } = useQuery({
-    queryKey: ['cart'],
-    queryFn: () => getOrdersAction(unknownUserId),
-    enabled: Boolean(unknownUserId),
-  })
   const queryClient = useQueryClient()
+  const { ordersData, isLoading, isSuccess } = useOrders()
   const products = queryClient.getQueryData(['products'])
   let lastOrderData
   let cartData = []
@@ -67,13 +58,6 @@ export default function OrdersPreview() {
       })
     }
   }
-
-  React.useEffect(() => {
-    if (window !== undefined) {
-      const userId = localStorage.getItem('pg-user-id')
-      setUnknownUserId(userId)
-    }
-  }, [])
 
   const ordersTotalAmount = cartData.reduce((acc, { totalAmount }) => {
     return acc + totalAmount

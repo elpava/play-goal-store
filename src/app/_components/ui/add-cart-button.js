@@ -2,12 +2,12 @@
 
 import * as React from 'react'
 import {
-  useQuery,
   useMutation,
   useQueryClient,
   QueriesObserver,
 } from '@tanstack/react-query'
-import { getOrdersAction } from 'action/orders/get-orders'
+import useUserId from 'hook/useUserId'
+import useOrders from 'hook/useOrders'
 import { addOrderAction } from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
 import clsx from 'clsx'
@@ -19,12 +19,8 @@ export default function AddCartButton({
   ...props
 }) {
   const queryClient = useQueryClient()
-  const [unknownUserId, setUnknownUserId] = React.useState(null)
-  const { data: ordersData, isSuccess } = useQuery({
-    queryKey: ['cart'],
-    queryFn: () => getOrdersAction(unknownUserId),
-    enabled: Boolean(unknownUserId),
-  })
+  const { userId } = useUserId()
+  const { ordersData, isSuccess } = useOrders()
   let lastOrderData
   const { mutate: mutateToAddOrder } = useMutation({
     mutationFn: newOrder => addOrderAction(newOrder),
@@ -68,15 +64,6 @@ export default function AddCartButton({
     isLastOrderData = lastOrderData !== undefined && !lastOrderData?.isPaid
   }
 
-  React.useEffect(() => {
-    if (window !== undefined) {
-      const userId = localStorage.getItem('pg-user-id')
-      setUnknownUserId(userId)
-    }
-  }, [])
-
-  // TODO define load state
-
   function clickAddToOrdersHandler() {
     const productSelectionIdx = productsSelectionRef.current.findIndex(
       product =>
@@ -88,7 +75,7 @@ export default function AddCartButton({
 
     if (!isLastOrderData) {
       mutateToAddOrder({
-        userId: unknownUserId,
+        userId,
         orders: [productSelection],
         isPaid: null,
         isDelivered: null,
@@ -122,7 +109,7 @@ export default function AddCartButton({
       className={clsx(
         'w-full rounded-lg bg-lime-500 p-2 font-semibold text-lime-950 md:text-lg',
         className,
-        { 'bg-zinc-300 text-zinc-400': !unknownUserId },
+        { 'bg-zinc-300 text-zinc-400': !userId },
       )}
       onClick={clickAddToOrdersHandler}
       disabled={!isSuccess}

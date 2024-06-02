@@ -7,10 +7,9 @@ import {
   useQueryClient,
   QueriesObserver,
   useMutation,
-  useQuery,
 } from '@tanstack/react-query'
+import useOrders from 'hook/useOrders'
 import { useDebounce } from 'use-debounce'
-import { getOrdersAction } from 'action/orders/get-orders'
 import updateQuantityOrderAction from 'action/orders/update-quantity-order'
 import { Loader } from 'lucide-react'
 
@@ -28,12 +27,7 @@ export default function ChangeQuantityProduct({
   ...props
 }) {
   const queryClient = useQueryClient()
-  const [unknownUserId, setUnknownUserId] = React.useState(null)
-  let { data: ordersData, isSuccess } = useQuery({
-    queryKey: ['cart'],
-    queryFn: () => getOrdersAction(unknownUserId),
-    enabled: Boolean(unknownUserId),
-  })
+  const { ordersData, isSuccess } = useOrders()
   let lastOrderData
   const [quantity, setQuantity] = React.useState(initialQuantity || 1)
   const [selectNewType, setSelectNewType] = React.useState(false)
@@ -70,11 +64,6 @@ export default function ChangeQuantityProduct({
   const isMaximumQty = quantity === maxQuantity
 
   React.useEffect(() => {
-    if (window !== undefined) {
-      const userId = localStorage.getItem('pg-user-id')
-      setUnknownUserId(userId)
-    }
-
     const observer = new QueriesObserver(queryClient, [
       { queryKey: ['active-color-id'] },
       { queryKey: ['active-size-id'] },
@@ -125,8 +114,6 @@ export default function ChangeQuantityProduct({
 
       return prevState
     })
-
-    // TODO read/write from local storage for cart
   }, [
     isLastOrderData,
     lastOrderData,
