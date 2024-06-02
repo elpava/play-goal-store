@@ -31,22 +31,22 @@ export default function ReactQueryProvider({ children }) {
   React.useEffect(() => {
     prefetchProducts()
 
-    let unknownUserId
+    let userId
 
-    unknownUserId = localStorage.getItem('pg-user-id')
-    const isRegisteredUser = data?.user.id && unknownUserId !== data?.user.id
+    userId = localStorage.getItem('pg-user-id')
+    const isRegisteredUser = data?.user.id && userId !== data?.user.id
 
     if (isRegisteredUser) {
-      unknownUserId = data.user.id
-      localStorage.setItem('pg-user-id', unknownUserId)
+      userId = data.user.id
+      localStorage.setItem('pg-user-id', userId)
     }
 
-    if (!unknownUserId) {
-      unknownUserId = crypto.randomUUID()
-      localStorage.setItem('pg-user-id', unknownUserId)
+    if (!userId) {
+      userId = crypto.randomUUID()
+      localStorage.setItem('pg-user-id', userId)
     }
 
-    prefetchCart(unknownUserId)
+    prefetchCart(userId)
   }, [data])
 
   return (
