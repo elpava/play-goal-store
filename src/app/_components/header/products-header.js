@@ -19,9 +19,7 @@ const DOLLAR_RATE = 56_000
 export default function ProductsHeader({ isAuthurized }) {
   const { ordersData, isSuccess } = useOrders()
   let lastOrderData
-  const { back, push } = useRouter()
-  const [isCameFromInternalLink, setIsCameFromExternalLink] =
-    React.useState(false)
+  const { back } = useRouter()
   const [isOpenPopup, setIsOpenPopup] = React.useState(false)
 
   let isLastOrderData = false
@@ -35,19 +33,8 @@ export default function ProductsHeader({ isAuthurized }) {
     isShowCounter = Boolean(ordersCount)
   }
 
-  React.useEffect(() => {
-    //BUG maybe!!
-    if (history.length > 1 && document.referrer !== '') {
-      setIsCameFromExternalLink(true)
-    }
-  }, [])
-
   function clickBackButtonHandler() {
-    if (isCameFromInternalLink) {
-      back()
-    } else {
-      push('/products')
-    }
+    back()
   }
 
   function clickPopupButtonHandler() {
@@ -55,7 +42,7 @@ export default function ProductsHeader({ isAuthurized }) {
   }
 
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex -translate-x-1/2 items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-300/40 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-4 md:text-6xl">
+    <header className="fixed left-1/2 top-0 z-50 flex -translate-x-1/2 items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-300/40 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-0 md:text-6xl">
       <div className="relative contents">
         <button
           className="relative md:cursor-pointer"
