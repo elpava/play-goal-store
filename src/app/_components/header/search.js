@@ -3,9 +3,12 @@
 import * as React from 'react'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import clsx from 'clsx/lite'
-import { Search as SearchIcon, Loader } from 'lucide-react'
-import { SearchCheck } from 'lucide-react'
-import { SearchX } from 'lucide-react'
+import {
+  Search as SearchIcon,
+  Loader,
+  SearchCheck,
+  SearchX,
+} from 'lucide-react'
 
 export default function Search() {
   const pathname = usePathname()

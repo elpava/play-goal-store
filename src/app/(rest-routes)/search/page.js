@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import clsx from 'clsx/lite'
-import { searchProducts } from 'database/products/search-products'
+import searchProducts from 'database/products/search-products'
 import UpdateURLAtClient from '@/_components/ui/update-url-at-client'
 import Empty from '@/_components/ui/empty'
 
-export default async function Search({ searchParams }) {
+export default async function SearchPage({ searchParams }) {
   const queries = new URLSearchParams(searchParams)
   const { query } = searchParams
   let data

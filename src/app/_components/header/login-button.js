@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import clsx from 'clsx'
+import clsx from 'clsx/lite'
 import { signIn } from 'next-auth/react'
 import { User } from 'lucide-react'
 
@@ -24,16 +24,14 @@ export default function LoginButton({
   return (
     <button
       onClick={clickSignInButtonHandler}
-      className={clsx('rounded-full p-0.5', className, {
-        'border border-green-600': isAuthurized,
-      })}
+      className={clsx(
+        'rounded-full p-0.5',
+        isAuthurized && 'border-[1.75px] border-green-600',
+        className,
+      )}
       {...props}
     >
-      <User
-        className={clsx('md:hover:stroke-zinc-700', iconClassName, {
-          'text-green-600': isAuthurized,
-        })}
-      />
+      <User className={clsx('md:hover:stroke-zinc-700', iconClassName)} />
     </button>
   )
 }

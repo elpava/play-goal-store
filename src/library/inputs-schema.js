@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { isOnlyAlphabet } from './helper-functions'
 
 export const VALUES_WITHOUT_TRIMMING = ['firstName', 'lastName']
 export const NUMBERS_LENGTH = { nationalId: 10, mobile: 11 }
@@ -79,7 +80,3 @@ export const editProfileFormSchema = z.intersection(
   passwordSchema,
   editFormSchema,
 )
-
-function isOnlyAlphabet(text) {
-  return /^[a-zA-Z\u0600-\u06FF\s]+$/.test(text)
-}

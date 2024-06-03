@@ -3,8 +3,8 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
+import clsx from 'clsx/lite'
 import { signOut } from 'next-auth/react'
-import clsx from 'clsx'
 import { ArrowRight, LogOut } from 'lucide-react'
 
 const floatMenu = [
@@ -36,7 +36,7 @@ export default function FloatMenu({ className }) {
       <ul className="flex items-center rounded-md bg-zinc-700 p-1.5">
         <li
           onClick={backButtonHandler}
-          className={clsx('hidden', { '!block cursor-pointer': isInvoicePath })}
+          className={clsx('hidden', isInvoicePath && '!block cursor-pointer')}
         >
           <ArrowRight className="text-lime-500" />
         </li>

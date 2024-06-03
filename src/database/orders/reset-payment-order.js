@@ -6,7 +6,7 @@ import {
   ObjectId,
 } from 'database/connect'
 
-export async function resetPaymentOrder(orderId) {
+export default async function resetPaymentOrder(orderId) {
   const caller = resetPaymentOrder.name
 
   try {

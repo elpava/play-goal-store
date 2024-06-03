@@ -1,9 +1,9 @@
 import clsx from 'clsx/lite'
-import Icon from '@/_components/ui/icon'
 import EmbedMap from '@/_components/ui/embed-map'
 import Form from '@/_components/ui/form'
 import Input from '@/_components/ui/input'
-import GoToButton from '@/_components/ui/go-to-button'
+import Button from '@/_components/ui/button'
+import Icon from '@/_components/ui/icon'
 import icons from 'library/icons-name'
 
 const { instagram, telegram, youtube, pinterest } = icons
@@ -94,7 +94,7 @@ export default function ContactUsPage() {
             <Input name="email" placeholder="ایمیل" />
             <Input name="message" type="textarea" placeholder="پیام" />
 
-            <GoToButton label="ارسال پیام" />
+            <Button label="ارسال پیام" />
           </Form>
         </div>
       </div>

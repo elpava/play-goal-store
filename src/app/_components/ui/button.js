@@ -1,15 +1,9 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import clsx from 'clsx'
+import clsx from 'clsx/lite'
 
-export default function GoToButton({
-  className,
-  label,
-  href,
-  disabled,
-  ...props
-}) {
+export default function Button({ className, label, href, disabled, ...props }) {
   const { push } = useRouter()
 
   function clickButtonHandler() {
@@ -22,7 +16,7 @@ export default function GoToButton({
       className={clsx(
         'w-full rounded-lg bg-lime-500 p-2 text-base font-semibold text-lime-950 md:text-lg',
         className,
-        { 'bg-zinc-300 text-zinc-400': disabled },
+        disabled && 'bg-zinc-300 text-zinc-400',
       )}
       onClick={href ? clickButtonHandler : undefined}
       disabled={disabled}

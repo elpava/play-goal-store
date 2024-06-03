@@ -5,7 +5,7 @@ import {
   client,
 } from 'database/connect'
 
-export async function getOrders(userId) {
+export default async function getOrders(userId) {
   const caller = getOrders.name
   let data
 

@@ -13,7 +13,7 @@ export async function getProducts() {
   let data
 
   if (cache[KEY]) {
-    console.log('Serve produtcs data from cache.')
+    console.log('Serve products data from cache.')
     return cache[KEY]
   }
 

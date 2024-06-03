@@ -1,6 +1,6 @@
 'use server'
 
-import { successfulPaymentOrder } from 'database/orders/successful-payment-order'
+import successfulPaymentOrder from 'database/orders/successful-payment-order'
 
 export default async function successfulPaymentOrderAction(
   orderId,

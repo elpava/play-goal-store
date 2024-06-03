@@ -6,7 +6,7 @@ import {
   ObjectId,
 } from 'database/connect'
 
-export async function deleteOrder(orderId, orderProductId) {
+export default async function deleteOrder(orderId, orderProductId) {
   const caller = deleteOrder.name
   let data
 

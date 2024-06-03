@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import clsx from 'clsx/lite'
 import {
   useMutation,
   useQueryClient,
@@ -8,9 +9,8 @@ import {
 } from '@tanstack/react-query'
 import useUserId from 'hook/useUserId'
 import useOrders from 'hook/useOrders'
-import { addOrderAction } from 'action/orders/add-order'
+import addOrderAction from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
-import clsx from 'clsx'
 
 export default function AddCartButton({
   label,
@@ -109,7 +109,7 @@ export default function AddCartButton({
       className={clsx(
         'w-full rounded-lg bg-lime-500 p-2 font-semibold text-lime-950 md:text-lg',
         className,
-        { 'bg-zinc-300 text-zinc-400': !userId },
+        !userId && 'bg-zinc-300 text-zinc-400',
       )}
       onClick={clickAddToOrdersHandler}
       disabled={!isSuccess}

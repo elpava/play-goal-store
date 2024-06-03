@@ -5,7 +5,7 @@ import {
   client,
 } from 'database/connect'
 
-export async function addOrder(newOrder) {
+export default async function addOrder(newOrder) {
   const caller = addOrder.name
 
   try {

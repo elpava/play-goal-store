@@ -1,7 +1,7 @@
-import clsx from 'clsx'
+import Link from 'next/link'
+import clsx from 'clsx/lite'
 import SignInForm from './signin-form'
 import SignUpForm from './signup-form'
-import Link from 'next/link'
 
 const tabs = [
   { id: 1, name: 'ورود', query: 'sign-in' },
@@ -26,12 +26,13 @@ export default function Login({ searchParams = {} }) {
             <Link
               key={id}
               href={queryString}
-              className={clsx('grow p-2', {
-                'bg-blue-300': id === 1,
-                'bg-green-300': id === 2,
-                '!bg-blue-600 text-zinc-100': id === 1 && isSignIn,
-                'bg-green-600 text-zinc-100': id === 2 && !isSignIn,
-              })}
+              className={clsx(
+                'grow p-2',
+                id === 1 && 'bg-blue-300',
+                id === 2 && 'bg-green-300',
+                id === 1 && isSignIn && '!bg-blue-600 text-zinc-100',
+                id === 2 && !isSignIn && 'bg-green-600 text-zinc-100',
+              )}
             >
               {name}
             </Link>
@@ -40,10 +41,11 @@ export default function Login({ searchParams = {} }) {
       </div>
 
       <div
-        className={clsx('grow rounded-ee-lg rounded-es-lg p-4 pt-12', {
-          'bg-blue-50': isSignIn,
-          'bg-green-50': !isSignIn,
-        })}
+        className={clsx(
+          'grow rounded-ee-lg rounded-es-lg p-4 pt-12',
+          isSignIn && 'bg-blue-50',
+          !isSignIn && 'bg-green-50',
+        )}
       >
         {isSignIn ? <SignInForm /> : <SignUpForm />}
       </div>

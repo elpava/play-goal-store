@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import Icon from './icon'
 import icons from 'library/icons-name'

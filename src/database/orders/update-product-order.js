@@ -6,7 +6,7 @@ import {
   ObjectId,
 } from 'database/connect'
 
-export async function updateProductOrder(
+export default async function updateProductOrder(
   orderId,
   existOrderProductId,
   product,

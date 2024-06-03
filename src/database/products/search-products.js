@@ -5,7 +5,7 @@ import {
   connectToDatabase,
 } from '../connect'
 
-export async function searchProducts(query) {
+export default async function searchProducts(query) {
   const caller = searchProducts.name
   let data
 

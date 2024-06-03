@@ -3,8 +3,8 @@
 import * as React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { getProductsAction } from 'action/products/get-products'
-import { getOrdersAction } from 'action/orders/get-orders'
+import getProductsAction from 'action/products/get-products'
+import getOrdersAction from 'action/orders/get-orders'
 import { useSession } from 'next-auth/react'
 
 const queryClient = new QueryClient({

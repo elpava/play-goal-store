@@ -1,8 +1,8 @@
 'use server'
 
-import { getUser } from 'database/users/get-user'
+import getUser from 'database/users/get-user'
 
-export async function getUserAction(email, password) {
+export default async function getUserAction(email, password) {
   let data
 
   try {

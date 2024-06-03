@@ -5,7 +5,7 @@ import {
   client,
 } from 'database/connect'
 
-export async function updateUser(props) {
+export default async function updateUser(props) {
   const caller = updateUser.name
   const { email, ...formData } = props
   let data

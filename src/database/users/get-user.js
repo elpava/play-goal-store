@@ -1,12 +1,12 @@
+import { CredentialsError } from '@/auth'
 import {
   DATABASE_NAME,
   USERS_COLLECTION,
   connectToDatabase,
   client,
 } from 'database/connect'
-import { CredentialsError } from '@/auth'
 
-export async function getUser(email, password) {
+export default async function getUser(email, password) {
   const caller = getUser.name
   let data
 

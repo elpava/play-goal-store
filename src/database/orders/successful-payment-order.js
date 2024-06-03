@@ -7,7 +7,7 @@ import {
   ObjectId,
 } from 'database/connect'
 
-export async function successfulPaymentOrder(
+export default async function successfulPaymentOrder(
   orderId,
   paymentDate,
   deliveryDate,

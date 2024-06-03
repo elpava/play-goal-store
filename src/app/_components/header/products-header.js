@@ -1,20 +1,20 @@
 'use client'
 
 import * as React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import clsx from 'clsx'
-import { ShoppingBag, ArrowLeft } from 'lucide-react'
-import Popup from '@/_components/ui/popup'
-import RemoveButton from '@/_components/ui/remove-button'
-import GoToButton from '@/_components/ui/go-to-button'
+import clsx from 'clsx/lite'
 import { useQueryClient } from '@tanstack/react-query'
 import useOrders from 'hook/useOrders'
-import Logo from '/public/play-goal.png'
+import Popup from '@/_components/ui/popup'
+import RemoveButton from '@/_components/ui/remove-button'
+import Button from '@/_components/ui/button'
 import LoginButton from './login-button'
-
-const DOLLAR_RATE = 56_000
+import { formatNumberToPersian } from 'library/helper-functions'
+import { ShoppingBag, ArrowLeft } from 'lucide-react'
+import Logo from '/public/play-goal.png'
+import { DOLLAR_RATE } from 'library/fix-values'
 
 export default function ProductsHeader({ isAuthurized }) {
   const { ordersData, isSuccess } = useOrders()
@@ -42,7 +42,7 @@ export default function ProductsHeader({ isAuthurized }) {
   }
 
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex -translate-x-1/2 items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-300/40 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-0 md:text-6xl">
+    <header className="fixed left-1/2 top-0 z-50 flex -translate-x-1/2 items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-300/40 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
       <div className="relative contents">
         <button
           className="relative md:cursor-pointer"
@@ -53,12 +53,10 @@ export default function ProductsHeader({ isAuthurized }) {
             <span
               className={clsx(
                 'absolute rounded-full bg-red-600 px-1 text-xs md:text-base',
-                {
-                  '-right-1.5 -top-1 w-4 md:-right-3 md:-top-3 md:w-6':
-                    ordersCount < 10,
-                  '-right-2.5 -top-2.5 w-5 py-0.5 md:-right-3 md:-top-3 md:w-6 md:text-sm':
-                    ordersCount >= 10,
-                },
+                ordersCount < 10 &&
+                  '-right-1.5 -top-1 w-4 md:-right-3 md:-top-3 md:w-6',
+                ordersCount >= 10 &&
+                  '-right-2.5 -top-2.5 w-5 py-0.5 md:-right-3 md:-top-3 md:w-6 md:text-sm',
               )}
             >
               {ordersCount}
@@ -78,25 +76,18 @@ export default function ProductsHeader({ isAuthurized }) {
         )}
       </Popup>
 
-      <div>
-        <LoginButton
-          isAuthurized={isAuthurized}
-          className="md:p-0"
-          iconClassName="w-4 h-4 stroke-1 md:w-6 md:h-6"
-        />
-      </div>
+      <LoginButton
+        isAuthurized={isAuthurized}
+        iconClassName="w-4 h-4 stroke-1 md:w-5 md:h-5"
+      />
 
-      <div>
-        <button className="contents" onClick={clickBackButtonHandler}>
-          <ArrowLeft className="w-5 stroke-1 md:w-6" />
-        </button>
-      </div>
+      <button onClick={clickBackButtonHandler}>
+        <ArrowLeft className="w-5 stroke-1 md:w-6" />
+      </button>
 
-      <div>
-        <Link href="/" className="relative block h-7 w-5 sm:h-8 sm:w-6">
-          <Image src={Logo} alt="لوگو" fill priority />
-        </Link>
-      </div>
+      <Link href="/" className="relative block h-7 w-5 sm:h-8 sm:w-6">
+        <Image src={Logo} alt="لوگو" fill priority />
+      </Link>
     </header>
   )
 }
@@ -132,7 +123,7 @@ function CartMenu({ orderId, ordersData }) {
     })
   }
 
-  const LAST_ITEM = cartMenuData?.length - 1
+  const last_item = cartMenuData?.length - 1
 
   return (
     <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
@@ -146,10 +137,11 @@ function CartMenu({ orderId, ordersData }) {
               ) => (
                 <li
                   key={id}
-                  className={clsx('flex gap-2 py-3 md:gap-4 md:py-4', {
-                    'pt-0 md:pt-0': idx === 0,
-                    'md:pb-0': idx === LAST_ITEM,
-                  })}
+                  className={clsx(
+                    'flex gap-2 py-3 md:gap-4 md:py-4',
+                    idx === 0 && 'pt-0 md:pt-0',
+                    idx === last_item && 'md:pb-0',
+                  )}
                 >
                   <Link
                     href={`/products/${slug}`}
@@ -174,7 +166,7 @@ function CartMenu({ orderId, ordersData }) {
                         </h4>
 
                         <span className="text-zinc-400">
-                          {formateNumber(totalAmount)}{' '}
+                          {formatNumberToPersian(totalAmount)}{' '}
                           <span className="text-xs">تومان</span>
                         </span>
                       </div>
@@ -196,7 +188,7 @@ function CartMenu({ orderId, ordersData }) {
         </div>
 
         <div className="mt-4 text-center md:mt-0">
-          <GoToButton label="مشاهده سبد خرید" href="/cart" />
+          <Button label="مشاهده سبد خرید" href="/cart" />
         </div>
       </div>
     </div>
@@ -211,8 +203,4 @@ function EmptyCartMenu() {
       </div>
     </div>
   )
-}
-
-function formateNumber(number) {
-  return Intl.NumberFormat('fa').format(number)
 }

@@ -1,12 +1,12 @@
+import { CredentialsError } from '@/auth'
 import {
   DATABASE_NAME,
   USERS_COLLECTION,
   connectToDatabase,
   client,
 } from 'database/connect'
-import { CredentialsError } from '@/auth'
 
-export async function userExists({ email }) {
+export default async function userExists(email) {
   const caller = userExists.name
   let data
 

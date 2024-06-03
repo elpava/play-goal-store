@@ -2,19 +2,19 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
-import Input from './input'
-import GoToButton from './go-to-button'
-import FormErrorMessage from './form-error-message'
-import FormSuccessMessage from './form-success-message'
+import { loginAction } from 'action/auth/login'
 import {
   signUpFormSchema,
   NUMBERS_LENGTH,
   ON_FOCUS_HIDDEN_ERRORS,
   VALUES_WITHOUT_TRIMMING,
 } from 'library/inputs-schema'
-import { loginAction } from 'action/auth/login'
-import Row from './row'
 import Form from './form'
+import Row from './row'
+import Input from './input'
+import Button from './button'
+import FormErrorMessage from './form-error-message'
+import FormSuccessMessage from './form-success-message'
 
 export default function SignUpForm() {
   const { push } = useRouter()
@@ -78,6 +78,8 @@ export default function SignUpForm() {
   })
 
   function changeInputHandler(e) {
+    if (!e) return
+
     let { name, value } = e.target
 
     if (!VALUES_WITHOUT_TRIMMING.includes(name)) {
@@ -104,7 +106,7 @@ export default function SignUpForm() {
     isEmptyFormRef.current[name] = false
     signUpResultRef.current = null
 
-    refresh(e)
+    refresh()
   }
 
   async function submitFormHandler(e) {
@@ -227,7 +229,7 @@ export default function SignUpForm() {
         <FormErrorMessage type={signUpResultRef.current} />
       )}
 
-      <GoToButton
+      <Button
         label="ثبت حساب کاربری جدید"
         className="mt-auto bg-green-600 text-zinc-100"
       />

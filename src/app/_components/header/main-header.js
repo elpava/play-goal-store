@@ -1,8 +1,8 @@
+import { auth } from '@/auth'
 import ToggleMenu from './toggle-menu'
 import Menu from './menu'
 import Search from './search'
 import LoginButton from './login-button'
-import { auth } from '@/auth'
 
 export default async function MainHeader() {
   const authentication = await auth()
@@ -24,7 +24,7 @@ export default async function MainHeader() {
 
         <Search />
 
-        <LoginButton className="justify-self-end" isAuthurized={isAuthurized} />
+        <LoginButton isAuthurized={isAuthurized} />
       </nav>
     </header>
   )

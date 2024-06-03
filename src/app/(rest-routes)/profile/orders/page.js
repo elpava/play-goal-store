@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { auth } from '@/auth'
-import { getOrdersAction } from 'action/orders/get-orders'
-import { getProductsAction } from 'action/products/get-products'
+import getOrdersAction from 'action/orders/get-orders'
+import getProductsAction from 'action/products/get-products'
+import { formatNumberToPersian } from 'library/helper-functions'
 import { ArrowUpRight } from 'lucide-react'
 
 export default async function OrdersPage() {
@@ -114,7 +115,7 @@ export default async function OrdersPage() {
                     <td>
                       {isDelivered ? 'تحویل داده شده' : 'تحویل داده نشده'}
                     </td>
-                    <td>{formateNumber(totalAmountPayment)} تومان </td>
+                    <td>{formatNumberToPersian(totalAmountPayment)} تومان </td>
                     <td className="font-sans uppercase">{trackingCode}</td>
                     <td>
                       <Link
@@ -148,8 +149,4 @@ export default async function OrdersPage() {
       )}
     </div>
   )
-}
-
-function formateNumber(number) {
-  return Intl.NumberFormat('fa').format(number)
 }

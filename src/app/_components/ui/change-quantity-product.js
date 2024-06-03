@@ -1,17 +1,16 @@
 'use client'
 
 import * as React from 'react'
-import clsx from 'clsx'
-import { Plus, Minus } from 'lucide-react'
+import clsx from 'clsx/lite'
+import { useDebounce } from 'use-debounce'
 import {
   useQueryClient,
   QueriesObserver,
   useMutation,
 } from '@tanstack/react-query'
 import useOrders from 'hook/useOrders'
-import { useDebounce } from 'use-debounce'
 import updateQuantityOrderAction from 'action/orders/update-quantity-order'
-import { Loader } from 'lucide-react'
+import { Plus, Minus, Loader } from 'lucide-react'
 
 export default function ChangeQuantityProduct({
   className,
@@ -156,7 +155,7 @@ export default function ChangeQuantityProduct({
     <div className={clsx('relative flex gap-1.5', className)} {...props}>
       <button
         onClick={clickIncreaseButton}
-        className={clsx({ 'text-zinc-500': isMaximumQty })}
+        className={clsx(isMaximumQty && 'text-zinc-500')}
         disabled={isMaximumQty}
       >
         <Plus className="w-3 md:w-5" />
@@ -168,7 +167,7 @@ export default function ChangeQuantityProduct({
 
       <button
         onClick={clickDecreaseButton}
-        className={clsx({ 'text-zinc-500': isMinimumQty })}
+        className={clsx(isMinimumQty && 'text-zinc-500')}
         disabled={isMinimumQty}
       >
         <Minus className="w-3 md:w-5" />

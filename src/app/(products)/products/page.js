@@ -1,11 +1,15 @@
-import Link from 'next/link'
 import Image from 'next/image'
-import ProductsTabelContent from '@/_components/ui/products-table-content'
-import { VTF_REDZONE_CLASSIC } from 'util/share-font'
+import Link from 'next/link'
+import clsx from 'clsx/lite'
 import { getProducts } from 'database/products/get-produtcs'
-import { ArrowUpRight } from 'lucide-react'
+import ProductsTabelContent from '@/_components/ui/products-table-content'
 import ShoppingButton from '@/_components/ui/shopping-button'
-import clsx from 'clsx'
+import {
+  convertToShortDescription,
+  formatNumberToPersian,
+} from 'library/helper-functions'
+import { ArrowUpRight } from 'lucide-react'
+import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 export default async function ProductsPage() {
   const ProductsData = await getProducts()
@@ -43,9 +47,7 @@ export default async function ProductsPage() {
         {groupedProducts.map(({ brandName, products }, idx) => (
           <div
             key={brandName}
-            className={clsx('md:flex md:items-start', {
-              'md:pt-4': idx === 0,
-            })}
+            className={clsx('md:flex md:items-start', idx === 0 && 'md:pt-4')}
           >
             <div
               className={`vertical-text sticky right-2 top-4 hidden basis-1/12 text-9xl text-zinc-800 shadow-zinc-100 text-shadow-sm md:block ${VTF_REDZONE_CLASSIC.className}`}
@@ -80,12 +82,12 @@ export default async function ProductsPage() {
 
                       <div className="flex items-end justify-between space-x-2 space-x-reverse p-0.5 md:grow md:text-lg">
                         <p className="hidden basis-3/5 text-zinc-400 lg:inline-block">
-                          {truncate(description, 190)}
+                          {convertToShortDescription(description, 190)}
                         </p>
 
                         <div className="relative rounded-md bg-lime-300 p-1.5 md:basis-auto">
                           <div className="text-sm font-bold text-zinc-800 md:text-lg">
-                            {formateNumber(price * 56_000)}
+                            {formatNumberToPersian(price * 56_000)}
                           </div>{' '}
                           <div className="absolute -top-3 left-0 rounded-md bg-zinc-900 px-0.5 pb-0.5 text-xs">
                             تومان
@@ -114,12 +116,4 @@ export default async function ProductsPage() {
       </section>
     </main>
   )
-}
-
-function formateNumber(number) {
-  return Intl.NumberFormat('fa').format(number)
-}
-
-function truncate(str, maxlength) {
-  return str.length > maxlength ? str.slice(0, maxlength - 1) + '…' : str
 }

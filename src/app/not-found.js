@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { Sticker } from 'lucide-react'
 import Icon from '@/_components/ui/icon'
+import { Sticker } from 'lucide-react'
 import icons from 'library/icons-name'
 
 const { classicBall } = icons
@@ -90,7 +90,6 @@ export default function RootNotFound() {
             >
               <Icon
                 name={classicBall}
-                alt="توپ فوتبال"
                 size="6rem"
                 style={{
                   position: 'absolute',

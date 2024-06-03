@@ -1,9 +1,9 @@
 'use client'
 
 import * as React from 'react'
-import useEmblaCarousel from 'embla-carousel-react'
 import Image from 'next/image'
-import clsx from 'clsx'
+import useEmblaCarousel from 'embla-carousel-react'
+import clsx from 'clsx/lite'
 
 useEmblaCarousel.globalOptions = { direction: 'rtl' }
 
@@ -66,19 +66,18 @@ export default function ImageGallery({ slides, options }) {
               key={idx}
               className={clsx(
                 'relative aspect-square h-[6rem] cursor-pointer sm:h-[6.15rem]',
-                {
-                  'border-2 border-solid [border-image:url(/shapes/small-black-square.svg)_15_/_6px_/_0px] sm:[border-image:url(/shapes/small-black-square.svg)_15_/_10px_/_0px]':
-                    idx === selectedIndex,
-                },
+                idx === selectedIndex &&
+                  'border-2 border-solid [border-image:url(/shapes/small-black-square.svg)_15_/_6px_/_0px] sm:[border-image:url(/shapes/small-black-square.svg)_15_/_10px_/_0px]',
               )}
               onClick={() => onThumbClick(idx)}
             >
               <Image
                 src={`/images/products/${filename}`}
                 alt="عکس توپ فوتبال"
-                className={clsx('object-cover', {
-                  'opacity-50': idx === selectedIndex,
-                })}
+                className={clsx(
+                  'object-cover',
+                  idx === selectedIndex && 'opacity-50',
+                )}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />

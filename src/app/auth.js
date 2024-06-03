@@ -1,9 +1,9 @@
 import NextAuth from 'next-auth'
 import { AuthError } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-import { userExists } from 'database/users/user-exists'
-import { getUser } from 'database/users/get-user'
-import { addUser } from 'database/users/add-user'
+import userExists from 'database/users/user-exists'
+import getUser from 'database/users/get-user'
+import addUser from 'database/users/add-user'
 import encryptPassword from 'library/encryption'
 
 export class CredentialsError extends AuthError {
@@ -31,12 +31,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (isSignIn) {
           const { email } = authorize
 
-          await userExists({ email })
+          await userExists(email)
 
-          user = await getUser({
-            email,
-            password: hashedPassword,
-          })
+          user = await getUser(email, hashedPassword)
           user = {
             id: user._id,
             name: `${user.firstName} ${user.lastName}`,

@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import Logo from '/public/play-goal.png'
-import E_Namad from '/public/logo/e-nemad.png'
-import Namad from '/public/logo/namad.png'
 import { ArrowUpRight } from 'lucide-react'
+import Logo from '/public/play-goal.png'
 import Icon from '@/_components/ui/icon'
 import icons from 'library/icons-name'
+import E_Namad from '/public/logo/e-nemad.png'
+import Namad from '/public/logo/namad.png'
 
 const {
   adidas,

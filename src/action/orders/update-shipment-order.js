@@ -1,6 +1,6 @@
 'use server'
 
-import { updateShipmentOrder } from 'database/orders/update-shipment-order'
+import updateShipmentOrder from 'database/orders/update-shipment-order'
 
 export default async function updateShipmentOrderAction(
   orderId,

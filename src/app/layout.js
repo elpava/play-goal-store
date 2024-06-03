@@ -1,12 +1,12 @@
 import NextAuthProvider from '@/next-auth-provider'
 import ReactQueryProvider from '@/react-query-provider'
-import { VAZIRMATN_FONT } from 'util/share-font'
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
-import { getProductsAction } from 'action/products/get-products'
+import getProductsAction from 'action/products/get-products'
+import { VAZIRMATN_FONT } from 'util/share-font'
 
 import './globals.css'
 

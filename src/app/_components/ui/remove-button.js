@@ -1,10 +1,10 @@
 'use client'
 
 import * as React from 'react'
-import clsx from 'clsx'
-import { Trash2 } from 'lucide-react'
+import clsx from 'clsx/lite'
 import { useQueryClient } from '@tanstack/react-query'
-import { deleteOrderAction } from 'action/orders/delete-order'
+import deleteOrderAction from 'action/orders/delete-order'
+import { Trash2 } from 'lucide-react'
 
 export default function RemoveButton({
   label,
@@ -16,10 +16,6 @@ export default function RemoveButton({
 }) {
   const queryClient = useQueryClient()
 
-  React.useEffect(() => {
-    // TODO read/write from local storage for cart
-  }, [])
-
   async function removeProductFromCartHandler() {
     await deleteOrderAction(orderId, itemId)
     queryClient.invalidateQueries({ queryKey: ['cart'] })
@@ -30,7 +26,7 @@ export default function RemoveButton({
       className={clsx(
         'flex items-center space-x-2 space-x-reverse rounded-md border border-red-500 px-2 text-xs text-red-500 md:text-base',
         className,
-        { 'py-0.5': !icon },
+        !icon && 'py-0.5',
       )}
       {...props}
       onClick={removeProductFromCartHandler}

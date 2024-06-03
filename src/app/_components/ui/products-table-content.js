@@ -2,9 +2,9 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 import { useParams } from 'next/navigation'
-import clsx from 'clsx'
+import clsx from 'clsx/lite'
+import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 export default function ProductsTabelContent({ brandsAnchors }) {
   const params = useParams()
@@ -27,7 +27,7 @@ export default function ProductsTabelContent({ brandsAnchors }) {
             href={`/products${href}`}
             className={clsx(
               'border-b-2 border-transparent transition-[border] hover:border-b-2 hover:border-lime-400',
-              { 'border-lime-400': currentHash === href },
+              currentHash === href && 'border-lime-400',
             )}
           >
             {name.toUpperCase()}

@@ -3,11 +3,11 @@
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
 import Input from './input'
-import GoToButton from './go-to-button'
+import Button from './button'
 import FormErrorMessage from './form-error-message'
 import FormSuccessMessage from './form-success-message'
-import { signInFormSchema } from 'library/inputs-schema'
 import { loginAction } from 'action/auth/login'
+import { signInFormSchema } from 'library/inputs-schema'
 import Form from './form'
 
 export default function SignInForm() {
@@ -49,6 +49,8 @@ export default function SignInForm() {
   })
 
   function changeInputHandler(e) {
+    if (!e) return
+
     const { name, value } = e.target
 
     setSignInForm(prevState => ({
@@ -67,7 +69,7 @@ export default function SignInForm() {
     isEmptyFormRef.current[name] = false
     signInResultRef.current = null
 
-    refresh(e)
+    refresh()
   }
 
   async function submitFormHandler(e) {
@@ -126,7 +128,7 @@ export default function SignInForm() {
         <FormErrorMessage type={signInResultRef.current} />
       )}
 
-      <GoToButton
+      <Button
         label="ورود به حساب کاربری"
         className="mt-auto !bg-blue-600 text-zinc-100"
       />

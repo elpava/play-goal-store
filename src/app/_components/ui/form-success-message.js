@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Loader } from 'lucide-react'
 import { successMessages } from 'library/form-messages'
+import { Loader } from 'lucide-react'
 
 export default function FormSuccessMessage({ type, icon }) {
   return (

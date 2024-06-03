@@ -6,7 +6,11 @@ import {
   ObjectId,
 } from 'database/connect'
 
-export async function updateQuantityOrder(orderId, orderProductId, quantity) {
+export default async function updateQuantityOrder(
+  orderId,
+  orderProductId,
+  quantity,
+) {
   const caller = updateQuantityOrder.name
 
   try {

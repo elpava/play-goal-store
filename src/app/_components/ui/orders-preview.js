@@ -1,16 +1,16 @@
 'use client'
 
 import * as React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useQueryClient } from '@tanstack/react-query'
 import useOrders from 'hook/useOrders'
-import ChangeQuantityProduct from '@/_components/ui/change-quantity-product'
+import ChangeQuantityProduct from './change-quantity-product'
 import RemoveButton from './remove-button'
-import GoToButton from './go-to-button'
+import Button from './button'
 import Empty from './empty'
-
-const DOLLAR_RATE = 56_000
+import { formatNumberToPersian } from 'library/helper-functions'
+import { DOLLAR_RATE } from 'library/fix-values'
 
 export default function OrdersPreview() {
   const queryClient = useQueryClient()
@@ -102,7 +102,7 @@ export default function OrdersPreview() {
                       >
                         <div className="shrink-0 text-center">
                           <Link
-                            href={slug}
+                            href={`/products/${slug}`}
                             className="relative inline-block size-14 sm:size-24"
                           >
                             <Image
@@ -132,7 +132,9 @@ export default function OrdersPreview() {
                           </div>
                           <div>
                             قیمت :{' '}
-                            <Tag>{formateNumber(price * DOLLAR_RATE)}</Tag>{' '}
+                            <Tag>
+                              {formatNumberToPersian(price * DOLLAR_RATE)}
+                            </Tag>{' '}
                             <span className="text-xs">تومان</span>
                           </div>
 
@@ -151,7 +153,9 @@ export default function OrdersPreview() {
                               />
                               <div>
                                 <Tag>
-                                  {formateNumber(totalAmount * DOLLAR_RATE)}
+                                  {formatNumberToPersian(
+                                    totalAmount * DOLLAR_RATE,
+                                  )}
                                 </Tag>{' '}
                                 <span className="text-xs">تومان</span>
                               </div>
@@ -182,7 +186,8 @@ export default function OrdersPreview() {
               <span>
                 {isLastOrderData ? (
                   <Tag>
-                    {formateNumber(ordersTotalAmount * DOLLAR_RATE)} تومان
+                    {formatNumberToPersian(ordersTotalAmount * DOLLAR_RATE)}{' '}
+                    تومان
                   </Tag>
                 ) : (
                   <span>—</span>
@@ -203,7 +208,7 @@ export default function OrdersPreview() {
             </div>
           </div>
 
-          <GoToButton
+          <Button
             label="تکمیل سفارش"
             href="/payment"
             disabled={!isLastOrderData}
@@ -216,8 +221,4 @@ export default function OrdersPreview() {
 
 function Tag({ children }) {
   return <span className="font-bold">{children}</span>
-}
-
-function formateNumber(number) {
-  return Intl.NumberFormat('fa').format(number)
 }

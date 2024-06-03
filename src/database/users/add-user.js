@@ -1,12 +1,12 @@
+import { CredentialsError } from '@/auth'
 import {
   DATABASE_NAME,
   USERS_COLLECTION,
   connectToDatabase,
   client,
 } from 'database/connect'
-import { CredentialsError } from '@/auth'
 
-export async function addUser(props) {
+export default async function addUser(props) {
   const caller = addUser.name
   const { firstName, lastName, nationalId, email, password, mobile, role } =
     props

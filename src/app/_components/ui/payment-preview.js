@@ -2,20 +2,24 @@
 
 import * as React from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
+import clsx from 'clsx/lite'
 import useOrders from 'hook/useOrders'
 import updateShipmentOrderAction from 'action/orders/update-shipment-order'
-import GoToButton from './go-to-button'
-import clsx from 'clsx'
-import { Loader, SquarePen } from 'lucide-react'
-import Empty from './empty'
 import successfulPaymentOrderAction from 'action/orders/successful-payment-order'
 import failurePaymentOrderAction from 'action/orders/failure-payment-order'
 import resetPaymentOrderAction from 'action/orders/reset-payment-order'
 import Icon from './icon'
+import Button from './button'
+import Empty from './empty'
+import {
+  backToTop,
+  formatNumberToPersian,
+  isEmptyObject,
+} from 'library/helper-functions'
+import { Loader, SquarePen } from 'lucide-react'
 import icons from 'library/icons-name'
-
-const ONE_HOUR = 60 * 60 * 1000
-const ONE_DAY = 24 * ONE_HOUR
+import { ONE_HOUR, ONE_DAY, DOLLAR_RATE, TAX_RATE } from 'library/fix-values'
 
 const { post, tipax, motorcycleCourier, snapp } = icons
 const shipping = [
@@ -52,11 +56,10 @@ const shipping = [
     price: null,
   },
 ]
-const TAX_RATE = 9
-const DOLLAR_RATE = 56_000
 
 export default function PaymentPreview() {
   const queryClient = useQueryClient()
+  const { data: session } = useSession()
   const { ordersData, isLoading, isSuccess } = useOrders()
   const {
     mutate: mutateToRegisterShipmentForm,
@@ -242,15 +245,14 @@ export default function PaymentPreview() {
                               key={name}
                               className={clsx(
                                 'grow cursor-pointer rounded-lg border *:cursor-pointer sm:m-0 sm:basis-1/3',
-                                {
-                                  'border-zinc-400': idx !== shippingTypeIdx,
-                                  'border-blue-500 outline outline-2 outline-offset-2 outline-blue-600':
-                                    idx === shippingTypeIdx,
-                                  'border-zinc-500 outline outline-2 outline-offset-2 outline-zinc-600':
-                                    idx === shippingTypeIdx && isShipmentData,
-                                  'cursor-default *:cursor-default':
-                                    isShipmentData,
-                                },
+                                idx !== shippingTypeIdx && 'border-zinc-400',
+                                idx === shippingTypeIdx &&
+                                  'border-blue-500 outline outline-2 outline-offset-2 outline-blue-600',
+                                idx === shippingTypeIdx &&
+                                  idx === shippingTypeIdx &&
+                                  'border-zinc-500 outline outline-2 outline-offset-2 outline-zinc-600',
+                                isShipmentData &&
+                                  'cursor-default *:cursor-default',
                               )}
                             >
                               <label
@@ -275,7 +277,7 @@ export default function PaymentPreview() {
                                   <span className="flex items-center">
                                     {name} -{' '}
                                     {price
-                                      ? `${formateNumber(price)} تومان`
+                                      ? `${formatNumberToPersian(price)} تومان`
                                       : 'ارسال توسط خریدار'}
                                   </span>
 
@@ -380,10 +382,11 @@ export default function PaymentPreview() {
                     </div>
 
                     <div
-                      className={clsx('sm:text-left', {
-                        'font-bold ': isShipmentData,
-                        'font-bold text-lime-500': isRegisteredSuccessfully,
-                      })}
+                      className={clsx(
+                        'sm:text-left',
+                        isShipmentData && 'font-bold',
+                        isRegisteredSuccessfully && 'font-bold text-lime-500',
+                      )}
                     >
                       {isShipmentData ? (
                         <div className="flex cursor-pointer justify-between">
@@ -399,7 +402,7 @@ export default function PaymentPreview() {
                           </span>
                         </div>
                       ) : (
-                        <GoToButton
+                        <Button
                           type="submit"
                           label="ثبت"
                           className="sm:w-2/12"
@@ -416,7 +419,7 @@ export default function PaymentPreview() {
             <div
               className={clsx(
                 'rounded-lg bg-slate-100 p-2 shadow-md shadow-slate-300 sm:sticky sm:left-0 sm:top-4 sm:basis-3/12 ',
-                { '[&>:last-child]:mt-10': !isLoading },
+                !isLoading && '[&>:last-child]:mt-10',
               )}
             >
               {isLoading ? (
@@ -431,7 +434,9 @@ export default function PaymentPreview() {
 
                       <span>
                         {isLastOrderData ? (
-                          <Tag>{formateNumber(ordersTotalAmount)} تومان</Tag>
+                          <Tag>
+                            {formatNumberToPersian(ordersTotalAmount)} تومان
+                          </Tag>
                         ) : (
                           <span>—</span>
                         )}
@@ -451,7 +456,9 @@ export default function PaymentPreview() {
                       {isLastOrderData ? (
                         <Tag>
                           {shipping[shippingTypeIdx].price !== null
-                            ? formateNumber(shipping[shippingTypeIdx].price)
+                            ? formatNumberToPersian(
+                                shipping[shippingTypeIdx].price,
+                              )
                             : '-'}
                         </Tag>
                       ) : (
@@ -462,7 +469,9 @@ export default function PaymentPreview() {
                       <span>مبلغ نهایی: </span>
 
                       {isLastOrderData ? (
-                        <Tag>{formateNumber(totalAmountPayment)} تومان</Tag>
+                        <Tag>
+                          {formatNumberToPersian(totalAmountPayment)} تومان
+                        </Tag>
                       ) : (
                         <span>—</span>
                       )}
@@ -470,12 +479,12 @@ export default function PaymentPreview() {
                   </div>
 
                   <div className="space-y-2">
-                    <GoToButton
+                    <Button
                       label="پرداخت موفق"
                       disabled={!isShipmentData}
                       onClick={clickSuccessfulPaymentHandler}
                     />
-                    <GoToButton
+                    <Button
                       className="bg-red-500"
                       label="پرداخت ناموفق"
                       disabled={!isShipmentData}
@@ -488,9 +497,9 @@ export default function PaymentPreview() {
           </div>
         ) : paymentState === 'success' ? (
           <div className="space-y-4">
-            <SuccessPayment orderData={lastOrderData} />
+            <SuccessPayment session={session} orderData={lastOrderData} />
 
-            <GoToButton
+            <Button
               className="bg-blue-400"
               label="برگشت به حالت پرداخت"
               onClick={clickResetPaymentStateHandler}
@@ -498,9 +507,9 @@ export default function PaymentPreview() {
           </div>
         ) : paymentState === 'failure' ? (
           <div className="space-y-4">
-            <FailurePayment orderData={lastOrderData} />
+            <FailurePayment session={session} orderData={lastOrderData} />
 
-            <GoToButton
+            <Button
               className="bg-blue-400"
               label="برگشت به حالت پرداخت"
               onClick={clickResetPaymentStateHandler}
@@ -518,7 +527,7 @@ function Tag({ children }) {
   return <span className="font-bold">{children}</span>
 }
 
-function SuccessPayment({ orderData }) {
+function SuccessPayment({ session, orderData }) {
   if (!orderData) {
     return (
       <div className="h-[80svh] space-y-40 rounded-lg bg-gray-200 p-4 sm:h-[50svh]">
@@ -528,6 +537,7 @@ function SuccessPayment({ orderData }) {
       </div>
     )
   }
+  const { user } = session
 
   const {
     totalAmountPayment,
@@ -553,7 +563,7 @@ function SuccessPayment({ orderData }) {
   return (
     <div className="rounded-lg border-4 border-dashed border-lime-500 p-4 text-center">
       <h2 className="mb-6 rounded-lg border-2 border-lime-500 bg-lime-300 p-4 text-lg font-bold text-lime-800">
-        $علی$ عزیز
+        {user.name} عزیز
         <br />
         خرید شما با موفقیت ثبت گردید.
         <br />
@@ -565,7 +575,7 @@ function SuccessPayment({ orderData }) {
 
       <div className="rounded-lg border-2 border-slate-500 bg-slate-200 p-4">
         <p>
-          {`سفارش شما به مبلغ ${formateNumber(totalAmountPayment)} تومان
+          {`سفارش شما به مبلغ ${formatNumberToPersian(totalAmountPayment)} تومان
         در ${formattedPaymentDate.replace('، ', '، ساعت ')} ثبت گردید.`}
         </p>
         <p className="sm:mx-auto sm:w-1/2">
@@ -596,7 +606,7 @@ function SuccessPayment({ orderData }) {
   )
 }
 
-function FailurePayment({ orderData }) {
+function FailurePayment({ session, orderData }) {
   if (!orderData) {
     return (
       <div className="h-[80svh] space-y-40 rounded-lg bg-gray-200 p-4 sm:h-[50svh]">
@@ -607,37 +617,21 @@ function FailurePayment({ orderData }) {
     )
   }
 
+  const { user } = session
+
   const { totalAmountPayment } = orderData
 
   return (
     <div className="rounded-lg border-4 border-dashed border-red-500 p-4 text-center">
       <h2 className="mb-6 rounded-lg border-2 border-red-500 bg-red-300 p-4 text-lg font-bold text-red-800">
-        $علی$ عزیز
+        {user.name} عزیز
         <br />
         خطایی در پرداخت شما رخ داده است.
       </h2>
 
       <div className="rounded-lg border-2 border-slate-500 bg-slate-200 p-4">
-        <p>{`در پرداخت سفارش به مبلغ ${formateNumber(totalAmountPayment)} تومان خطایی ایجاد شده است. در صورت کسر از حساب، طی 72 ساعت آینده مبلغ کسر شده به حساب شما برگشت داده خواهد شد.`}</p>
+        <p>{`در پرداخت سفارش به مبلغ ${formatNumberToPersian(totalAmountPayment)} تومان خطایی ایجاد شده است. در صورت کسر از حساب، طی 72 ساعت آینده مبلغ کسر شده به حساب شما برگشت داده خواهد شد.`}</p>
       </div>
     </div>
   )
-}
-
-function formateNumber(number) {
-  return Intl.NumberFormat('fa').format(number)
-}
-
-function isEmptyObject(obj) {
-  for (const key in obj) {
-    return false
-  }
-
-  return true
-}
-
-function backToTop() {
-  if (window !== undefined) {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
 }

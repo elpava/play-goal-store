@@ -2,6 +2,6 @@
 
 import { getProducts } from 'database/products/get-produtcs'
 
-export async function getProductsAction() {
+export default async function getProductsAction() {
   return await getProducts()
 }

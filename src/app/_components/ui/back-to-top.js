@@ -3,6 +3,7 @@
 import * as React from 'react'
 import useWindowReady from 'hook/useWindowReady'
 import { ArrowUp } from 'lucide-react'
+import { backToTop } from 'library/helper-functions'
 
 export default function BackToTop() {
   const { isWindowReady } = useWindowReady()
@@ -21,7 +22,7 @@ export default function BackToTop() {
   if (!isWindowReady || !isVisible) return null
 
   function clickButtonHandler() {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    backToTop()
   }
 
   return (

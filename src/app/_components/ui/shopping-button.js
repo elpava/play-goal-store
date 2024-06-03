@@ -1,13 +1,13 @@
 'use client'
 
 import * as React from 'react'
-import clsx from 'clsx'
-import { ShoppingBag, PackageCheck } from 'lucide-react'
+import clsx from 'clsx/lite'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useUserId from 'hook/useUserId'
 import useOrders from 'hook/useOrders'
-import { addOrderAction } from 'action/orders/add-order'
+import addOrderAction from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
+import { ShoppingBag, PackageCheck } from 'lucide-react'
 
 export default function ShoppingButton({ className, productId, ...props }) {
   const queryClient = useQueryClient()
@@ -93,12 +93,10 @@ export default function ShoppingButton({ className, productId, ...props }) {
     <button
       className={clsx(
         'rounded-lg p-1',
-        {
-          'p-2 sm:p-1': isLoading,
-          'border border-red-600 bg-transparent text-red-600': isAdded,
-          'bg-red-600': !isAdded,
-        },
         className,
+        isLoading && 'p-2 sm:p-1',
+        !isAdded && 'bg-red-600',
+        isAdded && 'border border-red-600 bg-transparent text-red-600',
       )}
       disabled={isAdded}
       onClick={clickAddToOrdersHandler}

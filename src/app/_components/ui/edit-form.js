@@ -2,19 +2,19 @@
 
 import * as React from 'react'
 import { useSession } from 'next-auth/react'
-import Input from '@/_components/ui/input'
-import GoToButton from '@/_components/ui/go-to-button'
-import Row from './row'
-import Form from './form'
-import FormErrorMessage from './form-error-message'
-import FormSuccessMessage from './form-success-message'
+import updateUserAction from 'action/users/update-user'
 import {
   editProfileFormSchema,
   NUMBERS_LENGTH,
   ON_FOCUS_HIDDEN_ERRORS,
   VALUES_WITHOUT_TRIMMING,
 } from 'library/inputs-schema'
-import { updateUserAction } from 'action/users/update-user'
+import Form from './form'
+import Row from './row'
+import Input from '@/_components/ui/input'
+import FormErrorMessage from './form-error-message'
+import FormSuccessMessage from './form-success-message'
+import Button from '@/_components/ui/button'
 
 export default function EditForm() {
   const { data } = useSession()
@@ -79,7 +79,7 @@ export default function EditForm() {
     isEmptyFormRef.current = null
     editResultRef.current = null
 
-    refresh(e)
+    refresh()
   }
 
   async function submitFormHandler(e) {
@@ -167,7 +167,7 @@ export default function EditForm() {
         <FormErrorMessage type={isEmptyFormRef.current} />
       )}
 
-      <GoToButton
+      <Button
         label="ثبت ویرایش"
         className="mt-auto bg-green-600 text-zinc-100"
       />

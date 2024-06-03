@@ -3,12 +3,12 @@ import {
   getProduct,
 } from 'database/products/get-produtcs'
 import ChangeQuantityProduct from '@/_components/ui/change-quantity-product'
+import ProductSizeSelection from '@/_components/ui/product-size-selection'
+import ProductColorSelection from '@/_components/ui/product-color-selection'
 import AddCartButton from '@/_components/ui/add-cart-button'
 import ImageGallery from '@/_components/ui/image-gallery'
+import { formatNumberToPersian } from 'library/helper-functions'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
-import TotalOrder from '@/_components/ui/total-order'
-import ProductColorSelection from '@/_components/ui/product-color-selection'
-import ProductSizeSelection from '@/_components/ui/product-size-selection'
 
 const productsProperties = await getProductsProperties({
   _id: 0,
@@ -44,8 +44,6 @@ export default async function ProductPage({ params: { slug } }) {
     data
   const { colors, sizes, more: features } = attributes
 
-  // TODO read/write from local storage for cart
-
   return (
     <main
       className={`min-h-svh bg-zinc-900 text-zinc-100 sm:grid sm:h-svh sm:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
@@ -64,7 +62,7 @@ export default async function ProductPage({ params: { slug } }) {
 
                 <div className="relative mr-6 mt-2 rounded-md bg-lime-300 p-1.5">
                   <div className="text-sm font-bold text-zinc-800 md:text-lg">
-                    {formateNumber(price * 56_000)}
+                    {formatNumberToPersian(price * 56_000)}
                   </div>{' '}
                   <div className="absolute -top-3 left-0 rounded-md bg-zinc-900 px-0.5 pb-0.5 text-xs">
                     تومان
@@ -144,14 +142,8 @@ export default async function ProductPage({ params: { slug } }) {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="basis-4/6 sm:basis-5/6">
-            <AddCartButton productId={_id} />
-          </div>
-
-          <div className="basis-2/6 text-center sm:basis-1/6">
-            <TotalOrder />
-          </div>
+        <div>
+          <AddCartButton productId={_id} />
         </div>
       </section>
 
@@ -160,8 +152,4 @@ export default async function ProductPage({ params: { slug } }) {
       </section>
     </main>
   )
-}
-
-function formateNumber(number) {
-  return Intl.NumberFormat('fa').format(number)
 }

@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
-import { getUserAction } from 'action/users/get-user'
-import { getOrdersAction } from 'action/orders/get-orders'
+import getUserAction from 'action/users/get-user'
+import getOrdersAction from 'action/orders/get-orders'
 
 const aliasName = {
   firstName: 'نام',

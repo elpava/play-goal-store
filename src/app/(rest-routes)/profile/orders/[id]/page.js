@@ -1,10 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { auth } from '@/auth'
-import { getOrderAction } from 'action/orders/get-order'
-import { getProductsAction } from 'action/products/get-products'
-import { getUserAction } from 'action/users/get-user'
+import getOrderAction from 'action/orders/get-order'
+import getProductsAction from 'action/products/get-products'
+import getUserAction from 'action/users/get-user'
+import { formatNumberToPersian } from 'library/helper-functions'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { DOLLAR_RATE } from 'library/fix-values'
 
 const aliasName = {
   firstName: { value: 'نام', group: 'info', order: 1 },
@@ -45,7 +47,6 @@ const aliasName = {
   deliveryDate: { value: 'تاریخ تحویل', group: 'status', order: 14 },
   trackingCode: { value: 'کد پیگیری', group: 'status', order: 15 },
 }
-const DOLLAR_RATE = 56_000
 
 export default async function OrderDetailsPage({ params }) {
   const { id } = params
@@ -80,8 +81,8 @@ export default async function OrderDetailsPage({ params }) {
                       productName: product.name,
                       size: size.size,
                       color: color.title,
-                      price: formateNumber(item.price * DOLLAR_RATE),
-                      totalPrice: formateNumber(
+                      price: formatNumberToPersian(item.price * DOLLAR_RATE),
+                      totalPrice: formatNumberToPersian(
                         item.price * item.quantity * DOLLAR_RATE,
                       ),
                     }
@@ -99,7 +100,7 @@ export default async function OrderDetailsPage({ params }) {
                               title: aliasName[key][subKey].value,
                               value:
                                 subKey === 'price'
-                                  ? formateNumber(subValue)
+                                  ? formatNumberToPersian(subValue)
                                   : subValue,
                               group: aliasName[key][subKey].group,
                               order: aliasName[key][subKey].order,
@@ -124,7 +125,7 @@ export default async function OrderDetailsPage({ params }) {
                   value === null
                     ? '-'
                     : key === 'totalAmountPayment'
-                      ? formateNumber(value)
+                      ? formatNumberToPersian(value)
                       : value,
                 group: aliasName[key].group,
                 order: aliasName[key].order,
@@ -263,8 +264,4 @@ function DisplayData({ title = '', groupedData = [], children }) {
       </div>
     </div>
   )
-}
-
-function formateNumber(number) {
-  return Intl.NumberFormat('fa').format(number)
 }
