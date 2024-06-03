@@ -11,6 +11,7 @@ import Nike5 from '/public/images/nike-5.jpg'
 import SoccerField1 from '/public/images/soccer-field-1.jpg'
 import SoccerStadium2 from '/public/images/soccer-stadium-2.jpg'
 import Icon from '@/_components/ui/icon'
+import BackToTop from '@/_components/ui/back-to-top'
 import icons from 'library/icons-name'
 
 const gridImages = [
@@ -24,7 +25,7 @@ const gridImages = [
   { id: 8, image: Nike5, alt: 'توپ' },
 ]
 
-export default function Home() {
+export default function HomePage() {
   return (
     <main className="min-h-svh">
       <HeroBanner />
@@ -32,6 +33,8 @@ export default function Home() {
       <ImageAndText />
       <ImageWithText />
       <Brands />
+
+      <BackToTop />
     </main>
   )
 }
