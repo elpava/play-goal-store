@@ -26,10 +26,10 @@ export default function BackToTop() {
 
   return (
     <button
-      className="fixed bottom-6 right-20 z-50 rounded-lg bg-zinc-900 p-1.5 text-zinc-50"
+      className="fixed bottom-6 right-6 z-50 rounded-lg bg-zinc-900 p-1.5 text-zinc-50 md:bottom-12 md:right-12 md:p-2"
       onClick={clickButtonHandler}
     >
-      {<ArrowUp />}
+      {<ArrowUp className="md:size-8" />}
     </button>
   )
 }
