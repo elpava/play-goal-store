@@ -33,7 +33,7 @@ export default function ProductsTabelContent({ brandsAnchors }) {
           <Link
             href={`/products${href}`}
             className={clsx(
-              'border-b-2 border-transparent transition-[border] hover:border-b-2 hover:border-lime-400',
+              'border-b-2 border-transparent transition-[border] hover:border-b-2 hover:border-lime-400 md:pb-1',
               currentHashRef.current === href && '!border-lime-400',
             )}
           >
@@ -42,7 +42,7 @@ export default function ProductsTabelContent({ brandsAnchors }) {
 
           <span
             className={clsx(
-              'h-10 w-0.5 rounded-md bg-zinc-700 ',
+              'h-10 w-0.5 rounded-md bg-zinc-700 md:h-16',
               currentHashRef.current === href &&
                 'animate-scroll bg-gradient-to-b from-lime-400 to-lime-400 bg-[length:100%_5%] bg-no-repeat transition-[background-size]',
             )}

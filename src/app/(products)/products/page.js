@@ -19,7 +19,7 @@ export default async function ProductsPage() {
     const { brand } = item
 
     if (!groupedData[brand]) {
-      groupedData[brand] = { brandName: `brand-${brand}`, products: [] }
+      groupedData[brand] = { brandName: brand, products: [] }
     }
 
     groupedData[brand].products.push(item)
@@ -56,7 +56,7 @@ export default async function ProductsPage() {
             </div>
 
             <div
-              id={brandName}
+              id={`brand-${brandName}`}
               className="space-y-14 pe-20 md:grow md:pe-56 md:ps-20"
             >
               {products.map(
