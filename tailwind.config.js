@@ -22,6 +22,15 @@ module.exports = {
         112: '26rem',
         128: '32rem',
       },
+      keyframes: {
+        scroll: {
+          '0%, 100%, 88%': { backgroundSize: '100% 10%' },
+          '33%, 44%': { backgroundSize: '100% 100%' },
+        },
+      },
+      animation: {
+        scroll: 'scroll 2.5s cubic-bezier(0, 0, 0.03, 0.9) infinite',
+      },
     },
   },
   plugins: [

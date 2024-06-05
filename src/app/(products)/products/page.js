@@ -13,13 +13,13 @@ import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 export default async function ProductsPage() {
   const ProductsData = await getProducts()
-
   const groupedData = {}
+
   ProductsData.forEach(item => {
     const { brand } = item
 
     if (!groupedData[brand]) {
-      groupedData[brand] = { brandName: brand, products: [] }
+      groupedData[brand] = { brandName: `brand-${brand}`, products: [] }
     }
 
     groupedData[brand].products.push(item)
@@ -36,7 +36,7 @@ export default async function ProductsPage() {
   const uniqueBrand = [...new Set(filteredByBrand)]
   const brandsAnchors = uniqueBrand.map(brand => ({
     name: brand,
-    href: `#${brand}`,
+    href: `#brand-${brand}`,
   }))
 
   return (
