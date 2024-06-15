@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import clsx from 'clsx/lite'
+import clsx from 'clsx'
 import { signOut } from 'next-auth/react'
 import { ArrowRight, LogOut } from 'lucide-react'
 

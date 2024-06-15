@@ -126,7 +126,7 @@ function CartMenu({ orderId, ordersData }) {
   const last_item = cartMenuData?.length - 1
 
   return (
-    <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
+    <div className="absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
       <div className="rounded-lg border-2 border-lime-400 px-2 py-2">
         <div className="max-h-96 w-80 overflow-auto overscroll-none pe-2 scrollbar scrollbar-w-1 scrollbar-track-transparent scrollbar-corner-transparent scrollbar-thumb-lime-700 scrollbar-thumb-rounded-full md:w-96 md:scrollbar-w-2">
           <ul className="divide-y-2 divide-lime-400">

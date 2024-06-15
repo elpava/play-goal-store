@@ -10,7 +10,7 @@ import {
   SearchX,
 } from 'lucide-react'
 
-export default function Search() {
+export default function Search({ className }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { push } = useRouter()
@@ -47,7 +47,10 @@ export default function Search() {
   return (
     <form
       onSubmit={submitFormHandler}
-      className="relative rounded-full border border-dashed border-zinc-500 bg-white pt-0.5 has-[:focus]:border-transparent has-[:focus]:outline has-[:focus]:outline-2 has-[:focus]:outline-zinc-600"
+      className={clsx(
+        'relative max-w-4xl rounded-full border border-dashed border-zinc-500 bg-zinc-50 pt-0.5 has-[:focus]:border-transparent has-[:focus]:outline has-[:focus]:outline-2 has-[:focus]:outline-zinc-600',
+        className,
+      )}
     >
       <input
         type="text"
@@ -55,7 +58,7 @@ export default function Search() {
         name="search"
         defaultValue={query ? query : ''}
         placeholder="جستجو"
-        className="bg-transparent p-1 pl-10 pr-3 focus:outline-none"
+        className="w-full bg-transparent p-1 pl-10 pr-3 focus:outline-none"
         onFocus={focusInputHandler}
       />
 

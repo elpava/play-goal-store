@@ -107,12 +107,12 @@ export default function ShoppingButton({ className, productId, ...props }) {
       ) : isAdded ? (
         <>
           افزوده
-          <PackageCheck className="mr-2 inline-block w-4 stroke-1" />
+          <PackageCheck className="mr-1.5 inline-block w-4 stroke-1" />
         </>
       ) : (
         <>
           افزودن
-          <ShoppingBag className="mr-2 inline-block w-4 stroke-1" />
+          <ShoppingBag className="mr-1.5 inline-block w-4 stroke-1" />
         </>
       )}
     </button>
