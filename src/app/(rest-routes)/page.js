@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import clsx from 'clsx'
+import HeroBanner from '@/_components/ui/hero-banner'
 import BackToTop from '@/_components/ui/back-to-top'
 import Icon from '@/_components/ui/icon'
 import icons from 'library/icons-name'
@@ -36,20 +37,6 @@ export default function HomePage() {
 
       <BackToTop />
     </main>
-  )
-}
-
-function HeroBanner({ className, ...props }) {
-  return (
-    <section
-      className={`flex h-svh flex-col justify-end bg-green-400 ${className}`}
-      {...props}
-    >
-      <div className="p-2 text-zinc-100">
-        <h1 className="mb-4 text-5xl">توپ فوتبال</h1>
-        <h2 className="text-2xl">جادویی که همه را به بازی دعوت می‌کند!</h2>
-      </div>
-    </section>
   )
 }
 
@@ -93,9 +80,11 @@ function ImageAndText({ className, ...props }) {
         />
       </div>
 
-      <div className="flex flex-col place-content-center gap-5 px-8 text-blue-900 md:gap-16 md:p-14 md:text-center">
-        <h2 className="text-3xl font-bold md:text-6xl">فوتبال و احساسات</h2>
-        <div className="text-justify md:text-3xl">
+      <div className="flex flex-col place-content-center gap-5 px-8 text-blue-900 md:gap-16 md:p-14 md:text-center lg:px-12">
+        <h2 className="text-3xl font-bold md:text-4xl lg:text-6xl">
+          فوتبال و احساسات
+        </h2>
+        <div className="text-justify md:text-xl lg:text-3xl">
           هیچ ورزشی مانند فوتبال، نمی‌تواند مردم را به شور و هیجان بیاورد. این
           بازی، مردم را در کافه‌ها، مکان‌های عمومی و حتی جلوی تلویزیون جمع
           می‌کند. هیجانات مثبت و منفی تماشای فوتبال، یکی از عواملی است که این
@@ -121,7 +110,7 @@ function ImageWithText({ className, ...props }) {
         fill
       />
 
-      <h2 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center text-2xl text-zinc-200 md:text-6xl">
+      <h2 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center text-2xl text-zinc-200 md:text-5xl">
         تجربه سرعت، دقت، هیجان با{' '}
         <span className="rounded-xl bg-zinc-900 p-2 text-amber-300 md:rounded-2xl md:px-4 md:py-2">
           پلی‌گل
