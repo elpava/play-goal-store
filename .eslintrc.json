@@ -11,7 +11,37 @@
     "react-hooks/exhaustive-deps": [2],
     "react/no-array-index-key": [1],
     "react/sort-prop-types": [1],
-    "react/no-unknown-property": [1, { "ignore": ["css"] }],
+    "react/no-unknown-property": [
+      1,
+      {
+        "ignore": [
+          "css",
+          "args",
+          "intensity",
+          "position",
+          "rotation",
+          "visible",
+          "userData",
+          "transparent",
+          "object",
+          "groundColor",
+          "receiveShadow",
+          "rotation-x",
+          "castShadow",
+          "shadow-mapSize-width",
+          "shadow-mapSize-height",
+          "distance",
+          "attach",
+          "near",
+          "far",
+          "angle",
+          "penumbra",
+          "decay",
+          "map",
+          "side"
+        ]
+      }
+    ],
     "react/no-unused-prop-types": [1],
     "react/no-unused-class-component-methods": [1]
   }

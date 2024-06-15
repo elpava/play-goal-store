@@ -1,0 +1,314 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 40798,
+      "max": [
+        0.10894401371479034,
+        0.10900518298149109,
+        0.1084354966878891
+      ],
+      "min": [
+        -0.10897490382194519,
+        -0.1090051680803299,
+        -0.10857607424259186
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 489576,
+      "componentType": 5126,
+      "count": 40798,
+      "max": [
+        1.0,
+        1.0,
+        0.9999845027923584
+      ],
+      "min": [
+        -0.9999969601631165,
+        -1.0,
+        -0.9999996423721313
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 40798,
+      "max": [
+        0.9999988675117493,
+        0.9999999403953552,
+        0.9999997615814209,
+        1.0
+      ],
+      "min": [
+        -0.9999990463256836,
+        -1.0,
+        -0.9999995827674866,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 40798,
+      "max": [
+        0.9911007881164551,
+        0.9930734634399414
+      ],
+      "min": [
+        0.008758816868066788,
+        0.010861504822969437
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 326384,
+      "componentType": 5126,
+      "count": 40798,
+      "max": [
+        0.9911007881164551,
+        0.9930734634399414
+      ],
+      "min": [
+        0.008758816868066788,
+        0.010861504822969437
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 652768,
+      "componentType": 5126,
+      "count": 40798,
+      "max": [
+        0.9911007881164551,
+        0.9930734634399414
+      ],
+      "min": [
+        0.008758816868066788,
+        0.010861504822969437
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 979152,
+      "componentType": 5126,
+      "count": 40798,
+      "max": [
+        0.9911007881164551,
+        0.9930734634399414
+      ],
+      "min": [
+        0.008758816868066788,
+        0.010861504822969437
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 219648,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Jesus Osco (https://sketchfab.com/gsus.vfx)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/al-rihla-fifa-world-cup-qatar-2022-26f148946cd04c778f3d413adcd3cff8",
+      "title": "Al Rihla - FIFA World Cup Qatar 2022"
+    },
+    "generator": "Sketchfab-14.20.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 878592,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1305536,
+      "byteOffset": 878592,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 979152,
+      "byteOffset": 2184128,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 652768,
+      "byteOffset": 3163280,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 3816048,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Al_Rihla_baseColor.png"
+    },
+    {
+      "uri": "textures/Al_Rihla_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/Al_Rihla_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Al_Rihla",
+      "normalTexture": {
+        "index": 2
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4,
+            "TEXCOORD_2": 5,
+            "TEXCOORD_3": 6
+          },
+          "indices": 7,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.6242361068725586,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        3.606528646554882e-16,
+        -1.6242361068725586,
+        0.0,
+        0.0,
+        1.6242361068725586,
+        3.606528646554882e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "root"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "GLTF_SceneRootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "Al Rihla_1"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_4"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}
