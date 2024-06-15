@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import getProductsAction from 'action/products/get-products'
 import getOrdersAction from 'action/orders/get-orders'
 import { useSession } from 'next-auth/react'
+import { v4 as uuidv4 } from 'uuid'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { gcTime: Infinity } },
@@ -42,7 +43,7 @@ export default function ReactQueryProvider({ children }) {
     }
 
     if (!userId) {
-      userId = crypto.randomUUID()
+      userId = uuidv4()
       localStorage.setItem('pg-user-id', userId)
     }
 
