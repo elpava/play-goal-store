@@ -34,6 +34,7 @@ export default function Search({ className }) {
     let isRepetitiveQuery
 
     const searchString = new FormData(e.target).get('search')
+    if (searchString === '') return
 
     isRepetitiveQuery = searchString === query
 
@@ -48,7 +49,7 @@ export default function Search({ className }) {
     <form
       onSubmit={submitFormHandler}
       className={clsx(
-        'relative max-w-4xl rounded-full border border-dashed border-zinc-500 bg-zinc-50 pt-0.5 has-[:focus]:border-transparent has-[:focus]:outline has-[:focus]:outline-2 has-[:focus]:outline-zinc-600',
+        'relative max-w-4xl rounded-full border border-dashed border-zinc-500 pt-0.5 has-[:focus]:border-transparent has-[:focus]:outline has-[:focus]:outline-2 has-[:focus]:outline-zinc-600',
         className,
       )}
     >

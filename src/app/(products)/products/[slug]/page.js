@@ -46,14 +46,14 @@ export default async function ProductPage({ params: { slug } }) {
 
   return (
     <main
-      className={`min-h-svh bg-zinc-900 text-zinc-100 sm:grid sm:h-svh sm:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
+      className={`min-h-svh bg-zinc-900 text-zinc-100 md:grid md:h-svh md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
     >
       <section
-        className="before:vtf-font relative isolate space-y-6 px-4 pb-4 pt-16 before:absolute before:left-2 before:top-40 before:z-[-1] before:text-8xl before:text-zinc-900 before:shadow-lime-400/50 before:content-[attr(data-content)] before:text-shadow-md before:[writing-mode:vertical-rl] sm:max-h-svh sm:pt-4 sm:before:top-24 sm:before:text-9xl"
+        className="before:vtf-font relative isolate space-y-6 px-4 pb-4 pt-16 before:absolute before:left-2 before:top-40 before:z-[-1] before:text-8xl before:text-zinc-900 before:shadow-lime-400/50 before:content-[attr(data-content)] before:text-shadow-md before:[writing-mode:vertical-rl] sm:max-h-svh sm:before:top-24 md:pt-4"
         data-content={brand}
       >
         <div className="space-y-8 pl-24 sm:mb-14 sm:pl-32">
-          <h1 className="text-3xl sm:h-14 sm:text-4xl">{name}</h1>
+          <h1 className="text-3xl md:h-14 md:text-2xl lg:text-4xl">{name}</h1>
 
           <div className="space-y-8">
             <div className="flex gap-10">

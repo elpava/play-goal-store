@@ -25,7 +25,7 @@ export default async function SearchPage({ searchParams }) {
   isEmptyQuery = query === '' || !data
 
   return (
-    <main className="grid min-h-svh px-4 pb-10 pt-20 sm:px-40 sm:py-20 sm:pt-28">
+    <main className="grid min-h-svh px-4 pb-10 pt-20 sm:py-20 sm:pt-28 lg:px-40">
       <UpdateURLAtClient queries={queries.toString()} />
       {isEmptyQuery ? (
         <Empty type="search" />
@@ -56,7 +56,7 @@ export default async function SearchPage({ searchParams }) {
                         src={`/images/products/${thumbnails[0]}`}
                         alt={name}
                         fill
-                        style={{ objectFit: 'contain' }}
+                        className="object-contain"
                       />
                     </div>
                     <div className="flex basis-2/5 flex-col items-start sm:basis-10/12 sm:gap-2">

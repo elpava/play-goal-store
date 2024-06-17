@@ -13,7 +13,12 @@ export default function Menu({ className, ...props }) {
   return (
     <div className={clsx('whitespace-nowrap', className)} {...props}>
       <Link href="/">
-        <Image src={Logo} alt="لوگو" className="hidden w-7 md:block" priority />
+        <Image
+          src={Logo}
+          alt="لوگو"
+          className="hidden w-7 min-w-7 md:block"
+          priority
+        />
         <span className="md:hidden">صفحه اصلی</span>
       </Link>
       {menu.map(({ name, href }) => (

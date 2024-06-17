@@ -211,7 +211,7 @@ export default function PaymentPreview() {
 
   return (
     <section className="p-2">
-      <div className="px-2 pb-2 pt-20 sm:px-40">
+      <div className="px-2 pb-2 pt-20 lg:px-40">
         {paymentState === 'idle' ? (
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
             <div className="rounded-lg bg-gray-100 p-2 shadow-md shadow-gray-300 sm:basis-9/12 sm:p-4">

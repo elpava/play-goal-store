@@ -34,7 +34,7 @@ const ADDRESS =
 
 export default function ContactUsPage() {
   return (
-    <main className="flex min-h-svh flex-col gap-4 px-4 pb-20 pt-20 sm:px-40 sm:pt-28 sm:text-lg">
+    <main className="flex min-h-svh flex-col gap-4 px-4 pb-20 pt-20 sm:pt-28 sm:text-lg lg:px-40">
       <div className="flex flex-col gap-4 sm:flex-row">
         <div className="basis-1/2 rounded-md rounded-se-none rounded-ss-none bg-zinc-50 shadow-md shadow-zinc-400">
           <div className="bg-zinc-950 p-4 text-lg text-zinc-50">

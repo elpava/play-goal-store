@@ -49,7 +49,7 @@ export default async function ProfilePage() {
       <div>
         <h2 className="mb-8 text-3xl xs:mb-10">مشخصات کاربر</h2>
 
-        <div className="grid grid-cols-1 gap-x-4 gap-y-4 px-6 xs:grid-cols-2 xs:gap-x-20 xs:gap-y-8 xs:px-4">
+        <div className="grid grid-cols-1 gap-x-4 gap-y-4 px-6 xs:gap-x-20 xs:gap-y-8 xs:px-4 md:grid-cols-2">
           {form.map(({ title, content }) => (
             <Field key={title} title={title}>
               {content}
@@ -76,10 +76,10 @@ export default async function ProfilePage() {
 function Field({ title, children }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="basis-1/4 xs:basis-1/6">{title}</span>
-      <span className="grow basis-3/4 rounded-md border border-zinc-300 bg-zinc-100 px-4 py-2 text-zinc-400 xs:basis-5/6">
+      <div className="basis-1/4 whitespace-nowrap xs:basis-2/6">{title}</div>
+      <div className="grow basis-3/4 rounded-md border border-zinc-300 bg-zinc-100 px-4 py-2 text-zinc-400 xs:basis-4/6">
         {children}
-      </span>
+      </div>
     </div>
   )
 }

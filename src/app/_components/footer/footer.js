@@ -61,7 +61,7 @@ export default function Footer() {
 
         <NeonDivider className="md:hidden" />
 
-        <div className="flex justify-evenly text-right md:mr-4 md:basis-5/12 md:justify-between">
+        <div className="flex justify-evenly text-right md:mr-4 md:basis-5/12 md:justify-around">
           <div>
             <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
               <h4 className="text-xl">محصولات</h4>
