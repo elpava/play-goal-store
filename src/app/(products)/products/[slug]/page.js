@@ -46,7 +46,7 @@ export default async function ProductPage({ params: { slug } }) {
 
   return (
     <main
-      className={`min-h-svh bg-zinc-900 text-zinc-100 md:grid md:h-svh md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
+      className={`ignore bg-zinc-900 text-zinc-100 md:grid md:h-svh md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
     >
       <section
         className="before:vtf-font relative isolate space-y-6 px-4 pb-4 pt-16 before:absolute before:left-2 before:top-40 before:z-[-1] before:text-8xl before:text-zinc-900 before:shadow-lime-400/50 before:content-[attr(data-content)] before:text-shadow-md before:[writing-mode:vertical-rl] sm:max-h-svh sm:before:top-24 md:pt-4"
@@ -58,7 +58,7 @@ export default async function ProductPage({ params: { slug } }) {
           <div className="space-y-8">
             <div className="flex gap-10">
               <div>
-                <h4 className="text-sm text-zinc-400 sm:text-base">قیمت</h4>
+                <div className="text-sm text-zinc-400 sm:text-base">قیمت</div>
 
                 <div className="relative mr-6 mt-2 rounded-md bg-lime-300 p-1.5">
                   <div className="text-sm font-bold text-zinc-800 md:text-lg">
@@ -71,7 +71,7 @@ export default async function ProductPage({ params: { slug } }) {
               </div>
 
               <div>
-                <h4 className="text-sm text-zinc-400 sm:text-base">تعداد</h4>
+                <div className="text-sm text-zinc-400 sm:text-base">تعداد</div>
 
                 <ChangeQuantityProduct
                   maxQuantity={stock}
@@ -86,13 +86,13 @@ export default async function ProductPage({ params: { slug } }) {
 
             <div className="space-y-8 sm:flex sm:items-start sm:gap-4 sm:space-y-0">
               <div className="sm:basis-1/2">
-                <h4 className="text-sm text-zinc-400 sm:text-base">رنگ‌ها</h4>
+                <div className="text-sm text-zinc-400 sm:text-base">رنگ‌ها</div>
 
                 <ProductColorSelection colorsData={colors} />
               </div>
 
               <div className="sm:basis-1/2">
-                <h4 className="text-sm text-zinc-400 sm:text-base">اندازه</h4>
+                <div className="text-sm text-zinc-400 sm:text-base">اندازه</div>
 
                 <ProductSizeSelection sizesData={sizes} />
               </div>

@@ -158,12 +158,14 @@ function CartMenu({ orderId, ordersData }) {
                     </div>
 
                     <div className="flex w-0 grow flex-col gap-1 md:gap-3">
-                      <h4 className="truncate text-sm md:text-base">{name}</h4>
+                      <div className="truncate text-sm md:text-base">
+                        {name}
+                      </div>
 
                       <div className="mt-auto flex items-center justify-between px-2 text-sm md:items-end md:text-base">
-                        <h4>
+                        <div>
                           {quantity} عدد × اندازه {size}
-                        </h4>
+                        </div>
 
                         <span className="text-zinc-400">
                           {formatNumberToPersian(totalAmount)}{' '}
@@ -198,8 +200,8 @@ function CartMenu({ orderId, ordersData }) {
 function EmptyCartMenu() {
   return (
     <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
-      <div className="grid h-28 w-80 place-items-center rounded-lg border-2 border-lime-400 px-2 py-2 text-center">
-        <h4 className="text-base sm:text-lg">سبد خرید شما خالی است.</h4>
+      <div className="grid h-28 w-80 place-items-center rounded-lg border-2 border-lime-400 px-2 py-2 text-center text-base sm:text-lg">
+        سبد خرید شما خالی است.
       </div>
     </div>
   )

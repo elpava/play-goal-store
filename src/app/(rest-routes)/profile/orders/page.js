@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { auth } from '@/auth'
 import getOrdersAction from 'action/orders/get-orders'
 import getProductsAction from 'action/products/get-products'
+import Empty from '@/_components/ui/empty'
 import { formatNumberToPersian } from 'library/helper-functions'
 import { ArrowUpRight } from 'lucide-react'
 
@@ -12,7 +13,8 @@ export default async function OrdersPage() {
 
   let isOrders
 
-  orders.forEach(({ orders }) => {
+  const filteredOrders = orders.filter(item => item.isPaid)
+  filteredOrders.forEach(({ orders }) => {
     orders.forEach(item => {
       const product = products.find(({ _id }) => _id === item.productId)
       const size = product.attributes.sizes.find(
@@ -24,11 +26,11 @@ export default async function OrdersPage() {
     })
   })
 
-  isOrders = orders.length > 0
+  isOrders = filteredOrders.length > 0
 
   return (
     <div className="flex h-full flex-col">
-      <h2 className="mb-8 text-3xl xs:mb-10">کل سفارشات</h2>
+      <h2>کل سفارشات</h2>
 
       {isOrders ? (
         <div className="overflow-auto scrollbar scrollbar-w-2 scrollbar-thumb-zinc-400 scrollbar-track-zinc-700 scrollbar-thumb-rounded-lg scrollbar-track-rounded-lg focus:outline-none">
@@ -46,7 +48,7 @@ export default async function OrdersPage() {
               </tr>
             </thead>
             <tbody className="text-center text-xs [&>*:nth-child(even)]:bg-slate-200">
-              {orders.map(
+              {filteredOrders.map(
                 ({
                   _id,
                   orders,
@@ -133,19 +135,7 @@ export default async function OrdersPage() {
           </table>
         </div>
       ) : (
-        <div className="grid grow content-center gap-4 rounded-lg bg-gray-100 p-2 text-center shadow-md shadow-gray-300 sm:p-4">
-          <h4 className="text-lg sm:text-xl">شما هنوز سفارشی ثبت نکرده‌اید.</h4>
-          <p className="mx-auto w-4/6 text-sm text-zinc-500 sm:w-3/6 sm:text-base">
-            به نظر می رسد شما تا به الان سفارشی ثبت نکرده‌اید. می‌توانید وارد{' '}
-            <Link
-              href="/products"
-              className="relative mx-0.5 border-b-2 border-b-lime-400 font-bold"
-            >
-              محصولات
-            </Link>{' '}
-            شده و توپ مورد علاقه خود را انتخاب و سپس ثبت نمایید.
-          </p>
-        </div>
+        <Empty type="orders" />
       )}
     </div>
   )

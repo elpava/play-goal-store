@@ -16,7 +16,7 @@ export default function Login({ searchParams = {} }) {
   const isSignIn = isShowFirstForm || loginQuery === 'sign-in'
 
   return (
-    <div className="flex w-11/12 flex-col rounded-lg border-2 border-zinc-300 p-2 sm:w-1/3">
+    <div className="flex w-112 flex-col rounded-lg border-2 border-zinc-300 p-2">
       <div className="flex divide-x-2 divide-x-reverse overflow-hidden rounded-se-lg rounded-ss-lg bg-gray-100 text-center">
         {tabs.map(({ id, name, query }) => {
           queries.set('login', query)

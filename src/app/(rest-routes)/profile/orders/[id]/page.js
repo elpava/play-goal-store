@@ -170,7 +170,7 @@ export default async function OrderDetailsPage({ params }) {
           <ArrowRight />
         </Link>
         <span className="hidden sm:block">/</span>
-        <h2 className="text-3xl">فاکتور</h2>
+        <div className="font-bold">فاکتور</div>
       </div>
 
       <div className="space-y-8 rounded-md bg-stone-100 p-4">
@@ -210,7 +210,7 @@ export default async function OrderDetailsPage({ params }) {
                             />
                           </div>
                           <div className="text-center xs:text-right">
-                            <h3>مدل {productName}</h3>
+                            <div>مدل {productName}</div>
                           </div>
                           <div>رنگ {color}</div>
                           <div>اندازه {size}</div>
@@ -243,12 +243,12 @@ function DisplayData({ title = '', groupedData = [], children }) {
   return (
     <div>
       <fieldset className="border-t-2 border-black">
-        <legend className="pl-2">
-          <h3 className="text-xl font-bold">{title}</h3>
+        <legend className="pl-4">
+          <h4 className="font-bold">{title}</h4>
         </legend>
       </fieldset>
 
-      <div className="space-y-2 p-4">
+      <div className="space-y-4 p-4">
         {children
           ? children
           : groupedData.map(({ title, value, ...props }, idx) => (

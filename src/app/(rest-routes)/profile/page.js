@@ -47,7 +47,7 @@ export default async function ProfilePage() {
   return (
     <div className="space-y-20">
       <div>
-        <h2 className="mb-8 text-3xl xs:mb-10">مشخصات کاربر</h2>
+        <h2>مشخصات کاربر</h2>
 
         <div className="grid grid-cols-1 gap-x-4 gap-y-4 px-6 xs:gap-x-20 xs:gap-y-8 xs:px-4 md:grid-cols-2">
           {form.map(({ title, content }) => (
@@ -59,7 +59,7 @@ export default async function ProfilePage() {
       </div>
 
       <div>
-        <h2 className="mb-8 text-3xl xs:mb-10">وضعیت سفارش‌ها</h2>
+        <h2>وضعیت سفارش‌ها</h2>
 
         <div className="grid grid-cols-3 divide-x-2 divide-x-reverse overflow-hidden rounded-lg border border-zinc-400 text-center *:p-2 xs:*:py-6 [&>*:nth-child(1)]:bg-green-300 [&>*:nth-child(2)]:bg-blue-300 [&>*:nth-child(3)]:bg-red-300">
           {report.map(({ title, value }) => (

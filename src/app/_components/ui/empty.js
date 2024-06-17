@@ -15,6 +15,12 @@ const content = {
     title: 'نتیجه‌ای یافت نشد.',
     hint: 'لطفاً نام یا برند محصول مورد نظر را در قسمت جستجو وارد نمایید.',
   },
+  orders: {
+    icon: emptyBag,
+    title: 'شما هنوز سفارشی ثبت نکرده‌اید.',
+    hint: 'به نظر می رسد شما تا به الان سفارشی ثبت نکرده‌اید. می‌توانید وارد [محصولات] شده و توپ مورد علاقه خود را انتخاب و سپس ثبت نمایید.',
+    links: [{ title: 'محصولات', href: '/products' }],
+  },
 }
 
 export default function Empty({ type = 'cart' }) {
@@ -25,13 +31,13 @@ export default function Empty({ type = 'cart' }) {
   }
 
   return (
-    <div className="py-4 text-center sm:grid sm:h-[80svh] sm:place-items-center">
+    <div className="text-center sm:grid sm:h-[80svh] sm:place-items-center">
       <div className="space-y-2">
         <div className="mb-6">
           <Icon name={icon} className="w-52 sm:w-72" />
         </div>
 
-        <h3 className="text-lg sm:text-3xl">{title}</h3>
+        <h3>{title}</h3>
         <p className="mx-auto w-8/12 text-sm text-zinc-500 sm:w-10/12 sm:text-base">
           {hint}
         </p>
@@ -48,6 +54,7 @@ function addLinkToStr(str, links) {
     findLink = links.find(link => link.title === splittedStr[i])
     splittedStr[i] = (
       <Link
+        key={i}
         href={findLink.href}
         className="relative mx-0.5 border-b-2 border-b-lime-400 font-bold"
       >

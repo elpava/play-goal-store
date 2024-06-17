@@ -25,7 +25,7 @@ export default async function SearchPage({ searchParams }) {
   isEmptyQuery = query === '' || !data
 
   return (
-    <main className="grid min-h-svh px-4 pb-10 pt-20 sm:py-20 sm:pt-28 lg:px-40">
+    <main className="grid">
       <UpdateURLAtClient queries={queries.toString()} />
       {isEmptyQuery ? (
         <Empty type="search" />
@@ -33,12 +33,12 @@ export default async function SearchPage({ searchParams }) {
         <div>
           <div
             className={clsx(
-              'flex gap-4 sm:text-xl',
+              'flex items-end gap-4',
               !isInvalidResult && 'sm:mb-10',
             )}
           >
-            <h2>عبارت مورد جستجو:</h2>
-            <span className="text-lg font-bold sm:text-2xl">{query}</span>
+            <div className="text-xl">عبارت مورد جستجو:</div>
+            <span className="text-lg font-bold sm:text-xl">{query}</span>
           </div>
 
           {isInvalidResult ? (
@@ -49,9 +49,9 @@ export default async function SearchPage({ searchParams }) {
                 <li key={_id} className="relative py-1">
                   <Link
                     href={`/products/${slug}`}
-                    className="mr-4 flex items-center py-4 text-sm font-bold sm:text-2xl"
+                    className="mr-4 flex items-center gap-8 py-4 text-sm font-bold sm:text-2xl"
                   >
-                    <div className="relative ml-4 size-16 basis-1/5 sm:size-28 sm:basis-2/12">
+                    <div className="relative size-16 basis-1/5 sm:size-28 sm:basis-2/12">
                       <Image
                         src={`/images/products/${thumbnails[0]}`}
                         alt={name}
@@ -59,8 +59,8 @@ export default async function SearchPage({ searchParams }) {
                         className="object-contain"
                       />
                     </div>
-                    <div className="flex basis-2/5 flex-col items-start sm:basis-10/12 sm:gap-2">
-                      <h2>{name}</h2>
+                    <div className="basis-4/5 sm:basis-10/12">
+                      <h3>{name}</h3>
                       <span className="rounded-3xl bg-zinc-900 p-1 text-xs font-bold capitalize text-zinc-100 sm:p-1.5 sm:text-base">
                         {brand}
                       </span>

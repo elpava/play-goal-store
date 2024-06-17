@@ -54,9 +54,9 @@ export default function Footer() {
         <div className="md:basis-3/12">
           <Image src={Logo} alt="logo" className="mx-auto mb-2 w-16 md:w-24" />
 
-          <h3 className="text-2xl">
+          <div className="text-2xl">
             پلی‌گل عرضه کننده توپ‌های فوتبال برندهای معتبر دنیا
-          </h3>
+          </div>
         </div>
 
         <NeonDivider className="md:hidden" />

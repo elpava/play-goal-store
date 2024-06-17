@@ -210,316 +210,303 @@ export default function PaymentPreview() {
   }
 
   return (
-    <section className="p-2">
-      <div className="px-2 pb-2 pt-20 lg:px-40">
-        {paymentState === 'idle' ? (
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-            <div className="rounded-lg bg-gray-100 p-2 shadow-md shadow-gray-300 sm:basis-9/12 sm:p-4">
-              {isLoadingShipmentForm ? (
-                <div className="h-[80svh]">در حال بارگذاری...</div>
-              ) : isLastOrderData ? (
-                <>
-                  <div className="m-2 text-2xl sm:text-4xl">
-                    <h2>پرداخت</h2>
-                  </div>
+    <div>
+      {paymentState === 'idle' ? (
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+          <div className="rounded-lg bg-gray-100 p-6 shadow-md shadow-gray-300 xs:p-8 sm:basis-9/12">
+            {isLoadingShipmentForm ? (
+              <div className="h-[80svh]">در حال بارگذاری...</div>
+            ) : isLastOrderData ? (
+              <>
+                <h2>پرداخت</h2>
 
-                  <hr className="my-4 sm:my-6" />
+                <hr className="my-4 sm:my-6" />
 
-                  <form
-                    className="space-y-8"
-                    onSubmit={submitShippingFormHandler}
-                  >
-                    <div>
-                      <h2 className="m-2 text-xl sm:text-2xl">
-                        نحوه ارسال{' '}
-                        <span className="text-base text-red-500">*</span>
-                        <span className="mr-2 text-sm font-bold text-zinc-500">
-                          (روزهای اداری)
-                        </span>
-                      </h2>
-
-                      <ul className="mb-2 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-                        {shipping.map(
-                          ({ id, icon, name, price, deliveryDay }, idx) => (
-                            <li
-                              key={name}
-                              className={clsx(
-                                'grow cursor-pointer rounded-lg border *:cursor-pointer sm:m-0 sm:basis-1/3',
-                                idx !== shippingTypeIdx && 'border-zinc-400',
-                                idx === shippingTypeIdx &&
-                                  'border-blue-500 outline outline-2 outline-offset-2 outline-blue-600',
-                                idx === shippingTypeIdx &&
-                                  idx === shippingTypeIdx &&
-                                  'border-zinc-500 outline outline-2 outline-offset-2 outline-zinc-600',
-                                isShipmentData &&
-                                  'cursor-default *:cursor-default',
-                              )}
-                            >
-                              <label
-                                htmlFor={id}
-                                className="flex w-full items-center gap-2 p-2 pr-4"
-                              >
-                                <input
-                                  className="hidden h-4"
-                                  id={id}
-                                  type="radio"
-                                  value={name}
-                                  name="shipmentType"
-                                  checked={idx === shippingTypeIdx}
-                                  onChange={changeShippingFormHandler}
-                                  disabled={isShipmentData}
-                                />
-                                <div className="basis-2/12">
-                                  <Icon name={icon} className="w-full" />
-                                </div>
-
-                                <div className="basis-10/12">
-                                  <span className="flex items-center">
-                                    {name} -{' '}
-                                    {price
-                                      ? `${formatNumberToPersian(price)} تومان`
-                                      : 'ارسال توسط خریدار'}
-                                  </span>
-
-                                  <span className="text-sm text-zinc-500">
-                                    {deliveryDay
-                                      ? `دریافت ${
-                                          new Intl.DateTimeFormat('fa-IR', {
-                                            weekday: 'long',
-                                          }).format(
-                                            new Date().getTime() + deliveryDay,
-                                          ) === 'جمعه'
-                                            ? (deliveryDay + ONE_DAY) / ONE_DAY
-                                            : deliveryDay / ONE_DAY
-                                        } روز بعد در تاریخ ${
-                                          new Intl.DateTimeFormat('fa-IR', {
-                                            weekday: 'long',
-                                          }).format(
-                                            new Date().getTime() + deliveryDay,
-                                          ) === 'جمعه'
-                                            ? new Intl.DateTimeFormat('fa-IR', {
-                                                month: 'long',
-                                                day: 'numeric',
-                                                weekday: 'long',
-                                              }).format(
-                                                new Date().getTime() +
-                                                  deliveryDay +
-                                                  ONE_DAY,
-                                              )
-                                            : new Intl.DateTimeFormat('fa-IR', {
-                                                month: 'long',
-                                                day: 'numeric',
-                                                weekday: 'long',
-                                              }).format(
-                                                new Date().getTime() +
-                                                  deliveryDay,
-                                              )
-                                        }`
-                                      : 'بین ساعت 9:00 تا 16:00'}
-                                  </span>
-                                </div>
-                              </label>
-                            </li>
-                          ),
-                        )}
-                      </ul>
-
-                      <div className="text-sm text-zinc-600">
-                        توجه: ارسال سفارش در روزهای تعطیل، در اولین روز اداری
-                        بعد از تعطیلی انجام خواهد شد.
-                      </div>
-                    </div>
-
-                    <div>
-                      <h2 className="m-2 text-xl sm:text-2xl">
-                        آدرس پستی{' '}
-                        <span className="text-base text-red-500">*</span>
-                      </h2>
-
-                      <textarea
-                        className="w-full resize-none rounded-lg border-transparent p-3 focus:outline-blue-600 disabled:bg-zinc-200 sm:text-lg"
-                        name="address"
-                        cols="30"
-                        rows="4"
-                        value={shipmentForm.address}
-                        required
-                        placeholder="استان، شهر..."
-                        disabled={isShipmentData}
-                        onChange={changeShippingFormHandler}
-                      />
-                    </div>
-
-                    <div>
-                      <h2 className="m-2 text-xl sm:text-2xl">
-                        کد پستی{' '}
-                        <span className="text-base text-red-500">*</span>
-                      </h2>
-
-                      <input
-                        className="w-full rounded-lg p-3 focus:outline-blue-600 disabled:bg-zinc-200"
-                        type="number"
-                        name="zipCode"
-                        value={shipmentForm.zipCode}
-                        required
-                        disabled={isShipmentData}
-                        onChange={changeShippingFormHandler}
-                      />
-                    </div>
-
-                    <div>
-                      <h2 className="m-2 text-xl sm:text-2xl">توضیحات</h2>
-
-                      <textarea
-                        className="w-full resize-none rounded-lg border-transparent p-3 focus:outline-blue-600 sm:text-lg"
-                        name="description"
-                        cols="30"
-                        rows="4"
-                        value={shipmentForm.description}
-                        disabled={isShipmentData}
-                        placeholder="توضیحات مورد نظر خود را می‌توانید در اینجا وارد نمایید"
-                        onChange={changeShippingFormHandler}
-                      />
-                    </div>
-
-                    <div
-                      className={clsx(
-                        'sm:text-left',
-                        isShipmentData && 'font-bold',
-                        isRegisteredSuccessfully && 'font-bold text-lime-500',
-                      )}
-                    >
-                      {isShipmentData ? (
-                        <div className="flex cursor-pointer justify-between">
-                          {isRegisteredSuccessfully ? (
-                            <span>✓ فرم با موفقیت ثبت شد.</span>
-                          ) : (
-                            <span>آخرین اطلاعات ثبت شده.</span>
-                          )}
-
-                          <span onClick={clickEditButtonHandler}>
-                            ویرایش
-                            <SquarePen className="mr-1 inline-block w-4" />
-                          </span>
-                        </div>
-                      ) : (
-                        <Button
-                          type="submit"
-                          label="ثبت"
-                          className="sm:w-2/12"
-                        />
-                      )}
-                    </div>
-                  </form>
-                </>
-              ) : (
-                <Empty />
-              )}
-            </div>
-
-            <div
-              className={clsx(
-                'rounded-lg bg-slate-100 p-2 shadow-md shadow-slate-300 sm:sticky sm:left-0 sm:top-4 sm:basis-3/12 ',
-                !isLoading && '[&>:last-child]:mt-10',
-              )}
-            >
-              {isLoading ? (
-                <div className="grid h-72 place-items-center">
-                  <Loader className="animate-spin" />
-                </div>
-              ) : (
-                <>
-                  <div className="divide-y-2 divide-slate-300 rounded-lg border-2 border-slate-300 *:p-2">
-                    <div className="flex justify-between">
-                      <span>مبلغ کل: </span>
-
-                      <span>
-                        {isLastOrderData ? (
-                          <Tag>
-                            {formatNumberToPersian(ordersTotalAmount)} تومان
-                          </Tag>
-                        ) : (
-                          <span>—</span>
-                        )}
+                <form
+                  className="space-y-8"
+                  onSubmit={submitShippingFormHandler}
+                >
+                  <div>
+                    <h3>
+                      نحوه ارسال{' '}
+                      <span className="text-base text-red-500">*</span>
+                      <span className="mr-2 text-sm font-bold text-zinc-500">
+                        (روزهای اداری)
                       </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>مالیات: </span>
-                      {isLastOrderData ? (
-                        <Tag>٪{TAX_RATE}</Tag>
-                      ) : (
-                        <span>—</span>
-                      )}
-                    </div>
-                    <div className="flex justify-between">
-                      <span>کرایه: </span>
+                    </h3>
 
+                    <ul className="mb-2 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                      {shipping.map(
+                        ({ id, icon, name, price, deliveryDay }, idx) => (
+                          <li
+                            key={name}
+                            className={clsx(
+                              'grow cursor-pointer rounded-lg border *:cursor-pointer sm:m-0 sm:basis-1/3',
+                              idx !== shippingTypeIdx && 'border-zinc-400',
+                              idx === shippingTypeIdx &&
+                                'border-blue-500 outline outline-2 outline-offset-2 outline-blue-600',
+                              idx === shippingTypeIdx &&
+                                idx === shippingTypeIdx &&
+                                'border-zinc-500 outline outline-2 outline-offset-2 outline-zinc-600',
+                              isShipmentData &&
+                                'cursor-default *:cursor-default',
+                            )}
+                          >
+                            <label
+                              htmlFor={id}
+                              className="flex w-full items-center gap-2 p-2 pr-4"
+                            >
+                              <input
+                                className="hidden h-4"
+                                id={id}
+                                type="radio"
+                                value={name}
+                                name="shipmentType"
+                                checked={idx === shippingTypeIdx}
+                                onChange={changeShippingFormHandler}
+                                disabled={isShipmentData}
+                              />
+                              <div className="basis-2/12">
+                                <Icon name={icon} className="w-full" />
+                              </div>
+
+                              <div className="basis-10/12">
+                                <span className="flex items-center">
+                                  {name} -{' '}
+                                  {price
+                                    ? `${formatNumberToPersian(price)} تومان`
+                                    : 'ارسال توسط خریدار'}
+                                </span>
+
+                                <span className="text-sm text-zinc-500">
+                                  {deliveryDay
+                                    ? `دریافت ${
+                                        new Intl.DateTimeFormat('fa-IR', {
+                                          weekday: 'long',
+                                        }).format(
+                                          new Date().getTime() + deliveryDay,
+                                        ) === 'جمعه'
+                                          ? (deliveryDay + ONE_DAY) / ONE_DAY
+                                          : deliveryDay / ONE_DAY
+                                      } روز بعد در تاریخ ${
+                                        new Intl.DateTimeFormat('fa-IR', {
+                                          weekday: 'long',
+                                        }).format(
+                                          new Date().getTime() + deliveryDay,
+                                        ) === 'جمعه'
+                                          ? new Intl.DateTimeFormat('fa-IR', {
+                                              month: 'long',
+                                              day: 'numeric',
+                                              weekday: 'long',
+                                            }).format(
+                                              new Date().getTime() +
+                                                deliveryDay +
+                                                ONE_DAY,
+                                            )
+                                          : new Intl.DateTimeFormat('fa-IR', {
+                                              month: 'long',
+                                              day: 'numeric',
+                                              weekday: 'long',
+                                            }).format(
+                                              new Date().getTime() +
+                                                deliveryDay,
+                                            )
+                                      }`
+                                    : 'بین ساعت 9:00 تا 16:00'}
+                                </span>
+                              </div>
+                            </label>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+
+                    <div className="text-sm text-zinc-600">
+                      توجه: ارسال سفارش در روزهای تعطیل، در اولین روز اداری بعد
+                      از تعطیلی انجام خواهد شد.
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3>
+                      آدرس پستی{' '}
+                      <span className="text-base text-red-500">*</span>
+                    </h3>
+
+                    <textarea
+                      className="w-full resize-none rounded-lg border-transparent p-3 focus:outline-blue-600 disabled:bg-zinc-200 sm:text-lg"
+                      name="address"
+                      cols="30"
+                      rows="4"
+                      value={shipmentForm.address}
+                      required
+                      placeholder="استان، شهر..."
+                      disabled={isShipmentData}
+                      onChange={changeShippingFormHandler}
+                    />
+                  </div>
+
+                  <div>
+                    <h3>
+                      کد پستی <span className="text-base text-red-500">*</span>
+                    </h3>
+
+                    <input
+                      className="w-full rounded-lg p-3 focus:outline-blue-600 disabled:bg-zinc-200"
+                      type="number"
+                      name="zipCode"
+                      value={shipmentForm.zipCode}
+                      required
+                      disabled={isShipmentData}
+                      onChange={changeShippingFormHandler}
+                    />
+                  </div>
+
+                  <div>
+                    <h3>توضیحات</h3>
+
+                    <textarea
+                      className="w-full resize-none rounded-lg border-transparent p-3 focus:outline-blue-600 sm:text-lg"
+                      name="description"
+                      cols="30"
+                      rows="4"
+                      value={shipmentForm.description}
+                      disabled={isShipmentData}
+                      placeholder="توضیحات مورد نظر خود را می‌توانید در اینجا وارد نمایید"
+                      onChange={changeShippingFormHandler}
+                    />
+                  </div>
+
+                  <div
+                    className={clsx(
+                      'sm:text-left',
+                      isShipmentData && 'font-bold',
+                      isRegisteredSuccessfully && 'font-bold text-lime-500',
+                    )}
+                  >
+                    {isShipmentData ? (
+                      <div className="flex cursor-pointer justify-between">
+                        {isRegisteredSuccessfully ? (
+                          <span>✓ فرم با موفقیت ثبت شد.</span>
+                        ) : (
+                          <span>آخرین اطلاعات ثبت شده.</span>
+                        )}
+
+                        <span onClick={clickEditButtonHandler}>
+                          ویرایش
+                          <SquarePen className="mr-1 inline-block w-4" />
+                        </span>
+                      </div>
+                    ) : (
+                      <Button type="submit" label="ثبت" className="sm:w-2/12" />
+                    )}
+                  </div>
+                </form>
+              </>
+            ) : (
+              <Empty />
+            )}
+          </div>
+
+          <div
+            className={clsx(
+              'rounded-lg bg-slate-100 p-2 shadow-md shadow-slate-300 sm:sticky sm:left-0 sm:top-4 sm:basis-3/12 ',
+              !isLoading && '[&>:last-child]:mt-10',
+            )}
+          >
+            {isLoading ? (
+              <div className="grid h-72 place-items-center">
+                <Loader className="animate-spin" />
+              </div>
+            ) : (
+              <>
+                <div className="divide-y-2 divide-slate-300 rounded-lg border-2 border-slate-300 *:p-2">
+                  <div className="flex justify-between">
+                    <span>مبلغ کل: </span>
+
+                    <span>
                       {isLastOrderData ? (
                         <Tag>
-                          {shipping[shippingTypeIdx].price !== null
-                            ? formatNumberToPersian(
-                                shipping[shippingTypeIdx].price,
-                              )
-                            : '-'}
+                          {formatNumberToPersian(ordersTotalAmount)} تومان
                         </Tag>
                       ) : (
                         <span>—</span>
                       )}
-                    </div>
-                    <div className="flex justify-between">
-                      <span>مبلغ نهایی: </span>
-
-                      {isLastOrderData ? (
-                        <Tag>
-                          {formatNumberToPersian(totalAmountPayment)} تومان
-                        </Tag>
-                      ) : (
-                        <span>—</span>
-                      )}
-                    </div>
+                    </span>
                   </div>
-
-                  <div className="space-y-2">
-                    <Button
-                      label="پرداخت موفق"
-                      disabled={!isShipmentData}
-                      onClick={clickSuccessfulPaymentHandler}
-                    />
-                    <Button
-                      className="bg-red-500"
-                      label="پرداخت ناموفق"
-                      disabled={!isShipmentData}
-                      onClick={clickFailPaymentHandler}
-                    />
+                  <div className="flex justify-between">
+                    <span>مالیات: </span>
+                    {isLastOrderData ? <Tag>٪{TAX_RATE}</Tag> : <span>—</span>}
                   </div>
-                </>
-              )}
-            </div>
-          </div>
-        ) : paymentState === 'success' ? (
-          <div className="space-y-4">
-            <SuccessPayment session={session} orderData={lastOrderData} />
+                  <div className="flex justify-between">
+                    <span>کرایه: </span>
 
-            <Button
-              className="bg-blue-400"
-              label="برگشت به حالت پرداخت"
-              onClick={clickResetPaymentStateHandler}
-            />
-          </div>
-        ) : paymentState === 'failure' ? (
-          <div className="space-y-4">
-            <FailurePayment session={session} orderData={lastOrderData} />
+                    {isLastOrderData ? (
+                      <Tag>
+                        {shipping[shippingTypeIdx].price !== null
+                          ? formatNumberToPersian(
+                              shipping[shippingTypeIdx].price,
+                            )
+                          : '-'}
+                      </Tag>
+                    ) : (
+                      <span>—</span>
+                    )}
+                  </div>
+                  <div className="flex justify-between">
+                    <span>مبلغ نهایی: </span>
 
-            <Button
-              className="bg-blue-400"
-              label="برگشت به حالت پرداخت"
-              onClick={clickResetPaymentStateHandler}
-            />
+                    {isLastOrderData ? (
+                      <Tag>
+                        {formatNumberToPersian(totalAmountPayment)} تومان
+                      </Tag>
+                    ) : (
+                      <span>—</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Button
+                    label="پرداخت موفق"
+                    disabled={!isShipmentData}
+                    onClick={clickSuccessfulPaymentHandler}
+                  />
+                  <Button
+                    className="bg-red-500"
+                    label="پرداخت ناموفق"
+                    disabled={!isShipmentData}
+                    onClick={clickFailPaymentHandler}
+                  />
+                </div>
+              </>
+            )}
           </div>
-        ) : (
-          <div>وضعیت تعریف نشده</div>
-        )}
-      </div>
-    </section>
+        </div>
+      ) : paymentState === 'success' ? (
+        <div className="space-y-4">
+          <SuccessPayment session={session} orderData={lastOrderData} />
+
+          <Button
+            className="bg-blue-400"
+            label="برگشت به حالت پرداخت"
+            onClick={clickResetPaymentStateHandler}
+          />
+        </div>
+      ) : paymentState === 'failure' ? (
+        <div className="space-y-4">
+          <FailurePayment session={session} orderData={lastOrderData} />
+
+          <Button
+            className="bg-blue-400"
+            label="برگشت به حالت پرداخت"
+            onClick={clickResetPaymentStateHandler}
+          />
+        </div>
+      ) : (
+        <div>وضعیت تعریف نشده</div>
+      )}
+    </div>
   )
 }
 
@@ -531,7 +518,7 @@ function SuccessPayment({ session, orderData }) {
   if (!orderData) {
     return (
       <div className="h-[80svh] space-y-40 rounded-lg bg-gray-200 p-4 sm:h-[50svh]">
-        <h2 className="text-lg">مثلاً در حال پرداخت 😁</h2>
+        <div className="text-lg">مثلاً در حال پرداخت 😁</div>
 
         <div className="animate-pulse text-center text-9xl">💰</div>
       </div>
@@ -562,7 +549,7 @@ function SuccessPayment({ session, orderData }) {
 
   return (
     <div className="rounded-lg border-4 border-dashed border-lime-500 p-4 text-center">
-      <h2 className="mb-6 rounded-lg border-2 border-lime-500 bg-lime-300 p-4 text-lg font-bold text-lime-800">
+      <div className="mb-6 rounded-lg border-2 border-lime-500 bg-lime-300 p-4 text-lg font-bold text-lime-800">
         {user.name} عزیز
         <br />
         خرید شما با موفقیت ثبت گردید.
@@ -571,7 +558,7 @@ function SuccessPayment({ session, orderData }) {
           کد پیگیری:{' '}
           <span className="font-sans uppercase underline">{trackingCode}</span>
         </span>
-      </h2>
+      </div>
 
       <div className="rounded-lg border-2 border-slate-500 bg-slate-200 p-4">
         <p>
@@ -610,7 +597,7 @@ function FailurePayment({ session, orderData }) {
   if (!orderData) {
     return (
       <div className="h-[80svh] space-y-40 rounded-lg bg-gray-200 p-4 sm:h-[50svh]">
-        <h2 className="text-lg">مثلاً خطا در پرداخت 😐</h2>
+        <div className="text-lg">مثلاً خطا در پرداخت 😐</div>
 
         <div className="animate-pulse text-center text-9xl">❌</div>
       </div>
@@ -623,11 +610,11 @@ function FailurePayment({ session, orderData }) {
 
   return (
     <div className="rounded-lg border-4 border-dashed border-red-500 p-4 text-center">
-      <h2 className="mb-6 rounded-lg border-2 border-red-500 bg-red-300 p-4 text-lg font-bold text-red-800">
+      <div className="mb-6 rounded-lg border-2 border-red-500 bg-red-300 p-4 text-lg font-bold text-red-800">
         {user.name} عزیز
         <br />
         خطایی در پرداخت شما رخ داده است.
-      </h2>
+      </div>
 
       <div className="rounded-lg border-2 border-slate-500 bg-slate-200 p-4">
         <p>{`در پرداخت سفارش به مبلغ ${formatNumberToPersian(totalAmountPayment)} تومان خطایی ایجاد شده است. در صورت کسر از حساب، طی 72 ساعت آینده مبلغ کسر شده به حساب شما برگشت داده خواهد شد.`}</p>

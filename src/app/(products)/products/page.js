@@ -40,7 +40,7 @@ export default async function ProductsPage() {
   }))
 
   return (
-    <main className="min-h-svh bg-zinc-900 text-zinc-100">
+    <main className="ignore bg-zinc-900 text-zinc-100">
       <ProductsTabelContent brandsAnchors={brandsAnchors} />
 
       <section className="space-y-48 py-4 ps-4 pt-16 md:relative md:pt-20">
@@ -78,7 +78,7 @@ export default async function ProductsPage() {
                         idx === products.length - 1 && 'border-none',
                       )}
                     >
-                      <h2 className="text-1xl lg:text-4xl">{name}</h2>
+                      <h2>{name}</h2>
 
                       <div className="flex items-end justify-between space-x-2 space-x-reverse p-0.5 md:grow md:text-lg">
                         <p className="hidden basis-3/5 text-zinc-400 lg:inline-block">

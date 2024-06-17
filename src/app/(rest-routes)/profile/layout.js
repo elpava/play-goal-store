@@ -18,7 +18,7 @@ export default async function ProfileLayout({ children }) {
   }
 
   return (
-    <main className="grid min-h-svh grid-cols-1 px-4 pb-20 pt-20 sm:grid-cols-[auto_1fr] sm:items-start sm:divide-x-2 sm:divide-x-reverse sm:pt-28 sm:text-lg lg:px-40">
+    <main className="grid grid-cols-1 sm:grid-cols-[auto_1fr] sm:items-start sm:divide-x-2 sm:divide-x-reverse sm:text-lg">
       <SidebarMenu className="hidden sm:block" />
       <section className="grid h-full grid-cols-1 sm:pr-8">{children}</section>
       <FloatMenu className="sm:hidden" />

@@ -51,9 +51,9 @@ export default function ProductColorSelection({ colorsData, ...props }) {
       </ul>
 
       <div className="sm:absolute sm:left-0 sm:right-0 sm:top-full sm:w-112">
-        <h4 className="border-b border-b-transparent text-sm transition-[border] sm:text-base">
+        <div className="border-b border-b-transparent text-sm transition-[border] sm:text-base">
           {colorsData[selectedIndex].title}
-        </h4>
+        </div>
       </div>
     </div>
   )

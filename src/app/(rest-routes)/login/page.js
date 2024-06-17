@@ -10,7 +10,7 @@ export default async function LoginPage({ searchParams }) {
   }
 
   return (
-    <main className="grid min-h-svh justify-items-center pb-10 pt-20 sm:py-20">
+    <main className="grid justify-items-center">
       <Login searchParams={searchParams} />
     </main>
   )
