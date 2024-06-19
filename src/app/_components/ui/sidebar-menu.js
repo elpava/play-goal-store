@@ -3,8 +3,8 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { signOut } from 'next-auth/react'
 import clsx from 'clsx'
+import useLogout from 'hook/useLogout'
 import { LogOut } from 'lucide-react'
 
 const sidebarMenu = [
@@ -15,9 +15,10 @@ const sidebarMenu = [
 
 export default function SidebarMenu({ className }) {
   const pathname = usePathname()
+  const { logout } = useLogout()
 
   function signOutButtonHandler() {
-    signOut()
+    logout()
   }
 
   return (
