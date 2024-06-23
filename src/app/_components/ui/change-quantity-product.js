@@ -155,7 +155,10 @@ export default function ChangeQuantityProduct({
     <div className={clsx('relative flex gap-1.5', className)} {...props}>
       <button
         onClick={clickIncreaseButton}
-        className={clsx(isMaximumQty && 'text-zinc-500')}
+        className={clsx(
+          'transition-colors md:text-zinc-500 md:hover:text-black',
+          isMaximumQty && '!text-zinc-300',
+        )}
         disabled={isMaximumQty}
       >
         <Plus className="w-3 md:w-5" />
@@ -167,7 +170,10 @@ export default function ChangeQuantityProduct({
 
       <button
         onClick={clickDecreaseButton}
-        className={clsx(isMinimumQty && 'text-zinc-500')}
+        className={clsx(
+          'transition-colors md:text-zinc-500 md:hover:text-black',
+          isMinimumQty && '!text-zinc-300',
+        )}
         disabled={isMinimumQty}
       >
         <Minus className="w-3 md:w-5" />
