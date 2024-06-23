@@ -3,11 +3,9 @@ import Link from 'next/link'
 import clsx from 'clsx/lite'
 import { getProducts } from 'database/products/get-produtcs'
 import ProductsTabelContent from '@/_components/ui/products-table-content'
+import Price from '@/_components/ui/price'
 import ShoppingButton from '@/_components/ui/shopping-button'
-import {
-  convertToShortDescription,
-  formatNumberToPersian,
-} from 'library/helper-functions'
+import { convertToShortDescription } from 'library/helper-functions'
 import { ArrowUpRight } from 'lucide-react'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
@@ -40,10 +38,10 @@ export default async function ProductsPage() {
   }))
 
   return (
-    <main className="ignore bg-zinc-900 text-zinc-100">
+    <section className="ignore bg-zinc-900 text-zinc-100">
       <ProductsTabelContent brandsAnchors={brandsAnchors} />
 
-      <section className="space-y-48 py-4 ps-4 pt-16 md:relative md:pt-20">
+      <div className="space-y-48 py-4 ps-4 pt-16 md:relative md:pt-20">
         {groupedProducts.map(({ brandName, products }, idx) => (
           <div
             key={brandName}
@@ -85,14 +83,7 @@ export default async function ProductsPage() {
                           {convertToShortDescription(description, 190)}
                         </p>
 
-                        <div className="relative rounded-md bg-lime-300 p-1.5 md:basis-auto">
-                          <div className="text-sm font-bold text-zinc-800 md:text-lg">
-                            {formatNumberToPersian(price * 56_000)}
-                          </div>{' '}
-                          <div className="absolute -top-3 left-0 rounded-md bg-zinc-900 px-0.5 pb-0.5 text-xs">
-                            تومان
-                          </div>
-                        </div>
+                        <Price className="md:basis-auto" price={price} />
 
                         <div className="grid grid-cols-2 items-center text-xs md:basis-auto md:text-base">
                           <Link
@@ -113,7 +104,7 @@ export default async function ProductsPage() {
             </div>
           </div>
         ))}
-      </section>
-    </main>
+      </div>
+    </section>
   )
 }

@@ -1,13 +1,14 @@
+import clsx from 'clsx/lite'
 import {
   getProductsProperties,
   getProduct,
 } from 'database/products/get-produtcs'
+import Price from '@/_components/ui/price'
 import ChangeQuantityProduct from '@/_components/ui/change-quantity-product'
 import ProductSizeSelection from '@/_components/ui/product-size-selection'
 import ProductColorSelection from '@/_components/ui/product-color-selection'
 import AddCartButton from '@/_components/ui/add-cart-button'
 import ImageGallery from '@/_components/ui/image-gallery'
-import { formatNumberToPersian } from 'library/helper-functions'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 const productsProperties = await getProductsProperties({
@@ -45,10 +46,10 @@ export default async function ProductPage({ params: { slug } }) {
   const { colors, sizes, more: features } = attributes
 
   return (
-    <main
+    <section
       className={`ignore bg-zinc-900 text-zinc-100 md:grid md:h-svh md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
     >
-      <section
+      <div
         className="before:vtf-font relative isolate space-y-6 px-4 pb-4 pt-16 before:absolute before:left-2 before:top-40 before:z-[-1] before:text-8xl before:text-zinc-900 before:shadow-lime-400/50 before:content-[attr(data-content)] before:text-shadow-md before:[writing-mode:vertical-rl] sm:max-h-svh sm:before:top-24 md:pt-4"
         data-content={brand}
       >
@@ -58,20 +59,13 @@ export default async function ProductPage({ params: { slug } }) {
           <div className="space-y-8">
             <div className="flex gap-10">
               <div>
-                <div className="text-sm text-zinc-400 sm:text-base">قیمت</div>
+                <Title>قیمت</Title>
 
-                <div className="relative mr-6 mt-2 rounded-md bg-lime-300 p-1.5">
-                  <div className="text-sm font-bold text-zinc-800 md:text-lg">
-                    {formatNumberToPersian(price * 56_000)}
-                  </div>{' '}
-                  <div className="absolute -top-3 left-0 rounded-md bg-zinc-900 px-0.5 pb-0.5 text-xs">
-                    تومان
-                  </div>
-                </div>
+                <Price className="mr-6 mt-2" price={price} />
               </div>
 
               <div>
-                <div className="text-sm text-zinc-400 sm:text-base">تعداد</div>
+                <Title>تعداد</Title>
 
                 <ChangeQuantityProduct
                   maxQuantity={stock}
@@ -86,13 +80,13 @@ export default async function ProductPage({ params: { slug } }) {
 
             <div className="space-y-8 sm:flex sm:items-start sm:gap-4 sm:space-y-0">
               <div className="sm:basis-1/2">
-                <div className="text-sm text-zinc-400 sm:text-base">رنگ‌ها</div>
+                <Title>رنگ‌ها</Title>
 
                 <ProductColorSelection colorsData={colors} />
               </div>
 
               <div className="sm:basis-1/2">
-                <div className="text-sm text-zinc-400 sm:text-base">اندازه</div>
+                <Title>اندازه</Title>
 
                 <ProductSizeSelection sizesData={sizes} />
               </div>
@@ -101,55 +95,76 @@ export default async function ProductPage({ params: { slug } }) {
         </div>
 
         <div className="rounded-md border border-zinc-500">
-          <label
-            htmlFor="features"
-            className="peer/features inline-grid h-12 w-1/2 cursor-pointer place-items-center border-b border-l border-zinc-500 transition-colors has-[:checked]:border-b-2 has-[:checked]:border-b-orange-500 sm:hover:bg-zinc-700"
-          >
-            <input
-              id="features"
-              type="radio"
-              name="tab"
-              className="hidden"
-              defaultChecked
-            />
-            ویژگی‌ها
-          </label>
+          <Tab
+            id="features"
+            label="ویژگی‌ها"
+            className="peer/features has-[:checked]:border-b-2 has-[:checked]:border-b-orange-500"
+            defaultChecked
+          />
+          <Tab
+            id="description"
+            label="توضیحات"
+            className="peer/descriptions has-[:checked]:border-b-2 has-[:checked]:border-b-orange-500"
+          />
 
-          <label
-            htmlFor="description"
-            className="peer/descriptions inline-grid h-12 w-1/2 cursor-pointer place-items-center border-b border-l border-zinc-500 transition-colors has-[:checked]:border-b-2 has-[:checked]:border-b-orange-500 sm:hover:bg-zinc-700"
-          >
-            <input
-              id="description"
-              type="radio"
-              name="tab"
-              value="2"
-              className="hidden"
-            />
-            توضیحات
-          </label>
-
-          <div className="hidden h-56 overflow-y-auto p-4 scrollbar scrollbar-w-2 scrollbar-thumb-zinc-400 scrollbar-track-zinc-700 scrollbar-thumb-rounded-lg scrollbar-track-rounded-lg peer-has-[:checked]/features:block sm:h-60">
+          <Content className="peer-has-[:checked]/features:block">
             <ul className="list-inside list-disc">
               {features.map((feature, idx) => (
                 <li key={idx}>{feature}</li>
               ))}
             </ul>
-          </div>
-
-          <div className="hidden h-56 overflow-y-auto p-4 scrollbar scrollbar-w-2 scrollbar-thumb-zinc-400 scrollbar-track-zinc-700 scrollbar-thumb-rounded-lg scrollbar-track-rounded-lg peer-has-[:checked]/descriptions:block sm:h-60">
+          </Content>
+          <Content className="peer-has-[:checked]/descriptions:block">
             <p>{description}</p>
-          </div>
+          </Content>
         </div>
 
         <div>
           <AddCartButton productId={_id} />
         </div>
-      </section>
+      </div>
 
-      <section>
+      <div>
         <ImageGallery slides={images} />
-      </section>
-    </main>
+      </div>
+    </section>
+  )
+}
+
+function Title({ children }) {
+  return <div className="text-sm text-zinc-400 sm:text-base">{children}</div>
+}
+
+function Tab({ id, label, className, defaultChecked }) {
+  return (
+    <label
+      htmlFor={id}
+      className={clsx(
+        'inline-grid h-12 w-1/2 cursor-pointer place-items-center border-b border-l border-zinc-500 transition-colors sm:hover:bg-zinc-700',
+        className,
+      )}
+    >
+      <input
+        id={id}
+        type="radio"
+        name="tab"
+        className="hidden"
+        defaultChecked={defaultChecked}
+      />
+      {label}
+    </label>
+  )
+}
+
+function Content({ children, className }) {
+  return (
+    <div
+      className={clsx(
+        'hidden h-56 overflow-y-auto p-4 scrollbar scrollbar-w-2 scrollbar-thumb-zinc-400 scrollbar-track-zinc-700 scrollbar-thumb-rounded-lg scrollbar-track-rounded-lg sm:h-60',
+        className,
+      )}
+    >
+      {children}
+    </div>
   )
 }
