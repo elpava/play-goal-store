@@ -3,6 +3,7 @@
 import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import useOrders from 'hook/useOrders'
 import ChangeQuantityProduct from './change-quantity-product'
@@ -13,6 +14,7 @@ import { formatNumberToPersian } from 'library/helper-functions'
 import { DOLLAR_RATE } from 'library/fix-values'
 
 export default function OrdersPreview() {
+  const { push } = useRouter()
   const queryClient = useQueryClient()
   const { ordersData, isLoading, isSuccess } = useOrders()
   const products = queryClient.getQueryData(['products'])
@@ -62,6 +64,10 @@ export default function OrdersPreview() {
   const ordersTotalAmount = cartData.reduce((acc, { totalAmount }) => {
     return acc + totalAmount
   }, 0)
+
+  function clickRedirectHandler() {
+    push('/payment')
+  }
 
   return (
     <section className="flex flex-col gap-4 sm:flex-row sm:items-start">
@@ -206,7 +212,7 @@ export default function OrdersPreview() {
 
         <Button
           label="تکمیل سفارش"
-          href="/payment"
+          onClick={clickRedirectHandler}
           disabled={!isLastOrderData}
         />
       </div>

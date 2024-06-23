@@ -11,6 +11,7 @@ import useUserId from 'hook/useUserId'
 import useOrders from 'hook/useOrders'
 import addOrderAction from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
+import Button from './button'
 
 export default function AddCartButton({
   label,
@@ -105,17 +106,11 @@ export default function AddCartButton({
   }
 
   return (
-    <button
-      className={clsx(
-        'w-full rounded-lg bg-lime-500 p-2 font-semibold text-lime-950 md:text-lg',
-        className,
-        !userId && 'bg-zinc-300 text-zinc-400',
-      )}
-      onClick={clickAddToOrdersHandler}
+    <Button
+      label={label || 'افزدون به سبد خرید'}
       disabled={!isSuccess}
+      onClick={clickAddToOrdersHandler}
       {...props}
-    >
-      {label || 'افزدون به سبد خرید'}
-    </button>
+    />
   )
 }

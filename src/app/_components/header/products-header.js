@@ -93,6 +93,7 @@ export default function ProductsHeader({ isAuthurized }) {
 }
 
 function CartMenu({ orderId, ordersData }) {
+  const { push } = useRouter()
   const queryClient = useQueryClient()
   const products = queryClient.getQueryData(['products'])
   let cartMenuData = []
@@ -124,6 +125,10 @@ function CartMenu({ orderId, ordersData }) {
   }
 
   const last_item = cartMenuData?.length - 1
+
+  function clickRedirectHandler() {
+    push('/cart')
+  }
 
   return (
     <div className="absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
@@ -190,7 +195,7 @@ function CartMenu({ orderId, ordersData }) {
         </div>
 
         <div className="mt-4 text-center md:mt-0">
-          <Button label="مشاهده سبد خرید" href="/cart" />
+          <Button label="مشاهده سبد خرید" onClick={clickRedirectHandler} />
         </div>
       </div>
     </div>
