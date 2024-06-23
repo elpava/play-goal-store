@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-function useUserId() {
+export default function useUserId() {
   const [userId, setUserId] = React.useState(null)
 
   React.useEffect(() => {
@@ -12,5 +12,3 @@ function useUserId() {
 
   return { userId }
 }
-
-export default useUserId

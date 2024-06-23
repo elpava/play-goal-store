@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-function useClickOutsideElement(setClickStateFunction) {
+export default function useClickOutsideElement(setClickStateFunction) {
   const ref = React.useRef(null)
 
   React.useEffect(() => {
@@ -20,7 +20,5 @@ function useClickOutsideElement(setClickStateFunction) {
     }
   })
 
-  return {ref}
+  return { ref }
 }
-
-export default useClickOutsideElement
