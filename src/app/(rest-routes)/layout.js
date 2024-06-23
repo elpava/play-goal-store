@@ -7,7 +7,7 @@ export default function RestRoutesLayout({ children }) {
   return (
     <>
       <MainHeader />
-      {children}
+      <main>{children}</main>
       <Footer />
     </>
   )

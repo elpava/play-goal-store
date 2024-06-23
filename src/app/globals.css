@@ -28,7 +28,7 @@ html {
   main {
     @apply min-h-svh;
   }
-  main:not(.ignore) {
+  main:has(> section:not(.ignore)) {
     @apply mx-auto w-11/12 max-w-7xl py-20 sm:pt-28;
   }
   h2 {

@@ -1,6 +1,7 @@
 import { auth } from '@/auth'
 import getUserAction from 'action/users/get-user'
 import getOrdersAction from 'action/orders/get-orders'
+import { getDate } from 'util/date'
 
 const aliasName = {
   firstName: 'نام',
@@ -28,11 +29,11 @@ export default async function ProfilePage() {
         title: [aliasName[key]],
         content:
           key === 'registerDate'
-            ? new Intl.DateTimeFormat('fa-IR', {
+            ? getDate(value, {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit',
-              }).format(value)
+              })
             : value,
       })
     }
@@ -45,7 +46,7 @@ export default async function ProfilePage() {
   })
 
   return (
-    <div className="space-y-20">
+    <section className="space-y-20">
       <div>
         <h2>مشخصات کاربر</h2>
 
@@ -69,7 +70,7 @@ export default async function ProfilePage() {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

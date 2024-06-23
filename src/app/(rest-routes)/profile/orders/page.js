@@ -4,6 +4,7 @@ import getOrdersAction from 'action/orders/get-orders'
 import getProductsAction from 'action/products/get-products'
 import Empty from '@/_components/ui/empty'
 import { formatNumberToPersian } from 'library/helper-functions'
+import { getDate } from 'util/date'
 import { ArrowUpRight } from 'lucide-react'
 
 export default async function OrdersPage() {
@@ -29,7 +30,7 @@ export default async function OrdersPage() {
   isOrders = filteredOrders.length > 0
 
   return (
-    <div className="flex h-full flex-col">
+    <section className="flex h-full flex-col">
       <h2>کل سفارشات</h2>
 
       {isOrders ? (
@@ -63,11 +64,11 @@ export default async function OrdersPage() {
                 }) => (
                   <tr key={_id} className="*:px-4 *:py-2">
                     <td>
-                      {new Intl.DateTimeFormat('fa-IR', {
+                      {getDate(orderDate, {
                         year: 'numeric',
                         month: 'long',
                         day: '2-digit',
-                      }).format(orderDate)}
+                      })}
                     </td>
                     <td className="">
                       {orders.map(({ id, slug, productName, size }, idx) => (
@@ -98,11 +99,11 @@ export default async function OrdersPage() {
                         <div className="space-y-2">
                           <div>پرداخت شده</div>
                           <div>
-                            {new Intl.DateTimeFormat('fa-IR', {
+                            {getDate(paymentDate, {
                               year: 'numeric',
                               month: 'long',
                               day: '2-digit',
-                            }).format(paymentDate)}
+                            })}
                           </div>
                         </div>
                       ) : (
@@ -137,6 +138,6 @@ export default async function OrdersPage() {
       ) : (
         <Empty type="orders" />
       )}
-    </div>
+    </section>
   )
 }

@@ -34,12 +34,9 @@ const ADDRESS =
 
 export default function ContactUsPage() {
   return (
-    <main className="grid grid-cols-1 gap-4 sm:text-lg">
+    <section className="grid grid-cols-1 gap-4 sm:text-lg">
       <div className="flex flex-col gap-4 sm:flex-row">
-        <div className="basis-1/2 rounded-md rounded-se-none rounded-ss-none bg-zinc-50 shadow-md shadow-zinc-400">
-          <div className="bg-zinc-950 p-4 text-lg text-zinc-50">
-            کانال‌های ارتباطی
-          </div>
+        <Card className="basis-1/2" label="کانال‌های ارتباطی">
           <div className="divide-y divide-zinc-300 p-6">
             {contact.map(({ id, title, by }, idx) => (
               <div
@@ -76,28 +73,38 @@ export default function ContactUsPage() {
               </div>
             ))}
           </div>
-        </div>
-        <div className="basis-1/2 rounded-md rounded-se-none rounded-ss-none bg-zinc-50 shadow-md shadow-zinc-400">
-          <div className="bg-zinc-950 p-4 text-lg text-zinc-50">آدرس</div>
+        </Card>
+        <Card className="basis-1/2" label="آدرس">
           <div className="p-6">{ADDRESS}</div>
           <div className="h-60">
             <EmbedMap />
           </div>
-        </div>
+        </Card>
       </div>
 
-      <div className="rounded-md rounded-se-none rounded-ss-none bg-zinc-50 shadow-md shadow-zinc-400">
-        <div className="bg-zinc-950 p-4 text-lg text-zinc-50">پیام شما</div>
-        <div className="p-6">
-          <Form className="bg-white">
-            <Input name="fullName" placeholder="نام" />
-            <Input name="email" placeholder="ایمیل" />
-            <Input name="message" type="textarea" placeholder="پیام" />
+      <Card label="پیام شما">
+        <Form className="bg-white p-6">
+          <Input name="fullName" placeholder="نام" />
+          <Input name="email" placeholder="ایمیل" />
+          <Input name="message" type="textarea" placeholder="پیام" />
 
-            <Button label="ارسال پیام" />
-          </Form>
-        </div>
-      </div>
-    </main>
+          <Button label="ارسال پیام" />
+        </Form>
+      </Card>
+    </section>
+  )
+}
+
+function Card({ children, className, label }) {
+  return (
+    <div
+      className={clsx(
+        'rounded-md rounded-se-none rounded-ss-none bg-zinc-50 shadow-md shadow-zinc-400',
+        className,
+      )}
+    >
+      <div className="bg-zinc-950 p-4 text-lg text-zinc-50">{label}</div>
+      <div>{children}</div>
+    </div>
   )
 }

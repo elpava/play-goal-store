@@ -10,8 +10,8 @@ export default async function LoginPage({ searchParams }) {
   }
 
   return (
-    <main className="grid justify-items-center">
+    <section className="grid h-full justify-items-center">
       <Login searchParams={searchParams} />
-    </main>
+    </section>
   )
 }

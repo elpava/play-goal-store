@@ -25,7 +25,7 @@ export default async function SearchPage({ searchParams }) {
   isEmptyQuery = query === '' || !data
 
   return (
-    <main className="grid">
+    <section className="grid">
       <UpdateURLAtClient queries={queries.toString()} />
       {isEmptyQuery ? (
         <Empty type="search" />
@@ -75,6 +75,6 @@ export default async function SearchPage({ searchParams }) {
           )}
         </div>
       )}
-    </main>
+    </section>
   )
 }

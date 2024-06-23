@@ -17,6 +17,7 @@ import {
   formatNumberToPersian,
   isEmptyObject,
 } from 'library/helper-functions'
+import { getNextDate, getDate } from 'util/date'
 import { Loader, SquarePen } from 'lucide-react'
 import icons from 'library/icons-name'
 import { ONE_HOUR, ONE_DAY, DOLLAR_RATE, TAX_RATE } from 'library/fix-values'
@@ -281,36 +282,17 @@ export default function PaymentPreview() {
                                 <span className="text-sm text-zinc-500">
                                   {deliveryDay
                                     ? `دریافت ${
-                                        new Intl.DateTimeFormat('fa-IR', {
+                                        getNextDate(deliveryDay, {
                                           weekday: 'long',
-                                        }).format(
-                                          new Date().getTime() + deliveryDay,
-                                        ) === 'جمعه'
+                                        }) === 'جمعه'
                                           ? (deliveryDay + ONE_DAY) / ONE_DAY
                                           : deliveryDay / ONE_DAY
                                       } روز بعد در تاریخ ${
-                                        new Intl.DateTimeFormat('fa-IR', {
+                                        getNextDate(deliveryDay, {
                                           weekday: 'long',
-                                        }).format(
-                                          new Date().getTime() + deliveryDay,
-                                        ) === 'جمعه'
-                                          ? new Intl.DateTimeFormat('fa-IR', {
-                                              month: 'long',
-                                              day: 'numeric',
-                                              weekday: 'long',
-                                            }).format(
-                                              new Date().getTime() +
-                                                deliveryDay +
-                                                ONE_DAY,
-                                            )
-                                          : new Intl.DateTimeFormat('fa-IR', {
-                                              month: 'long',
-                                              day: 'numeric',
-                                              weekday: 'long',
-                                            }).format(
-                                              new Date().getTime() +
-                                                deliveryDay,
-                                            )
+                                        }) === 'جمعه'
+                                          ? getNextDate(deliveryDay + ONE_DAY)
+                                          : getNextDate(deliveryDay)
                                       }`
                                     : 'بین ساعت 9:00 تا 16:00'}
                                 </span>
@@ -536,16 +518,12 @@ function SuccessPayment({ session, orderData }) {
   const { shipmentType, address, description } = shipment
   const { name, sender } = shipmentType
 
-  const formattedPaymentDate = new Intl.DateTimeFormat('fa-IR', {
+  const formattedPaymentDate = getDate(new Date(paymentDate), {
     dateStyle: 'medium',
     timeStyle: 'short',
-  }).format(new Date(paymentDate))
+  })
 
-  const formattedDeliveryDate = new Intl.DateTimeFormat('fa-IR', {
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long',
-  }).format(new Date(deliveryDate))
+  const formattedDeliveryDate = getDate(new Date(deliveryDate))
 
   return (
     <div className="rounded-lg border-4 border-dashed border-lime-500 p-4 text-center">

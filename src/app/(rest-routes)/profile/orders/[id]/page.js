@@ -5,8 +5,9 @@ import getOrderAction from 'action/orders/get-order'
 import getProductsAction from 'action/products/get-products'
 import getUserAction from 'action/users/get-user'
 import { formatNumberToPersian } from 'library/helper-functions'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { DOLLAR_RATE } from 'library/fix-values'
+import { getDate } from 'util/date'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 
 const aliasName = {
   firstName: { value: 'نام', group: 'info', order: 1 },
@@ -153,9 +154,7 @@ export default async function OrderDetailsPage({ params }) {
       typeof item.value === 'number'
         ? {
             ...item,
-            value: new Intl.DateTimeFormat('fa-IR', {
-              dateStyle: 'medium',
-            }).format(item.value),
+            value: getDate(item.value, { dateStyle: 'medium' }),
           }
         : item,
     )
@@ -164,7 +163,7 @@ export default async function OrderDetailsPage({ params }) {
   )
 
   return (
-    <div>
+    <section>
       <div className="mb-4 sm:flex sm:items-center sm:gap-2">
         <Link href="/profile/orders" className="hidden sm:block">
           <ArrowRight />
@@ -235,7 +234,7 @@ export default async function OrderDetailsPage({ params }) {
           ))}
         </DisplayData>
       </div>
-    </div>
+    </section>
   )
 }
 

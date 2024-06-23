@@ -25,7 +25,7 @@ export default async function ProductsGroupLayout({ children }) {
   return (
     <>
       <ProductsHeader isAuthurized={isAuthurized} />
-      {children}
+      <main>{children}</main>
     </>
   )
 }

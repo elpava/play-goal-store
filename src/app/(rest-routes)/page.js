@@ -28,7 +28,7 @@ const gridImages = [
 
 export default function HomePage() {
   return (
-    <main className="ignore">
+    <section className="ignore">
       <HeroBanner />
       <GridImages />
       <ImageAndText />
@@ -36,13 +36,13 @@ export default function HomePage() {
       <Brands />
 
       <BackToTop />
-    </main>
+    </section>
   )
 }
 
-function GridImages({ className, ...props }) {
+function GridImages() {
   return (
-    <section className={`bg-zinc-950 p-1 ${className}`} {...props}>
+    <section className="bg-zinc-950 p-1">
       <div className="grid auto-rows-[130px] grid-cols-2 gap-1 bg-zinc-700 p-1 md:h-svh md:grid-cols-4 md:grid-rows-3">
         {gridImages.map(({ id, image, alt }) => (
           <Image
@@ -65,12 +65,9 @@ function GridImages({ className, ...props }) {
   )
 }
 
-function ImageAndText({ className, ...props }) {
+function ImageAndText() {
   return (
-    <section
-      className={`grid h-svh grid-rows-2 bg-blue-400 md:grid-cols-2 md:grid-rows-1 ${className}`}
-      {...props}
-    >
+    <section className="grid h-svh grid-rows-2 bg-blue-400 md:grid-cols-2 md:grid-rows-1">
       <div className="relative">
         <Image
           src={SoccerField1}
@@ -80,8 +77,8 @@ function ImageAndText({ className, ...props }) {
         />
       </div>
 
-      <div className="flex flex-col place-content-center gap-5 px-8 text-blue-900 md:gap-16 md:p-14 md:text-center lg:px-12">
-        <h1 className="text-3xl font-bold md:text-4xl lg:text-6xl">
+      <div className="gap-5 self-center px-8 text-blue-900 md:gap-16 md:p-14 md:text-center lg:px-12">
+        <h1 className="mb-14 text-3xl font-bold md:text-4xl lg:text-6xl">
           فوتبال و احساسات
         </h1>
         <div className="text-justify md:text-xl lg:text-3xl">
@@ -97,12 +94,9 @@ function ImageAndText({ className, ...props }) {
   )
 }
 
-function ImageWithText({ className, ...props }) {
+function ImageWithText() {
   return (
-    <section
-      className={`relative h-[36.15vh] bg-amber-800 md:h-72 ${className}`}
-      {...props}
-    >
+    <section className="relative grid h-[36.15vh] place-content-center bg-amber-800 md:h-128">
       <Image
         src={SoccerStadium2}
         alt="استادیوم"
@@ -110,7 +104,7 @@ function ImageWithText({ className, ...props }) {
         fill
       />
 
-      <h1 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center text-2xl text-zinc-200 md:text-5xl">
+      <h1 className="text-2xl text-zinc-200 mix-blend-color-dodge md:text-5xl">
         تجربه سرعت، دقت، هیجان با{' '}
         <span className="rounded-xl bg-zinc-900 p-2 text-amber-300 md:rounded-2xl md:px-4 md:py-2">
           پلی‌گل
@@ -120,17 +114,15 @@ function ImageWithText({ className, ...props }) {
   )
 }
 
-function Brands({ className, ...props }) {
+function Brands() {
   return (
-    <section className={`${className}`} {...props}>
-      <div className={`flex justify-evenly gap-4 *:w-16 md:*:w-36`} {...props}>
+    <section>
+      <div className="flex justify-evenly gap-4 border-b-[16px] border-b-emerald-700 *:w-16 md:*:w-36">
         <Icon name={icons.nike} />
         <Icon name={icons.adidas} />
         <Icon name={icons.wilson} />
         <Icon name={icons.mikasa} />
       </div>
-
-      <div className="h-4 bg-emerald-700"></div>
     </section>
   )
 }

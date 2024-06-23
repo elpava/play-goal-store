@@ -1,9 +1,19 @@
+import { redirect } from 'next/navigation'
+import { auth } from '@/auth'
 import PaymentPreview from '@/_components/ui/payment-preview'
 
-export default function PaymentPage() {
+export default async function PaymentPage() {
+  const authentication = await auth()
+
+  let isAuthurized = authentication?.user.email
+
+  if (!isAuthurized) {
+    redirect('/login')
+  }
+
   return (
-    <main>
+    <section>
       <PaymentPreview />
-    </main>
+    </section>
   )
 }

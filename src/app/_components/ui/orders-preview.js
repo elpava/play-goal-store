@@ -64,7 +64,7 @@ export default function OrdersPreview() {
   }, 0)
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+    <section className="flex flex-col gap-4 sm:flex-row sm:items-start">
       <div className="rounded-lg bg-gray-100 p-6 shadow-md shadow-gray-300 xs:p-8 sm:basis-9/12">
         {isLoadingOrdersPreview ? (
           <div className="h-[80svh]">در حال بارگذاری...</div>
@@ -210,7 +210,7 @@ export default function OrdersPreview() {
           disabled={!isLastOrderData}
         />
       </div>
-    </div>
+    </section>
   )
 }
 
