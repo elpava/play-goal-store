@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { usePathname } from 'next/navigation'
 import clsx from 'clsx/lite'
 import { useDebounce } from 'use-debounce'
 import {
@@ -26,6 +27,7 @@ export default function ChangeQuantityProduct({
   ...props
 }) {
   const queryClient = useQueryClient()
+  const pathname = usePathname()
   const { ordersData, isSuccess } = useOrders()
   let lastOrderData
   const [quantity, setQuantity] = React.useState(initialQuantity || 1)
@@ -47,6 +49,7 @@ export default function ChangeQuantityProduct({
     'products-selection',
   ])
 
+  const isProductsPath = pathname.startsWith('/product')
   const isUndefinedCache = productsSelectionCache === undefined
   if (isUndefinedCache) {
     queryClient.setQueryData(['products-selection'], [])
@@ -153,31 +156,25 @@ export default function ChangeQuantityProduct({
 
   return (
     <div className={clsx('relative flex gap-1.5', className)} {...props}>
-      <button
-        onClick={clickIncreaseButton}
-        className={clsx(
-          'transition-colors md:text-zinc-500 md:hover:text-black',
-          isMaximumQty && '!text-zinc-300',
-        )}
+      <QtyButton
+        isDark={isProductsPath}
         disabled={isMaximumQty}
+        onClick={clickIncreaseButton}
       >
         <Plus className="w-3 md:w-5" />
-      </button>
+      </QtyButton>
 
       <div className="inline-block w-7 select-none rounded-md border border-zinc-900 text-center text-base font-bold shadow-inner shadow-zinc-500 md:text-lg">
         {quantity}
       </div>
 
-      <button
-        onClick={clickDecreaseButton}
-        className={clsx(
-          'transition-colors md:text-zinc-500 md:hover:text-black',
-          isMinimumQty && '!text-zinc-300',
-        )}
+      <QtyButton
+        isDark={isProductsPath}
         disabled={isMinimumQty}
+        onClick={clickDecreaseButton}
       >
         <Minus className="w-3 md:w-5" />
-      </button>
+      </QtyButton>
 
       {isPending && (
         <div className="absolute inset-0 flex justify-center backdrop-blur-[1px]">
@@ -185,5 +182,23 @@ export default function ChangeQuantityProduct({
         </div>
       )}
     </div>
+  )
+}
+
+function QtyButton({ children, isDark, disabled, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={clsx(
+        'transition-colors',
+        isDark && 'md:text-zinc-400 md:hover:text-white',
+        isDark && disabled && '!text-zinc-700',
+        !isDark && 'md:text-zinc-500 md:hover:text-black',
+        !isDark && disabled && '!text-zinc-300',
+      )}
+      disabled={disabled}
+    >
+      {children}
+    </button>
   )
 }

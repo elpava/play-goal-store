@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-import clsx from 'clsx/lite'
 import {
   useMutation,
   useQueryClient,
@@ -11,7 +10,7 @@ import useUserId from 'hook/useUserId'
 import useOrders from 'hook/useOrders'
 import addOrderAction from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
-import Button from './button'
+import Button from '../common/button'
 
 export default function AddCartButton({
   label,
@@ -110,6 +109,7 @@ export default function AddCartButton({
       label={label || 'افزدون به سبد خرید'}
       disabled={!isSuccess}
       onClick={clickAddToOrdersHandler}
+      className={className}
       {...props}
     />
   )

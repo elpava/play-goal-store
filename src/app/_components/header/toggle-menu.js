@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import Menu from './menu'
-import Popup from '@/_components/ui/popup'
+import Popup from '@/_components/ui/products/popup'
 import { Menu as MenuIcon, X } from 'lucide-react'
 
 export default function ToggleMenu({ className, ...props }) {

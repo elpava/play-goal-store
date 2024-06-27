@@ -9,9 +9,9 @@ import updateShipmentOrderAction from 'action/orders/update-shipment-order'
 import successfulPaymentOrderAction from 'action/orders/successful-payment-order'
 import failurePaymentOrderAction from 'action/orders/failure-payment-order'
 import resetPaymentOrderAction from 'action/orders/reset-payment-order'
-import Icon from './icon'
-import Button from './button'
-import Empty from './empty'
+import Icon from '../common/icon'
+import Button from '../common/button'
+import Empty from '../common/empty'
 import {
   backToTop,
   formatNumberToPersian,
@@ -455,7 +455,7 @@ export default function PaymentPreview() {
                     onClick={clickSuccessfulPaymentHandler}
                   />
                   <Button
-                    className="bg-red-500"
+                    className="bg-red-500 md:hover:bg-red-600"
                     label="پرداخت ناموفق"
                     disabled={!isShipmentData}
                     onClick={clickFailPaymentHandler}

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import clsx from 'clsx/lite'
 import searchProducts from 'database/products/search-products'
 import UpdateURLAtClient from '@/_components/ui/update-url-at-client'
-import Empty from '@/_components/ui/empty'
+import Empty from '@/_components/ui/common/empty'
 
 export default async function SearchPage({ searchParams }) {
   const queries = new URLSearchParams(searchParams)

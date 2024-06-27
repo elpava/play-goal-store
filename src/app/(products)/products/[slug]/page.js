@@ -3,12 +3,12 @@ import {
   getProductsProperties,
   getProduct,
 } from 'database/products/get-produtcs'
-import Price from '@/_components/ui/price'
-import ChangeQuantityProduct from '@/_components/ui/change-quantity-product'
-import ProductSizeSelection from '@/_components/ui/product-size-selection'
-import ProductColorSelection from '@/_components/ui/product-color-selection'
-import AddCartButton from '@/_components/ui/add-cart-button'
-import ImageGallery from '@/_components/ui/image-gallery'
+import Price from '@/_components/ui/products/price'
+import ChangeQuantityProduct from '@/_components/ui/products/change-quantity-product'
+import ProductSizeSelection from '@/_components/ui/products/product-size-selection'
+import ProductColorSelection from '@/_components/ui/products/product-color-selection'
+import AddCartButton from '@/_components/ui/products/add-cart-button'
+import ImageGallery from '@/_components/ui/products/image-gallery'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 const productsProperties = await getProductsProperties({

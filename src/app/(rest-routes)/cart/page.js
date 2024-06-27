@@ -1,4 +1,4 @@
-import OrdersPreview from '@/_components/ui/orders-preview'
+import OrdersPreview from '@/_components/ui/products/orders-preview'
 
 export default async function CartPage() {
   return (

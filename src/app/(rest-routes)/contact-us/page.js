@@ -1,9 +1,9 @@
 import clsx from 'clsx/lite'
-import EmbedMap from '@/_components/ui/embed-map'
-import Form from '@/_components/ui/form'
-import Input from '@/_components/ui/input'
-import Button from '@/_components/ui/button'
-import Icon from '@/_components/ui/icon'
+import EmbedMap from '@/_components/ui/contact-us/embed-map'
+import Form from '@/_components/ui/common/form'
+import Input from '@/_components/ui/common/input'
+import Button from '@/_components/ui/common/button'
+import Icon from '@/_components/ui/common/icon'
 import icons from 'library/icons-name'
 
 const { instagram, telegram, youtube, pinterest } = icons

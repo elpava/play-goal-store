@@ -2,13 +2,13 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
-import Input from './input'
-import Button from './button'
-import FormErrorMessage from './form-error-message'
-import FormSuccessMessage from './form-success-message'
+import Input from './common/input'
+import Button from './common/button'
+import FormErrorMessage from './login/form-error-message'
+import FormSuccessMessage from './login/form-success-message'
 import { loginAction } from 'action/auth/login'
 import { signInFormSchema } from 'library/inputs-schema'
-import Form from './form'
+import Form from './common/form'
 
 export default function SignInForm() {
   const { push } = useRouter()

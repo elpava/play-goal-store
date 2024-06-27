@@ -1,6 +1,6 @@
-import clsx from 'clsx/lite'
 import Image from 'next/image'
 import Link from 'next/link'
+import clsx from 'clsx/lite'
 import Logo from '/public/play-goal.png'
 
 const menu = [

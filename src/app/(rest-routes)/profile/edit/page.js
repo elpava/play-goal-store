@@ -1,4 +1,4 @@
-import EditForm from '@/_components/ui/edit-form'
+import EditForm from '@/_components/ui/profile/edit-form'
 
 export default function EditPage() {
   return (

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Icon from '@/_components/ui/icon'
+import Icon from '@/_components/ui/common/icon'
 import { Sticker } from 'lucide-react'
 import icons from 'library/icons-name'
 

@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
-import SidebarMenu from '@/_components/ui/sidebar-menu'
-import FloatMenu from '@/_components/ui/float-menu'
+import SidebarMenu from '@/_components/ui/profile/sidebar-menu'
+import FloatMenu from '@/_components/ui/profile/float-menu'
 
 export const metadata = {
   title: 'پلی گل | حساب کاربری',

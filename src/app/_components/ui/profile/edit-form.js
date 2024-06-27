@@ -9,12 +9,12 @@ import {
   ON_FOCUS_HIDDEN_ERRORS,
   VALUES_WITHOUT_TRIMMING,
 } from 'library/inputs-schema'
-import Form from './form'
-import Row from './row'
-import Input from '@/_components/ui/input'
-import FormErrorMessage from './form-error-message'
-import FormSuccessMessage from './form-success-message'
-import Button from '@/_components/ui/button'
+import Form from '../common/form'
+import Row from '../login/row'
+import Input from '../common/input'
+import FormErrorMessage from '../login/form-error-message'
+import FormSuccessMessage from '../login/form-success-message'
+import Button from '../common/button'
 
 export default function EditForm() {
   const { data } = useSession()
