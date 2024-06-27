@@ -42,7 +42,7 @@ export default function ProductsHeader({ isAuthurized }) {
   }
 
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex -translate-x-1/2 items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-300/40 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
+    <header className="fixed left-1/2 top-0 z-50 flex -translate-x-1/2 items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-700 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
       <div className="relative contents">
         <button
           className="relative md:cursor-pointer"
@@ -76,10 +76,7 @@ export default function ProductsHeader({ isAuthurized }) {
         )}
       </Popup>
 
-      <LoginButton
-        isAuthurized={isAuthurized}
-        iconClassName="w-4 h-4 stroke-1 md:w-5 md:h-5"
-      />
+      <LoginButton isAuthurized={isAuthurized} />
 
       <button onClick={clickBackButtonHandler}>
         <ArrowLeft className="w-5 stroke-1 md:w-6" />
