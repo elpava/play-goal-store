@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import clsx from 'clsx/lite'
 import { useQueryClient } from '@tanstack/react-query'
 import useOrders from 'hook/useOrders'
-import Popup from '@/_components/ui/products/popup'
+import Popup from '@/_components/ui/common/popup'
 import RemoveButton from '@/_components/ui/products/remove-button'
 import Button from '@/_components/ui/common/button'
 import LoginButton from './login-button'
@@ -20,7 +20,7 @@ export default function ProductsHeader({ isAuthurized }) {
   const { ordersData, isSuccess } = useOrders()
   let lastOrderData
   const { back } = useRouter()
-  const [isOpenPopup, setIsOpenPopup] = React.useState(false)
+  const [toggle, setToggle] = React.useState(false)
 
   let isLastOrderData = false
   let ordersCount = 0
@@ -37,16 +37,16 @@ export default function ProductsHeader({ isAuthurized }) {
     back()
   }
 
-  function clickPopupButtonHandler() {
-    setIsOpenPopup(!isOpenPopup)
+  function clickPopupHandler() {
+    setToggle(prev => !prev)
   }
 
   return (
-    <header className="fixed left-1/2 top-0 z-50 flex -translate-x-1/2 items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-700 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
-      <div className="relative contents">
+    <header className="relative z-50 grid h-0.5 justify-center bg-zinc-900 ">
+      <div className="flex items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-700 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
         <button
           className="relative md:cursor-pointer"
-          onClick={clickPopupButtonHandler}
+          onClick={clickPopupHandler}
         >
           <ShoppingBag className="w-5 stroke-1 md:w-6" />
           {isShowCounter && (
@@ -63,8 +63,23 @@ export default function ProductsHeader({ isAuthurized }) {
             </span>
           )}
         </button>
+
+        <LoginButton isAuthurized={isAuthurized} />
+
+        <button onClick={clickBackButtonHandler}>
+          <ArrowLeft className="w-5 stroke-1 md:w-6" />
+        </button>
+
+        <Link href="/" className="relative block h-7 w-5 sm:h-8 sm:w-6">
+          <Image src={Logo} alt="لوگو" fill priority />
+        </Link>
       </div>
-      <Popup open={isOpenPopup} onClose={setIsOpenPopup}>
+
+      <Popup
+        className="flex items-start justify-center pt-14"
+        toggle={toggle}
+        onToggle={clickPopupHandler}
+      >
         {isLastOrderData ? (
           <CartMenu
             orderId={lastOrderData._id}
@@ -75,16 +90,6 @@ export default function ProductsHeader({ isAuthurized }) {
           <EmptyCartMenu />
         )}
       </Popup>
-
-      <LoginButton isAuthurized={isAuthurized} />
-
-      <button onClick={clickBackButtonHandler}>
-        <ArrowLeft className="w-5 stroke-1 md:w-6" />
-      </button>
-
-      <Link href="/" className="relative block h-7 w-5 sm:h-8 sm:w-6">
-        <Image src={Logo} alt="لوگو" fill priority />
-      </Link>
     </header>
   )
 }
@@ -128,7 +133,10 @@ function CartMenu({ orderId, ordersData }) {
   }
 
   return (
-    <div className="absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
+    <div
+      className="flex rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100"
+      onClick={e => e.stopPropagation()}
+    >
       <div className="rounded-lg border-2 border-lime-400 px-2 py-2">
         <div className="max-h-96 w-80 overflow-auto overscroll-none py-0.5 pe-2 scrollbar scrollbar-w-1 scrollbar-track-transparent scrollbar-corner-transparent scrollbar-thumb-lime-700 scrollbar-thumb-rounded-full md:w-96 md:scrollbar-w-2">
           <ul className="divide-y-2 divide-lime-400">

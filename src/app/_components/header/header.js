@@ -9,7 +9,13 @@ export default function Header({ children, className }) {
   const isRootPath = pathname === '/'
 
   return (
-    <header className={clsx(isRootPath && 'text-zinc-50', className)}>
+    <header
+      className={clsx(
+        isRootPath && 'text-zinc-50',
+        !isRootPath && '[--bg-menu-clr:white]',
+        className,
+      )}
+    >
       {children}
     </header>
   )

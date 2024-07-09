@@ -30,54 +30,51 @@ export default function HeroBanner() {
 function Scene() {
   const screenSize = useScreenSize()
   const modelRef = React.useRef()
-  let cameraPosition, groundSize, textProps, modelProps, frameProps, zAxis, size
+  let size,
+    zAxis,
+    cameraPosition = [0, 0.5, 5],
+    groundSize = [10000, 10000],
+    textProps = { position: [-2.75, 0.0, 1.0], size: 1 },
+    modelProps = { position: [0.2, 0.1, 1.65], scale: 1.85 },
+    frameProps = {
+      frameWidth: 7,
+      frameHeight: 1.45,
+      frameThickness: 0.1,
+      frameXOffset: 0.25,
+      frameYOffset: 0.45,
+      frameZOffset: 1.1,
+    }
 
-  switch (screenSize) {
-    case 'mobile':
-      size = -0.55
-      zAxis = 0.6
-      cameraPosition = [0, 0.5, 5]
-      groundSize = [5000, 5000]
-      textProps = { position: [-1.35, 0.15, 0.65 + zAxis], size: 1 + size }
-      modelProps = { position: [0, -0.2, 0.8 + zAxis], scale: 1.85 + size }
-      frameProps = {
-        frameWidth: 3.0,
-        frameHeight: 1.25,
-        frameThickness: 0.1,
-        frameXOffset: 0.0,
-        frameYOffset: 0.165,
-        frameZOffset: 0.8 + zAxis,
-      }
-      break
-    case 'tablet':
-      size = -0.35
-      cameraPosition = [0, 0.5, 6.0]
-      groundSize = [7500, 7500]
-      textProps = { position: [-1.9, 0.15, 1.0], size: 1 + size }
-      modelProps = { position: [0.0, 0.1, 1.65], scale: 1.85 + size }
-      frameProps = {
-        frameWidth: 7 + -2.5,
-        frameHeight: 1.45 + -0.4,
-        frameThickness: 0.1,
-        frameXOffset: 0.0,
-        frameYOffset: 0.45,
-        frameZOffset: 1.1,
-      }
-      break
-    default:
-      cameraPosition = [0, 0.5, 5]
-      groundSize = [10000, 10000]
-      textProps = { position: [-2.75, 0.0, 1.0], size: 1 }
-      modelProps = { position: [0.2, 0.1, 1.65], scale: 1.85 }
-      frameProps = {
-        frameWidth: 7,
-        frameHeight: 1.45,
-        frameThickness: 0.1,
-        frameXOffset: 0.25,
-        frameYOffset: 0.45,
-        frameZOffset: 1.1,
-      }
-      break
+  if (screenSize?.tablet) {
+    size = -0.35
+    cameraPosition = [0, 0.5, 6.0]
+    groundSize = [7500, 7500]
+    textProps = { position: [-1.9, 0.15, 1.0], size: 1 + size }
+    modelProps = { position: [0.0, 0.1, 1.65], scale: 1.85 + size }
+    frameProps = {
+      frameWidth: 7 + -2.5,
+      frameHeight: 1.45 + -0.4,
+      frameThickness: 0.1,
+      frameXOffset: 0.0,
+      frameYOffset: 0.45,
+      frameZOffset: 1.1,
+    }
+  }
+  if (screenSize?.mobile) {
+    size = -0.55
+    zAxis = 0.6
+    cameraPosition = [0, 0.5, 5]
+    groundSize = [5000, 5000]
+    textProps = { position: [-1.35, 0.15, 0.65 + zAxis], size: 1 + size }
+    modelProps = { position: [0, -0.2, 0.8 + zAxis], scale: 1.85 + size }
+    frameProps = {
+      frameWidth: 3.0,
+      frameHeight: 1.25,
+      frameThickness: 0.1,
+      frameXOffset: 0.0,
+      frameYOffset: 0.165,
+      frameZOffset: 0.8 + zAxis,
+    }
   }
 
   return (

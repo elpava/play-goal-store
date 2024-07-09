@@ -49,7 +49,7 @@ export default function Search({ className }) {
     <form
       onSubmit={submitFormHandler}
       className={clsx(
-        'relative max-w-4xl rounded-full border border-dashed border-zinc-500 pt-0.5 has-[:focus]:border-transparent has-[:focus]:outline has-[:focus]:outline-2 has-[:focus]:outline-zinc-600',
+        'relative max-w-4xl rounded-full border border-dashed border-zinc-500 pt-0.5 transition-[outline,border] has-[:focus]:border-transparent has-[:focus]:outline has-[:focus]:outline-2 has-[:focus]:outline-zinc-600',
         className,
       )}
     >

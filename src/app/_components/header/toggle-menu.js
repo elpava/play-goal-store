@@ -1,38 +1,63 @@
 'use client'
 
 import * as React from 'react'
+import { animated, useTransition } from '@react-spring/web'
 import Menu from './menu'
-import Popup from '@/_components/ui/products/popup'
+import Popup from '@/_components/ui/common/popup'
 import { Menu as MenuIcon, X } from 'lucide-react'
 
-export default function ToggleMenu({ className, ...props }) {
-  return (
-    <div className={`${className}`} {...props}>
-      <MenuContainer>
-        <Menu className="absolute inset-x-0 top-full z-50 flex flex-col items-start divide-y-2 bg-zinc-100 text-4xl font-bold text-zinc-700 *:w-full *:px-5 *:py-4" />
-      </MenuContainer>
-    </div>
-  )
-}
+export default function ToggleMenu({ className }) {
+  const [toggle, setToggle] = React.useState(false)
+  const [disable, setDisable] = React.useState(false)
+  const transitions = useTransition(toggle, {
+    from: v => ({
+      opacity: 0,
+      transform: `translateY(${v ? -40 : 40}px) scale(0.85)`,
+    }),
+    enter: {
+      opacity: 1,
+      transform: 'translateY(0px) scale(1)',
+    },
+    leave: v => ({
+      opacity: 0,
+      transform: `translateY(${v ? 40 : -40}px) scale(0.85)`,
+    }),
+    exitBeforeEnter: true,
+    config: { mass: 0.5, friction: 11, tension: 400 },
+    onStart: () => setDisable(true),
+    onRest: () => setDisable(false),
+  })
 
-function MenuContainer({ children }) {
-  const [isOpen, setIsOpen] = React.useState(false)
-
-  function clickHandler() {
-    setIsOpen(!isOpen)
+  function clickPopupHandler() {
+    setToggle(prev => !prev)
   }
 
   return (
-    <div onClick={clickHandler}>
+    <div className={className}>
       <button
-        className="rounded-lg border border-dashed border-zinc-700 p-1"
-        onClick={clickHandler}
+        className="relative z-50 touch-none select-none overflow-hidden rounded-lg border border-dashed border-zinc-700 p-1"
+        disabled={disable}
+        onClick={clickPopupHandler}
       >
-        {isOpen ? <X /> : <MenuIcon />}
+        {transitions((style, toggle) =>
+          toggle ? (
+            <animated.div style={style}>
+              <X />
+            </animated.div>
+          ) : (
+            <animated.div style={style}>
+              <MenuIcon />
+            </animated.div>
+          ),
+        )}
       </button>
 
-      <Popup open={isOpen} onClose={setIsOpen}>
-        {children}
+      <Popup className="pt-14" toggle={toggle} onToggle={clickPopupHandler}>
+        <Menu
+          className="flex flex-col items-start divide-y-2 p-6 text-4xl font-bold *:w-full"
+          itemClassName="p-6 "
+          isVisible={toggle}
+        />
       </Popup>
     </div>
   )

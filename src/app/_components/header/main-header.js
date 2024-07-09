@@ -17,13 +17,13 @@ export default async function MainHeader() {
   }
 
   return (
-    <Header className="absolute left-0 top-0 z-50 w-full">
+    <Header className="absolute inset-x-0 top-0 z-50">
       <nav className="relative flex items-center justify-between gap-6 px-4 py-2 md:justify-normal md:px-8 md:py-5">
         <ToggleMenu className="md:hidden" />
 
-        <Menu className="hidden items-center gap-6 text-base font-normal md:flex md:basis-4/12 lg:basis-3/12" />
+        <Menu className="hidden items-center gap-6 text-base md:flex md:basis-5/12 md:justify-between lg:basis-3/12 lg:justify-normal" />
 
-        <Search className="basis-10/12 md:basis-7/12 lg:basis-8/12" />
+        <Search className="basis-10/12 md:basis-6/12 lg:basis-8/12" />
 
         <LoginButton className="mr-auto" isAuthurized={isAuthurized} />
       </nav>
