@@ -52,7 +52,12 @@ export default function Footer() {
     <footer className="bg-blue-950 pt-6 text-gray-100 md:pt-10">
       <div className="mb-8 flex flex-col justify-evenly gap-0 px-4 text-center md:flex-row md:items-center md:gap-0">
         <div className="md:basis-3/12">
-          <Image src={Logo} alt="logo" className="mx-auto mb-2 w-16 md:w-24" />
+          <Image
+            src={Logo}
+            alt="logo"
+            sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+            className="mx-auto mb-2 w-16 md:w-24"
+          />
 
           <div className="text-2xl">
             پلی‌گل عرضه کننده توپ‌های فوتبال برندهای معتبر دنیا
@@ -120,7 +125,13 @@ export default function Footer() {
                 key={alt}
                 className="relative size-20 rounded-lg border-[10px] border-zinc-200 bg-zinc-200 lg:size-36"
               >
-                <Image src={src} alt={alt} className="object-contain" fill />
+                <Image
+                  src={src}
+                  alt={alt}
+                  fill
+                  sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                  className="object-contain"
+                />
               </div>
             ))}
           </div>

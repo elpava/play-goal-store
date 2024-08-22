@@ -56,6 +56,7 @@ export default async function SearchPage({ searchParams }) {
                         src={`/images/products/${thumbnails[0]}`}
                         alt={name}
                         fill
+                        sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
                         className="object-contain"
                       />
                     </div>

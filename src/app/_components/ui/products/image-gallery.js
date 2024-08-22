@@ -49,9 +49,9 @@ export default function ImageGallery({ slides, options }) {
               <Image
                 src={`/images/products/${filename}`}
                 alt="عکس توپ فوتبال"
-                className="object-contain"
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                className="object-contain"
               />
               {filename}
             </div>
@@ -74,12 +74,12 @@ export default function ImageGallery({ slides, options }) {
               <Image
                 src={`/images/products/${filename}`}
                 alt="عکس توپ فوتبال"
+                fill
+                sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
                 className={clsx(
                   'object-cover',
                   idx === selectedIndex && 'opacity-50',
                 )}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           ))}

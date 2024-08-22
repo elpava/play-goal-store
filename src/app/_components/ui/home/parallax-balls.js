@@ -200,8 +200,9 @@ export default function ParallaxBalls() {
                 <Image
                   src={image}
                   alt={alt}
-                  className="rounded-md object-cover"
                   fill
+                  sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                  className="rounded-md object-cover"
                 />
 
                 {idx !== 0 && (

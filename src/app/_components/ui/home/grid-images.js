@@ -138,9 +138,9 @@ export default function GridImages() {
                 <Image
                   src={gridImages[id].image}
                   alt={gridImages[id].alt}
-                  className="object-cover"
                   fill
-                  sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
+                  sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                  className="object-cover"
                 />
               </div>
             ))}

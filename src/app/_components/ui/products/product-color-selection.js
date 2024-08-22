@@ -37,7 +37,7 @@ export default function ProductColorSelection({ colorsData, ...props }) {
                 src={`/images/products/${filename}`}
                 alt="تصویر بند انگشتی محصول"
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
                 className="object-cover"
               />
               {selectedIndex === idx && (

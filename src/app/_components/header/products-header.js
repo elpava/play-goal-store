@@ -71,7 +71,13 @@ export default function ProductsHeader({ isAuthurized }) {
         </button>
 
         <Link href="/" className="relative block h-7 w-5 sm:h-8 sm:w-6">
-          <Image src={Logo} alt="لوگو" fill priority />
+          <Image
+            src={Logo}
+            alt="لوگو"
+            fill
+            priority
+            sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+          />
         </Link>
       </div>
 
@@ -161,9 +167,9 @@ function CartMenu({ orderId, ordersData }) {
                       <Image
                         src={`/images/products/${thumbnail}`}
                         alt="عکس محصول"
-                        className="object-contain"
                         fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                        className="object-contain"
                       />
                     </div>
 
@@ -199,7 +205,7 @@ function CartMenu({ orderId, ordersData }) {
           </ul>
         </div>
 
-        <div className="mt-4 text-center md:mt-0">
+        <div className="mt-0 text-center md:mt-4">
           <Button label="مشاهده سبد خرید" onClick={clickRedirectHandler} />
         </div>
       </div>
