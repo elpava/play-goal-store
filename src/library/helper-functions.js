@@ -20,3 +20,7 @@ export function isOnlyAlphabet(text) {
 export function backToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+export function clamp(number, min, max) {
+  return Math.min(max, Math.max(number, min))
+}

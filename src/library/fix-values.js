@@ -7,3 +7,12 @@ export const ZOOM = 15
 
 export const ONE_HOUR = 60 * 60 * 1000
 export const ONE_DAY = 24 * ONE_HOUR
+
+export const DEVICES_LIST = [
+  'iPhone',
+  'iPad',
+  'Android',
+  'Mobile',
+  'BlackBerry',
+  'Windows Phone',
+]
