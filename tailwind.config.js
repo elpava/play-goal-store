@@ -9,6 +9,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        'dark-green': {
+          lightest: '#ECDFCC',
+          light: '#697565',
+          DEFAULT: '#3C3D37',
+          dark: '#1E201E',
+        },
+        custom: {
+          orange: { light: '#FCBF49', DEFAULT: '#F77F00' },
+          wheat: '#EAE2B7',
+        },
+      },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
         DEFAULT: '0 2px 4px var(--tw-shadow-color)',
@@ -42,6 +54,17 @@ module.exports = {
           '&::-webkit-scrollbar': {
             display: 'none',
           },
+        },
+        '.flex-center': {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        '.position-center': {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
         },
       }),
         matchUtilities(

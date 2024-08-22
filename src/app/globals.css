@@ -40,6 +40,9 @@ html {
   p {
     @apply mb-4;
   }
+  img {
+    @apply block;
+  }
   button {
     @apply align-middle;
   }
