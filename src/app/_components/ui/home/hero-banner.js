@@ -1,275 +1,196 @@
 'use client'
 
 import * as React from 'react'
-import * as THREE from 'three'
-import clsx from 'clsx/lite'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Text3D, useGLTF } from '@react-three/drei'
+import Image from 'next/image'
+import {
+  animated,
+  useSpring,
+  useSpringRef,
+  easings,
+  to,
+} from '@react-spring/web'
 import useWindowReady from 'hook/useWindowReady'
-import useScreenSize from 'hook/useScreenSize'
+import SoccerField2 from '/public/images/soccer-field-2.jpg'
+import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
-const GROUND_CLR = '#A9A9A9'
-const PRIMARY_LIGHT_CLR = '#FFFFF0'
-const FIRST_CLR = '#FFD700'
-const SECOND_CLR = '#4ADE80'
+const DARK_COLOR = '#3C3D37'
+const LIGHT_COLOR = '#ECDFCC'
 
 export default function HeroBanner() {
-  const { isWindowReady } = useWindowReady()
+  useWindowReady()
 
   return (
-    <section className={clsx('relative h-[80svh] bg-black md:h-svh')}>
-      {isWindowReady ? (
-        <Scene />
-      ) : (
-        <div className="absolute left-1/2 top-1/2 size-7 -translate-x-1/2 -translate-y-1/2 animate-bounce rounded-full bg-zinc-100 text-3xl font-bold"></div>
-      )}
-    </section>
-  )
-}
-
-function Scene() {
-  const screenSize = useScreenSize()
-  const modelRef = React.useRef()
-  let size,
-    zAxis,
-    cameraPosition = [0, 0.5, 5],
-    groundSize = [10000, 10000],
-    textProps = { position: [-2.75, 0.0, 1.0], size: 1 },
-    modelProps = { position: [0.2, 0.1, 1.65], scale: 1.85 },
-    frameProps = {
-      frameWidth: 7,
-      frameHeight: 1.45,
-      frameThickness: 0.1,
-      frameXOffset: 0.25,
-      frameYOffset: 0.45,
-      frameZOffset: 1.1,
-    }
-
-  if (screenSize?.tablet) {
-    size = -0.35
-    cameraPosition = [0, 0.5, 6.0]
-    groundSize = [7500, 7500]
-    textProps = { position: [-1.9, 0.15, 1.0], size: 1 + size }
-    modelProps = { position: [0.0, 0.1, 1.65], scale: 1.85 + size }
-    frameProps = {
-      frameWidth: 7 + -2.5,
-      frameHeight: 1.45 + -0.4,
-      frameThickness: 0.1,
-      frameXOffset: 0.0,
-      frameYOffset: 0.45,
-      frameZOffset: 1.1,
-    }
-  }
-  if (screenSize?.mobile) {
-    size = -0.55
-    zAxis = 0.6
-    cameraPosition = [0, 0.5, 5]
-    groundSize = [5000, 5000]
-    textProps = { position: [-1.35, 0.15, 0.65 + zAxis], size: 1 + size }
-    modelProps = { position: [0, -0.2, 0.8 + zAxis], scale: 1.85 + size }
-    frameProps = {
-      frameWidth: 3.0,
-      frameHeight: 1.25,
-      frameThickness: 0.1,
-      frameXOffset: 0.0,
-      frameYOffset: 0.165,
-      frameZOffset: 0.8 + zAxis,
-    }
-  }
-
-  return (
-    <Canvas camera={{ position: cameraPosition }} shadows>
-      {/* <fog attach="fog" color="black" near={20} far={50} /> */}
-      <spotLight
-        color={PRIMARY_LIGHT_CLR}
-        position={[0, 1.75, 2.2]}
-        intensity={8}
-        angle={Math.PI / 1.45}
-        castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-        distance={5.5}
-        decay={1.5}
-        penumbra={0.8}
-      />
-      <spotLight
-        color={FIRST_CLR}
-        position={[1.55, 0.85, 2.25]}
-        intensity={85}
-        angle={Math.PI / 0.2}
-        distance={4.5}
-        decay={3.5}
-        penumbra={1.0}
-      />
-      <spotLight
-        color={SECOND_CLR}
-        position={[-1.55, 0.85, 2.25]}
-        intensity={85}
-        angle={Math.PI / 0.2}
-        distance={4.5}
-        decay={3.5}
-        penumbra={1.0}
-      />
-      <Ground groundSize={groundSize} />
-      <group>
-        <NeonFrame {...frameProps}>
-          <Text {...textProps} />
-        </NeonFrame>
-        <Soccerball ref={modelRef} {...modelProps} />
-      </group>
-      <OrbitControls enableZoom={false} />
-    </Canvas>
-  )
-}
-
-function Ground({ groundSize }) {
-  const meshRef = React.useRef()
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.position.y = -0.75
-    }
-  })
-  return (
-    <mesh ref={meshRef} receiveShadow rotation-x={-Math.PI / 2}>
-      <planeGeometry args={groundSize} />
-      <meshStandardMaterial color={GROUND_CLR} opacity={0.65} transparent />
-    </mesh>
-  )
-}
-
-function NeonFrame({
-  children,
-  frameWidth,
-  frameHeight,
-  frameThickness,
-  frameXOffset,
-  frameYOffset,
-  frameZOffset,
-}) {
-  const frameRefs = React.useRef([])
-  const elementsCount = 4
-
-  useFrame(({ clock }) => {
-    const time = clock.getElapsedTime()
-    const color = new THREE.Color().lerpColors(
-      new THREE.Color(FIRST_CLR),
-      new THREE.Color(SECOND_CLR),
-      (Math.sin(time) + 1) / 2,
-    )
-    if (frameRefs.current.length > 0) {
-      frameRefs.current[0].color = color
-      frameRefs.current[1].color = color
-      frameRefs.current[2].color = color
-      frameRefs.current[3].color = color
-    }
-  })
-
-  const frameSidesPosition = [
-    [
-      frameXOffset,
-      frameYOffset + frameHeight / 2 + frameThickness / 2,
-      frameZOffset,
-    ],
-    [
-      frameXOffset,
-      frameYOffset - frameHeight / 2 - frameThickness / 2,
-      frameZOffset,
-    ],
-    [
-      frameXOffset - frameWidth / 2 - frameThickness / 2,
-      frameYOffset,
-      frameZOffset,
-    ],
-    [
-      frameXOffset + frameWidth / 2 + frameThickness / 2,
-      frameYOffset,
-      frameZOffset,
-    ],
-  ]
-  const frameSidesArgs = [
-    [frameWidth + frameThickness, frameThickness, frameThickness],
-    [frameWidth + frameThickness, frameThickness, frameThickness],
-    [frameThickness, frameHeight + frameThickness, frameThickness],
-    [frameThickness, frameHeight + frameThickness, frameThickness],
-  ]
-
-  return (
-    <group>
-      {children}
-      {Array.from({ length: elementsCount }, (_, idx) => (
-        <mesh
-          key={idx}
-          position={frameSidesPosition[idx]}
-          receiveShadow
-          castShadow
-        >
-          <boxGeometry args={frameSidesArgs[idx]} />
-          <meshBasicMaterial ref={el => (frameRefs.current[idx] = el)} />
-        </mesh>
-      ))}
-    </group>
-  )
-}
-
-function Text({ size, position }) {
-  const textRef = React.useRef()
-
-  useFrame(({ clock }) => {
-    const time = clock.getElapsedTime()
-    const amplitudeX = 0.025
-    const amplitudeY = 0.0
-    const amplitudeZ = 0.01
-    const speed = 0.85
-    textRef.current.rotation.x = Math.sin(time * speed) * amplitudeX
-    textRef.current.rotation.y = Math.sin(time * speed) * amplitudeY
-    textRef.current.rotation.z = Math.sin(time * speed) * amplitudeZ
-  })
-
-  return (
-    <Text3D
-      ref={textRef}
-      font="/3D/VTF_Redzone Classic.json"
-      size={size}
-      height={0.15}
-      castShadow
-      receiveShadow
-      curveSegments={12}
-      bevelEnabled
-      bevelThickness={0.1}
-      bevelSize={0.05}
-      bevelOffset={0}
-      bevelSegments={5}
-      position={position}
-      rotation={[0, Math.PI / 16, 0]}
+    <div
+      className="pointer-events-none grid min-h-svh grid-cols-1 grid-rows-[repeat(2,80svh)] bg-black sm:h-svh sm:grid-cols-2 sm:grid-rows-none"
+      style={{ direction: 'ltr' }}
     >
-      PLAY GOAL
-      <meshStandardMaterial color="#3D2B1F" />
-    </Text3D>
+      <FieldSpotlight />
+      <Text />
+    </div>
   )
 }
 
-const Soccerball = React.forwardRef(function Soccerball(props, ref) {
-  const model = useGLTF('/3D/soccer-ball.gltf')
-  const modelRef = React.useRef(null)
-  React.useImperativeHandle(ref, () => ({ ...modelRef.current }))
+function FieldSpotlight() {
+  const { x } = useSpring({
+    from: { x: 0 },
+    to: [{ x: 100 }, { x: 0 }],
+    loop: true,
+    config: { duration: 9000, easing: easings.easeInOutQuad },
+  })
 
-  useFrame(() => {
-    if (modelRef.current) {
-      modelRef.current.rotation.y += 0.005
-      modelRef.current.traverse(node => {
-        if (node.isMesh) {
-          node.castShadow = true
-        }
-      })
-    }
+  const spotlightRotationValue = x.to({
+    range: [0, 100],
+    output: [285, 225],
+    extrapolate: 'clamp',
+  })
+  const spotlightDistanceValue = x.to({
+    range: [25, 100],
+    output: [65, 90],
+    extrapolate: 'clamp',
   })
 
   return (
-    <primitive
-      ref={modelRef}
-      object={model.scene}
-      scale={props.scale}
-      position={props.position}
-    />
+    <div className="relative isolate row-start-2 sm:row-start-auto">
+      <animated.div
+        data-shade
+        className="absolute inset-0 bg-gradient-to-r from-black to-black"
+        style={{
+          mask: to(
+            [spotlightRotationValue, spotlightDistanceValue],
+            (r, d) => `
+                conic-gradient(
+                  from -${r}deg at 90% 90%,
+                  black 52%,
+                  transparent 55.5%,
+                  hsl(0 0% 0% / 0.6) 58.5%,
+                  transparent 61%,
+                  black 63%),
+                radial-gradient(ellipse at 90% 90%,
+                  transparent 35%, black ${d}%)
+              `,
+          ),
+        }}
+      />
+      <div
+        data-spotlight-color
+        className="absolute inset-0 -z-10 bg-dark-green-lightest opacity-40"
+      />
+
+      <Image
+        src={SoccerField2}
+        alt="زمین فوتبال"
+        className="-z-20 object-cover"
+        fill
+        sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
+      />
+    </div>
   )
-})
+}
+
+function Text() {
+  const [nextStep, setNextStep] = React.useState(false)
+  const underlineRef = useSpringRef()
+
+  const wrapperStyle = useSpring({
+    from: { y: nextStep ? -15 : -300 },
+    to: nextStep ? [{ y: -15 }, { y: 15 }, { y: -15 }] : { y: 0 },
+    loop: nextStep ? true : false,
+    config: {
+      duration: nextStep ? 3500 : 4500,
+      ...(nextStep && { easing: easings.easeInOutSine }),
+    },
+    onChange: state => {
+      if (typeof state === 'object' && state.value.y === 0) {
+        setNextStep(true)
+        underlineRef.start()
+      }
+    },
+  })
+  const underlineStyle = useSpring({
+    ref: underlineRef,
+    from: { transform: 'scaleX(0)', transformOrigin: 'left' },
+    to: [
+      { transform: 'scaleX(1)', transformOrigin: 'right' },
+      { transform: 'scaleX(0.05)', transformOrigin: 'right' },
+      { transform: 'scaleX(1)', transformOrigin: 'right' },
+      { transform: 'scaleX(0)', transformOrigin: 'left' },
+    ],
+    config: { mass: 3, friction: 30, tension: 500 },
+  })
+
+  return (
+    <div className="relative row-start-1 grid place-content-center overflow-hidden sm:row-start-auto sm:overflow-visible">
+      <div
+        className="col-start-1 row-start-1 size-72 [--line:1px] [--size:37px] [perspective:1000px] sm:size-128 sm:[--line:0.5px] sm:[--size:51px]"
+        style={{
+          '--color': LIGHT_COLOR,
+          background: `linear-gradient(to right, var(--color) var(--line), transparent var(--line))
+          50% 0% /var(--size) var(--size),
+          linear-gradient(var(--color) var(--line), transparent var(--line))
+          0% 50% / var(--size) var(--size)`,
+          mask: `conic-gradient(from 290deg at 40% 90%,
+                transparent 4%, black 24%, transparent 35%)`,
+          transform:
+            'rotate3d(360, 120, -90, 60deg) rotateZ(60deg) scale(1.25)',
+        }}
+      />
+      <animated.div
+        className="relative col-start-1 row-start-1 place-self-center [perspective:1000px]"
+        style={{
+          ...wrapperStyle,
+          ...(!nextStep && {
+            transform: wrapperStyle.y.to({
+              range: [-300, 0],
+              output: [
+                'rotate3d(360, 120, -90, 20deg) rotateZ(0deg) scale(0.75)',
+                'rotate3d(360, 120, -90, 60deg) rotateZ(60deg) scale(1.65)',
+              ],
+            }),
+            opacity: wrapperStyle.y.to({ range: [-100, 0], output: [0, 1] }),
+          }),
+          ...(nextStep && {
+            transform:
+              'rotate3d(360, 120, -90, 60deg) rotateZ(60deg) scale(1.65)',
+          }),
+        }}
+      >
+        <animated.span
+          className="absolute left-4 top-7 -z-10 size-full rounded-md bg-dark-green-lightest"
+          style={underlineStyle}
+        />
+        <h1
+          className={`text-5xl font-normal tracking-[8px] sm:text-7xl sm:font-bold ${VTF_REDZONE_CLASSIC.className}`}
+          style={{
+            '--c1': DARK_COLOR,
+            '--c2': LIGHT_COLOR,
+            color: 'var(--c1)',
+            textShadow: `
+              0.8px 1px 0 var(--c2),
+              1.6px 2px 0 var(--c2),
+              2.4000000000000004px 3px 0 var(--c2),
+              3.2px 4px 0 var(--c2),
+              4px 5px 0 var(--c1),
+              4.800000000000001px 6px 0 var(--c1),
+              5.6000000000000005px 7px 0 var(--c1),
+              6.4px 8px 0 var(--c1),
+              7.2px 9px 0 var(--c2),
+              8px 10px 0 var(--c2),
+              8.8px 11px 0 var(--c2),
+              9.600000000000001px 12px 0 var(--c2),
+              10.4px 13px 0 var(--c1),
+              11.200000000000001px 14px 0 var(--c1),
+              12px 15px 0 var(--c1),
+              12.8px 16px 0 var(--c1),
+              13.600000000000001px 17px 0 var(--c2),
+              14.4px 18px 0 var(--c2),
+              15.200000000000001px 19px 0 var(--c2),
+              16px 20px 0 var(--c2)
+          `,
+          }}
+        >
+          PLAY GOAL
+        </h1>
+      </animated.div>
+    </div>
+  )
+}
