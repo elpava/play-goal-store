@@ -5,6 +5,13 @@
 html {
   scroll-behavior: smooth;
 }
+html:has(section[data-no-scrollbar]) {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html:has(section[data-no-scrollbar])::-webkit-scrollbar {
+  display: none;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   :has(:target) {
