@@ -2,7 +2,13 @@
   "env": {
     "es6": true
   },
-  "extends": ["next/core-web-vitals", "eslint:recommended", "next", "prettier"],
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "next",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "prettier"
+  ],
   "rules": {
     "react/prop-types": [0],
     "react/react-in-jsx-scope": [0],
