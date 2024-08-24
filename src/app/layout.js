@@ -1,10 +1,7 @@
 import NextAuthProvider from '@/next-auth-provider'
 import ReactQueryProvider from '@/react-query-provider'
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query'
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { getQueryClient } from './getQueryClient'
 import getProductsAction from 'action/products/get-products'
 import { VAZIRMATN_FONT } from 'util/share-font'
 
@@ -15,14 +12,14 @@ export const metadata = {
   description: 'فروشگاه پلی گل',
 }
 
-const queryClient = new QueryClient()
-
-await queryClient.prefetchQuery({
-  queryKey: ['products'],
-  queryFn: () => getProductsAction(),
-})
-
 export default async function RootLayout({ children }) {
+  const queryClient = getQueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['products'],
+    queryFn: () => getProductsAction(),
+  })
+
   return (
     <html className={VAZIRMATN_FONT.className} lang="fa" dir="rtl">
       <body>

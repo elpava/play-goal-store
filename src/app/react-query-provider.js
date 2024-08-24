@@ -1,37 +1,17 @@
 'use client'
 
 import * as React from 'react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import getProductsAction from 'action/products/get-products'
-import getOrdersAction from 'action/orders/get-orders'
 import { useSession } from 'next-auth/react'
 import { v4 as uuidv4 } from 'uuid'
-
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { gcTime: Infinity } },
-})
-
-async function prefetchProducts() {
-  await queryClient.prefetchQuery({
-    queryKey: ['products'],
-    queryFn: () => getProductsAction(),
-  })
-}
-
-async function prefetchCart(userId) {
-  await queryClient.prefetchQuery({
-    queryKey: ['cart'],
-    queryFn: () => getOrdersAction(userId),
-  })
-}
+import { getQueryClient } from './getQueryClient'
 
 export default function ReactQueryProvider({ children }) {
   const { data } = useSession()
+  const queryClient = getQueryClient()
 
   React.useEffect(() => {
-    prefetchProducts()
-
     let userId
 
     userId = localStorage.getItem('pg-user-id')
@@ -46,8 +26,6 @@ export default function ReactQueryProvider({ children }) {
       userId = uuidv4()
       localStorage.setItem('pg-user-id', userId)
     }
-
-    prefetchCart(userId)
   }, [data])
 
   return (
