@@ -41,20 +41,21 @@ export default async function ProductsPage() {
     <section className="ignore bg-zinc-900 text-zinc-100">
       <ProductsTabelContent brandsAnchors={brandsAnchors} />
 
-      <div className="space-y-48 py-4 ps-4 pt-16 md:relative md:pt-20">
+      <div className="space-y-60 py-4 ps-4 pt-16 md:relative md:space-y-80 md:pt-20">
         {groupedProducts.map(({ brandName, products }, idx) => (
           <div
             key={brandName}
             className={clsx('md:flex md:items-start', idx === 0 && 'md:pt-4')}
           >
             <div
-              className={`vertical-text sticky right-2 top-4 hidden basis-1/12 text-9xl text-zinc-800 shadow-zinc-100 text-shadow-sm md:block ${VTF_REDZONE_CLASSIC.className}`}
+              className={`vertical-text sticky right-2 top-4 hidden basis-1/12 select-none text-9xl text-zinc-800 shadow-zinc-100 text-shadow-sm md:block ${VTF_REDZONE_CLASSIC.className}`}
             >
               {brandName}
             </div>
 
             <div
               id={`brand-${brandName}`}
+              data-index={idx}
               className="space-y-14 pe-20 md:grow md:pe-56 md:ps-20"
             >
               {products.map(
