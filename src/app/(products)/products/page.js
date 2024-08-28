@@ -34,7 +34,7 @@ export default async function ProductsPage() {
   const uniqueBrand = [...new Set(filteredByBrand)]
   const brandsAnchors = uniqueBrand.map(brand => ({
     name: brand,
-    href: `#brand-${brand}`,
+    hash: `brand-${brand}`,
   }))
 
   return (
