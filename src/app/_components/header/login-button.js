@@ -39,7 +39,9 @@ export default function LoginButton({ className, isAuthurized, props }) {
     >
       <span
         className={clsx(
-          "absolute -inset-0.5 -z-10 animate-spin [animation-duration:18s] before:absolute before:left-0 before:top-0 before:rounded-full before:bg-green-600 before:blur-sm before:content-[''] after:absolute after:left-0 after:top-0 after:rounded-full after:bg-green-600 after:blur-sm after:content-['']",
+          'absolute -inset-0.5 -z-10 animate-spin [animation-duration:18s]',
+          "before:absolute before:left-0 before:top-0 before:rounded-full before:bg-green-600 before:blur-sm before:content-['']",
+          "after:absolute after:left-0 after:top-0 after:rounded-full after:bg-green-600 after:blur-sm after:content-['']",
           isProductsPath && 'before:h-2 before:w-2 after:h-5 after:w-5',
           !isProductsPath && 'before:h-4 before:w-4 after:h-7 after:w-7',
         )}

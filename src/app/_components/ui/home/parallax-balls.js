@@ -114,8 +114,8 @@ export default function ParallaxBalls() {
 
     if (parallaxRef.current && !currentPage) setCurrentPage([0])
 
-    window.addEventListener('wheel', handleScroll, { passive: false })
-    window.addEventListener('touchstart', handleTouchstart, { passive: true })
+    window.addEventListener('wheel', handleScroll, { passive: true })
+    window.addEventListener('touchstart', handleTouchstart)
     window.addEventListener('touchmove', handleScroll, { passive: true })
 
     return () => {
@@ -193,7 +193,7 @@ export default function ParallaxBalls() {
             <ParallaxLayer offset={idx} speed={0.5}>
               <div
                 className={clsx(
-                  'position-center h-[60%] w-[90%] sm:h-[60%] sm:w-[70%]',
+                  'h-[60%] w-[90%] position-center sm:h-[60%] sm:w-[70%]',
                   idx === LAST_ITEM && 'w-[80%]',
                 )}
               >
@@ -266,7 +266,7 @@ export default function ParallaxBalls() {
               <div
                 data-over-rectangle
                 className={clsx(
-                  'position-center h-full w-[60%] bg-custom-wheat',
+                  'h-full w-[60%] bg-custom-wheat position-center',
                   idx === LAST_ITEM && '!bg-transparent',
                 )}
                 style={{
@@ -276,7 +276,7 @@ export default function ParallaxBalls() {
               {text && (
                 <h2
                   className={clsx(
-                    'position-center w-40 text-sm italic sm:w-64 sm:!text-[1.25rem] sm:leading-[1.75] lg:w-80',
+                    'w-40 text-sm italic position-center sm:w-64 sm:!text-[1.25rem] sm:leading-[1.75] lg:w-80',
                     idx % 2 === 0 && '-mt-8 ',
                     idx % 2 === 1 && 'mt-10 ',
                     idx === LAST_ITEM &&

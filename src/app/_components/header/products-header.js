@@ -42,7 +42,7 @@ export default function ProductsHeader({ isAuthurized }) {
   }
 
   return (
-    <header className="relative z-50 grid h-0.5 justify-center bg-zinc-900 ">
+    <header className="fixed inset-x-0 z-50 mx-auto grid justify-center">
       <div className="flex items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-700 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
         <button
           className="relative md:cursor-pointer"

@@ -47,10 +47,13 @@ export default async function ProductPage({ params: { slug } }) {
 
   return (
     <section
-      className={`ignore bg-zinc-900 text-zinc-100 md:grid md:h-svh md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
+      className={`ignore bg-zinc-900 text-zinc-100 md:grid md:h-screen md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
     >
       <div
-        className="before:vtf-font relative isolate space-y-6 px-4 pb-4 pt-16 before:absolute before:left-2 before:top-40 before:z-[-1] before:text-8xl before:text-zinc-900 before:shadow-lime-400/50 before:content-[attr(data-content)] before:text-shadow-md before:[writing-mode:vertical-rl] sm:max-h-svh sm:before:top-24 md:pt-4"
+        className={clsx(
+          'relative isolate space-y-6 px-4 pb-4 pt-16 sm:max-h-screen md:pt-4',
+          'before:vtf-font before:absolute before:left-2 before:top-40 before:z-[-1] before:text-8xl before:text-zinc-900 before:shadow-lime-400/50 before:content-[attr(data-content)] before:text-shadow-md before:[writing-mode:vertical-rl] sm:before:top-24',
+        )}
         data-content={brand}
       >
         <div className="space-y-8 pl-24 sm:mb-14 sm:pl-32">
