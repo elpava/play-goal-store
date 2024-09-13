@@ -205,7 +205,7 @@ export default async function OrderDetailsPage({ params }) {
                               src={`/images/products/${thumbnail}`}
                               alt="توپ"
                               fill
-                              sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                              sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
                               className="object-contain"
                             />
                           </div>

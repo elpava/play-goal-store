@@ -201,7 +201,7 @@ export default function ParallaxBalls() {
                   src={image}
                   alt={alt}
                   fill
-                  sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                  sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
                   className="rounded-md object-cover"
                 />
 

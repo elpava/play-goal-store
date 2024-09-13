@@ -76,7 +76,7 @@ export default function ProductsHeader({ isAuthurized }) {
             alt="لوگو"
             fill
             priority
-            sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+            sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
           />
         </Link>
       </div>
@@ -168,7 +168,7 @@ function CartMenu({ orderId, ordersData }) {
                         src={`/images/products/${thumbnail}`}
                         alt="عکس محصول"
                         fill
-                        sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                        sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
                         className="object-contain"
                       />
                     </div>

@@ -50,7 +50,7 @@ export default function ImageGallery({ slides, options }) {
                 src={`/images/products/${filename}`}
                 alt="عکس توپ فوتبال"
                 fill
-                sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
                 className="object-contain"
               />
               {filename}
@@ -75,7 +75,7 @@ export default function ImageGallery({ slides, options }) {
                 src={`/images/products/${filename}`}
                 alt="عکس توپ فوتبال"
                 fill
-                sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+                sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
                 className={clsx(
                   'object-cover',
                   idx === selectedIndex && 'opacity-50',

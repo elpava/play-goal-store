@@ -16,7 +16,7 @@ const menu = [
           src={Logo}
           alt="لوگو"
           priority
-          sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
+          sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
           className="hidden w-7 min-w-7 md:block"
         />
         <span className="md:hidden">صفحه اصلی</span>
