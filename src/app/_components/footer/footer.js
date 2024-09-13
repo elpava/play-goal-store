@@ -1,157 +1,101 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
-import Logo from '/public/play-goal.png'
-import Icon from '@/_components/ui/common/icon'
-import icons from 'library/icons-name'
-import E_Namad from '/public/logo/e-nemad.png'
-import Namad from '/public/logo/namad.png'
+import clsx from 'clsx/lite'
+import Ball3D from '@/_components/ui/home/ball-3d'
 
-const {
-  adidas,
-  nike,
-  mikasa,
-  wilson,
-  youtube,
-  pinterest,
-  instagram,
-  telegram,
-} = icons
-
-const productLink = (name, href, icon) => ({ name, href, icon })
+const generateItem = (name, href, icon) => ({
+  ...(name && { name }),
+  ...(href && { href }),
+  ...(icon && { icon }),
+})
 const productsLink = [
-  productLink('برند آدیداس', '#adidas', adidas),
-  productLink('برند نایک', '#nike', nike),
-  productLink('برند میکاسا', '#mikasa', mikasa),
-  productLink('برند ویلسون', '#wilson', wilson),
+  generateItem('برند آدیداس', '/products/#brand-adidas'),
+  generateItem('برند نایک', '/products/#brand-nike'),
+  generateItem('برند میکاسا', '/products/#brand-mikasa'),
+  generateItem('برند ویلسون', '/products/#brand-wilson'),
 ]
-
-const usefulLink = (name, href) => ({ name, href })
 const usefulLinks = [
-  usefulLink('صفحه اصلی', '/'),
-  usefulLink('سبد خرید', '/cart'),
-  usefulLink('تماس با ما', '/contact-us'),
-  usefulLink('نحوه ارسال', '#'),
+  generateItem('صفحه اصلی', '/'),
+  generateItem('سبد خرید', '/cart'),
+  generateItem('تماس با ما', '/contact-us'),
+  generateItem('نحوه ارسال', '#'),
 ]
-
-const socialLink = (href, icon) => ({ href, icon })
 const socialLinks = [
-  socialLink('https://www.telegram.com', telegram),
-  socialLink('https://www.instagram.com', instagram),
-  socialLink('https://www.pinterest.com', pinterest),
-  socialLink('https://www.youtube.com', youtube),
-]
-
-const certificatesImage = [
-  { src: E_Namad, alt: 'اینماد' },
-  { src: Namad, alt: 'عضو اتحادیه کشوری کسب و کارهای مجازی' },
+  generateItem('تلگرام', 'https://www.telegram.com'),
+  generateItem('اینستاگرام', 'https://www.instagram.com'),
+  generateItem('پینترست', 'https://www.pinterest.com'),
+  generateItem('یوتیوب', 'https://www.youtube.com'),
 ]
 
 export default function Footer() {
   return (
-    <footer className="bg-blue-950 pt-6 text-gray-100 md:pt-10">
-      <div className="mb-8 flex flex-col justify-evenly gap-0 px-4 text-center md:flex-row md:items-center md:gap-0">
-        <div className="md:basis-3/12">
-          <Image
-            src={Logo}
-            alt="logo"
-            sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
-            className="mx-auto mb-2 w-16 md:w-24"
-          />
-
-          <div className="text-2xl">
-            پلی‌گل عرضه کننده توپ‌های فوتبال برندهای معتبر دنیا
-          </div>
+    <footer className="relative flex flex-col gap-16 bg-gradient-to-b from-slate-900 to-black pt-16 text-gray-100">
+      <div className="flex flex-col items-center gap-y-14 md:flex-row md:gap-y-0">
+        <div className="h-[40svh] basis-2/6 text-center">
+          <Ball3D />
         </div>
 
-        <NeonDivider className="md:hidden" />
-
-        <div className="flex justify-evenly text-right md:mr-4 md:basis-5/12 md:justify-around">
-          <div>
-            <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
-              <h4 className="text-xl">محصولات</h4>
-            </div>
-
-            <ul className="space-y-4">
-              {productsLink.map(({ name, href, icon }) => (
-                <li key={href} className="flex items-center gap-2">
-                  <div className="rounded-full bg-zinc-200 px-2.5 py-0.5">
-                    <Icon name={icon} size={24} />
-                  </div>
-                  <Link href={`/products${href}`}>{name}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <div className="mb-8 flex gap-2 md:mb-4 md:border-b md:border-b-yellow-200 md:pb-4">
-              <h4 className="text-xl">لینک‌های مرتبط</h4>
-            </div>
-
-            <ul className="space-y-6">
-              {usefulLinks.map(({ name, href }) => (
-                <li key={href} className="flex gap-2">
-                  <Link href={`/${href}`} className="relative">
-                    <ArrowUpRight
-                      size={12}
-                      className="absolute -right-3 -top-0.5 text-zinc-200"
-                    />
-                    {name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <NeonDivider className="md:hidden" />
-
-        <div className="flex flex-col items-center gap-8 md:flex-row">
-          <div className="flex justify-center gap-2 md:basis-1/12 md:flex-col md:items-end md:place-self-center">
-            {socialLinks.map(({ href, icon }) => (
-              <div
-                key={href}
-                className="rounded-lg bg-cyan-500 p-1 shadow-lg shadow-cyan-300 md:bg-zinc-200 md:shadow-md md:shadow-zinc-400"
-              >
-                <Icon name={icon} href={href} className="w-10 md:w-5" />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-center gap-2 md:basis-3/12 md:flex-col lg:flex-row">
-            {certificatesImage.map(({ src, alt }) => (
-              <div
-                key={alt}
-                className="relative size-20 rounded-lg border-[10px] border-zinc-200 bg-zinc-200 lg:size-36"
-              >
-                <Image
-                  src={src}
-                  alt={alt}
-                  fill
-                  sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 25vw"
-                  className="object-contain"
-                />
-              </div>
-            ))}
-          </div>
+        <div className="grid w-full grid-cols-1 gap-y-10 md:w-auto md:grid-cols-3 md:gap-y-0">
+          <CurvyNavigation data={productsLink} className="z-[3]" />
+          <CurvyNavigation data={usefulLinks} className="z-[2]" />
+          <CurvyNavigation data={socialLinks} className="z-[1]" />
         </div>
       </div>
 
-      <div className="bg-black px-4 py-2 text-center text-xs md:text-sm">
-        تمام حقوق این سایت متعلق به شرکت بازرگانی تجاری پلی‌گل می‌باشد.
-        2024-1403©
-      </div>
+      <Copyright />
     </footer>
   )
 }
 
-function NeonDivider({ className, ...props }) {
+function CurvyNavigation({ data, className }) {
   return (
-    <hr
-      className={`my-8 h-5 border-cyan-500 ${className}`}
-      style={{ boxShadow: '0 10px 10px -10px rgb(6 182 212) inset' }}
-      {...props}
-    />
+    <div className={clsx('relative w-56 shrink-0 flex-center', className)}>
+      <ul
+        className={clsx(
+          '[--items-rotation:30deg] [--quantity:11]',
+          'relative isolate grid aspect-square size-full -rotate-90 list-none rounded-full',
+          '*:absolute *:grid *:h-[0.01px] *:w-full *:place-self-center',
+        )}
+      >
+        <div
+          className="!size-full rounded-full border border-slate-500 position-center"
+          style={{
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 28%, 50% 50%)',
+          }}
+        />
+        {data.map(({ name, href }, idx) => (
+          <li
+            key={idx}
+            className={clsx(
+              'bg-slate-50/10 text-slate-100 transition-[color] ease-in-out sm:text-slate-500 sm:hover:text-slate-50 sm:hover:before:size-4 sm:hover:before:border-2 sm:hover:before:bg-slate-100',
+              'before:size-2 before:rounded-full before:border before:border-slate-500 before:bg-slate-500 before:transition-[background-color,width,height,border] before:duration-500 before:ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] before:content-[""] before:position-center',
+            )}
+            style={{
+              transform: `rotate(calc(var(--items-rotation) * -1)) rotate(calc(360deg / var(--quantity) * ${idx} * -1)) translateX(50%)`,
+            }}
+          >
+            <div
+              className={clsx(
+                'absolute grid w-1 place-self-center text-nowrap pr-9 hover:before:delay-150 md:hover:before:scale-x-100',
+                'before:absolute before:h-[0.3px] before:w-1/2 before:origin-right before:scale-x-0 before:bg-slate-100 before:transition-transform before:content-[""] before:[place-self:center_end]',
+              )}
+              style={{
+                transform: `rotate(calc(360deg / var(--quantity) * ${idx} * 1 + calc(90deg + var(--items-rotation))))`,
+              }}
+            >
+              <Link href={href}>{name}</Link>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function Copyright() {
+  return (
+    <div className="mt-auto bg-black px-4 py-2 text-center text-xs md:text-sm">
+      تمام حقوق این سایت متعلق به شرکت بازرگانی تجاری پلی‌گل می‌باشد.
+      2024-1403©
+    </div>
   )
 }
