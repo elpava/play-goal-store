@@ -1,6 +1,11 @@
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import clsx from 'clsx/lite'
-import Ball3D from '@/_components/ui/home/ball-3d'
+const DynamicBall3D = dynamic(() => import('@/_components/ui/home/ball-3d'), {
+  loading: () => (
+    <div className="size-7 animate-bounce rounded-full bg-zinc-100 text-3xl font-bold position-center" />
+  ),
+})
 
 const generateItem = (name, href, icon) => ({
   ...(name && { name }),
@@ -30,8 +35,8 @@ export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-16 bg-gradient-to-b from-slate-900 to-black pt-16 text-gray-100">
       <div className="flex flex-col items-center gap-y-14 md:flex-row md:gap-y-0">
-        <div className="h-[40svh] basis-2/6 text-center">
-          <Ball3D />
+        <div className="relative h-[40svh] basis-2/6 text-center">
+          <DynamicBall3D />
         </div>
 
         <div className="grid w-full grid-cols-1 gap-y-10 md:w-auto md:grid-cols-3 md:gap-y-0">

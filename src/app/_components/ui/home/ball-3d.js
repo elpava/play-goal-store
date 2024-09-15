@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-import clsx from 'clsx/lite'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import useWindowReady from 'hook/useWindowReady'
@@ -12,15 +11,7 @@ const SECONDARY_LIGHT_CLR = '#FF6347'
 export default function Ball3D() {
   const { isWindowReady } = useWindowReady()
 
-  return (
-    <div className={clsx('relative mx-auto size-72')}>
-      {isWindowReady ? (
-        <Scene />
-      ) : (
-        <div className="size-7 animate-bounce rounded-full bg-zinc-100 text-3xl font-bold position-center"></div>
-      )}
-    </div>
-  )
+  return <div className="mx-auto size-72">{isWindowReady && <Scene />}</div>
 }
 
 function Scene() {
