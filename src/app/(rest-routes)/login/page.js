@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
-import Login from '@/_components/ui/login'
+import Login from '@/_components/ui/login/login'
 
 export default async function LoginPage({ searchParams }) {
   const authentication = await auth()
