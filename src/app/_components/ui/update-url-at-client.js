@@ -12,5 +12,6 @@ export default function UpdateURLAtClient({ queries }) {
       push(pathname + '?' + queries)
     }
   }, [pathname, push, queries])
+
   return null
 }

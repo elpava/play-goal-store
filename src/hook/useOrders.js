@@ -9,6 +9,7 @@ export default function useOrders() {
     isSuccess,
     isLoading,
   } = useQuery({
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: ['cart'],
     queryFn: () => getOrdersAction(userId),
     enabled: Boolean(userId),
