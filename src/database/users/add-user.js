@@ -3,17 +3,16 @@ import {
   DATABASE_NAME,
   USERS_COLLECTION,
   connectToDatabase,
-  client,
 } from 'database/connect'
 
 export default async function addUser(props) {
   const caller = addUser.name
   const { firstName, lastName, nationalId, email, password, mobile, role } =
     props
-  let data
+  let data, client
 
   try {
-    await connectToDatabase(caller)
+    client = await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     const emailRegistered = await db
       .collection(USERS_COLLECTION)
@@ -42,7 +41,6 @@ export default async function addUser(props) {
     throw new Error(`[${caller}]: Couldn't add the user.\n message: ${error}`)
   } finally {
     await client.close()
-    console.log(`🔒 [${caller}]: close connection.`)
   }
 
   return data

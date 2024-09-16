@@ -2,7 +2,6 @@ import {
   DATABASE_NAME,
   ORDERS_COLLECTION,
   connectToDatabase,
-  client,
   ObjectId,
 } from 'database/connect'
 
@@ -12,9 +11,10 @@ export default async function updateShipmentOrder(
   totalAmountPayment,
 ) {
   const caller = updateShipmentOrder.name
+  let client
 
   try {
-    await connectToDatabase(caller)
+    client = await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     await db
       .collection(ORDERS_COLLECTION)
@@ -26,10 +26,9 @@ export default async function updateShipmentOrder(
     throw new Error(
       `[${caller}]: Couldn't update the order shipment.\n message: ${error}`,
     )
+  } finally {
+    await client.close()
   }
-
-  client.close()
-  console.log(`🔒 [${caller}]: close connection.`)
 
   return {
     success: true,

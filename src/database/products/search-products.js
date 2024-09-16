@@ -1,16 +1,15 @@
 import {
   DATABASE_NAME,
   PRODUCTS_COLLECTION,
-  client,
   connectToDatabase,
 } from '../connect'
 
 export default async function searchProducts(query) {
   const caller = searchProducts.name
-  let data
+  let data, client
 
   try {
-    await connectToDatabase(caller)
+    client = await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     data = await db
       .collection(PRODUCTS_COLLECTION)
@@ -26,10 +25,9 @@ export default async function searchProducts(query) {
     throw new Error(
       `[${caller}]: Couldn't find the queried products data.\n message: ${error}`,
     )
+  } finally {
+    await client.close()
   }
-
-  await client.close()
-  console.log(`🔒 [${caller}]: close connection.`)
 
   return data
 }

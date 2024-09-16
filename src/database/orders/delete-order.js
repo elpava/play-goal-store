@@ -2,16 +2,15 @@ import {
   DATABASE_NAME,
   ORDERS_COLLECTION,
   connectToDatabase,
-  client,
   ObjectId,
 } from 'database/connect'
 
 export default async function deleteOrder(orderId, orderProductId) {
   const caller = deleteOrder.name
-  let data
+  let data, client
 
   try {
-    await connectToDatabase(caller)
+    client = await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     await db
       .collection(ORDERS_COLLECTION)
@@ -29,8 +28,7 @@ export default async function deleteOrder(orderId, orderProductId) {
       `[${caller}]: Couldn't delete the order.\n message: ${error}`,
     )
   } finally {
-    client.close()
-    console.log(`🔒 [${caller}]: close connection.`)
+    await client.close()
   }
 
   return data

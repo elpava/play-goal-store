@@ -3,7 +3,6 @@ import {
   DATABASE_NAME,
   ORDERS_COLLECTION,
   connectToDatabase,
-  client,
   ObjectId,
 } from 'database/connect'
 
@@ -13,9 +12,10 @@ export default async function successfulPaymentOrder(
   deliveryDate,
 ) {
   const caller = successfulPaymentOrder.name
+  let client
 
   try {
-    await connectToDatabase(caller)
+    client = await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     await db.collection(ORDERS_COLLECTION).updateOne(
       { _id: new ObjectId(orderId) },
@@ -33,10 +33,9 @@ export default async function successfulPaymentOrder(
     throw new Error(
       `[${caller}]: Couldn't update the order payment successful state.\n message: ${error}`,
     )
+  } finally {
+    await client.close()
   }
-
-  client.close()
-  console.log(`🔒 [${caller}]: close connection.`)
 
   return {
     success: true,

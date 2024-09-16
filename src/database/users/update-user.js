@@ -2,16 +2,15 @@ import {
   DATABASE_NAME,
   USERS_COLLECTION,
   connectToDatabase,
-  client,
 } from 'database/connect'
 
 export default async function updateUser(props) {
   const caller = updateUser.name
   const { email, ...formData } = props
-  let data
+  let data, client
 
   try {
-    await connectToDatabase(caller)
+    client = await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     data = await db
       .collection(USERS_COLLECTION)
@@ -20,10 +19,9 @@ export default async function updateUser(props) {
     throw new Error(
       `[${caller}]: Couldn't update the user data.\n message: ${error}`,
     )
+  } finally {
+    await client.close()
   }
-
-  await client.close()
-  console.log(`🔒 [${caller}]: close connection.`)
 
   return data
 }

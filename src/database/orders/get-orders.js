@@ -2,26 +2,24 @@ import {
   DATABASE_NAME,
   ORDERS_COLLECTION,
   connectToDatabase,
-  client,
 } from 'database/connect'
 
 export default async function getOrders(userId) {
   const caller = getOrders.name
-  let data
+  let data, client
 
   try {
-    await connectToDatabase(caller)
+    client = await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     data = await db.collection(ORDERS_COLLECTION).find({ userId }).toArray()
     data = JSON.parse(JSON.stringify(data))
-    await client.close()
   } catch (error) {
     throw new Error(
       `[${caller}]: Couldn't find the orders data.\n message: ${error}`,
     )
+  } finally {
+    await client.close()
   }
-
-  console.log(`🔒 [${caller}]: close connection.`)
 
   return data
 }

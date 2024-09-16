@@ -3,30 +3,28 @@ import {
   DATABASE_NAME,
   USERS_COLLECTION,
   connectToDatabase,
-  client,
 } from 'database/connect'
 
 export default async function getUser(email, password) {
   const caller = getUser.name
-  let data
+  let data, client
 
   try {
-    await connectToDatabase(caller)
+    client = await connectToDatabase(caller)
     const db = client.db(DATABASE_NAME)
     data = await db
       .collection(USERS_COLLECTION)
       .findOne({ email, ...(password && { password }) })
     data._id = data._id.toString('hex')
     delete data.password
-    await client.close()
   } catch (error) {
     throw new CredentialsError(
       'InvalidPassword',
       `[${caller}]: Couldn't find the user.\n message: ${error}`,
     )
+  } finally {
+    await client.close()
   }
-
-  console.log(`🔒 [${caller}]: close connection.`)
 
   return data
 }
