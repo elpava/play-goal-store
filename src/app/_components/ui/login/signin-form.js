@@ -94,7 +94,7 @@ export default function SignInForm() {
       signInResultRef.current = 'signin successfully'
       refresh({ ...e, target: e.target[0] })
       setTimeout(() => {
-        push('/')
+        window.location.replace('/')
       }, 3000)
     }
   }

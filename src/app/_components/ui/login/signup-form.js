@@ -137,7 +137,7 @@ export default function SignUpForm() {
       signUpResultRef.current = 'signup successfully'
       refresh({ target: e.target[0] })
       setTimeout(() => {
-        push('/')
+        window.location.replace('/')
       }, 3000)
     }
   }
