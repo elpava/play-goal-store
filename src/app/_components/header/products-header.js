@@ -14,7 +14,7 @@ import LoginButton from './login-button'
 import { formatNumberToPersian } from 'library/helper-functions'
 import { ShoppingBag, ArrowLeft } from 'lucide-react'
 import Logo from '/public/play-goal.png'
-import { DOLLAR_RATE } from 'library/fix-values'
+import { DOLLAR_RATE } from 'library/constants'
 
 export default function ProductsHeader({ isAuthurized }) {
   const { ordersData, isSuccess } = useOrders()

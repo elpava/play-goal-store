@@ -11,7 +11,7 @@ import RemoveButton from './remove-button'
 import Button from '../common/button'
 import Empty from '../common/empty'
 import { formatNumberToPersian } from 'library/helper-functions'
-import { DOLLAR_RATE } from 'library/fix-values'
+import { DOLLAR_RATE } from 'library/constants'
 
 export default function OrdersPreview() {
   const { push } = useRouter()

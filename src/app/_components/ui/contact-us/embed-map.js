@@ -2,7 +2,7 @@
 
 import Map, { Marker, FullscreenControl, NavigationControl } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { LONGITUDE, LATITUDE, ZOOM } from 'library/fix-values'
+import { LONGITUDE, LATITUDE, ZOOM } from 'library/constants'
 
 export default function EmbedMap() {
   return (

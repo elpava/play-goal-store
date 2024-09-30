@@ -20,7 +20,7 @@ import {
 import { getNextDate, getDate } from 'util/date'
 import { Loader, SquarePen } from 'lucide-react'
 import icons from 'library/icons-name'
-import { ONE_HOUR, ONE_DAY, DOLLAR_RATE, TAX_RATE } from 'library/fix-values'
+import { ONE_HOUR, ONE_DAY, DOLLAR_RATE, TAX_RATE } from 'library/constants'
 
 const { post, tipax, motorcycleCourier, snapp } = icons
 const shipping = [
@@ -392,7 +392,7 @@ export default function PaymentPreview() {
 
           <div
             className={clsx(
-              'rounded-lg bg-slate-100 p-2 shadow-md shadow-slate-300 sm:sticky sm:left-0 sm:top-4 sm:basis-3/12 ',
+              'rounded-lg bg-slate-100 p-2 shadow-md shadow-slate-300 sm:sticky sm:left-0 sm:top-4 sm:basis-3/12',
               !isLoading && '[&>:last-child]:mt-10',
             )}
           >
