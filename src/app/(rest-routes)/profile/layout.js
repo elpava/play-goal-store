@@ -4,7 +4,10 @@ import SidebarMenu from '@/_components/ui/profile/sidebar-menu'
 import FloatMenu from '@/_components/ui/profile/float-menu'
 
 export const metadata = {
-  title: 'پلی گل | حساب کاربری',
+  title: {
+    template: 'حساب کاربری | %s',
+    default: 'حساب کاربری',
+  },
   description: 'حساب کاربری',
 }
 

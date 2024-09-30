@@ -6,6 +6,10 @@ import Button from '@/_components/ui/common/button'
 import Icon from '@/_components/ui/common/icon'
 import icons from 'library/icons-name'
 
+export const metadata = {
+  title: 'تماس با ما',
+}
+
 const { instagram, telegram, youtube, pinterest } = icons
 const contact = [
   {

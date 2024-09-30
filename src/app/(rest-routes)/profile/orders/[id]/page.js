@@ -5,9 +5,25 @@ import getOrderAction from 'action/orders/get-order'
 import getProductsAction from 'action/products/get-products'
 import getUserAction from 'action/users/get-user'
 import { formatNumberToPersian } from 'library/helper-functions'
-import { DOLLAR_RATE } from 'library/fix-values'
+import { DOLLAR_RATE } from 'library/constants'
 import { getDate } from 'util/date'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
+
+export async function generateMetadata({ params: { id } }) {
+  const order = await getOrderAction(id)
+
+  const paymentDate = new Intl.DateTimeFormat('fa-IR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(order.paymentDate)
+
+  return {
+    title: {
+      absolute: `فاکتور ${paymentDate}`,
+    },
+  }
+}
 
 const aliasName = {
   firstName: { value: 'نام', group: 'info', order: 1 },
@@ -197,8 +213,7 @@ export default async function OrderDetailsPage({ params }) {
                       }) => (
                         <div
                           key={id}
-                          className="relative space-y-2 !border-b border-b-zinc-400 px-2
-                          py-4 text-sm sm:grid sm:grid-cols-7 sm:justify-items-center"
+                          className="relative space-y-2 !border-b border-b-zinc-400 px-2 py-4 text-sm sm:grid sm:grid-cols-7 sm:justify-items-center"
                         >
                           <div className="relative size-14 w-full">
                             <Image

@@ -5,6 +5,15 @@ import FormStateAnimation from '@/_components/ui/animation/login/form-state-anim
 import Login from '@/_components/ui/login/login'
 import LoginWallpaper from '/public/images/login-wallpaper.jpg'
 
+export async function generateMetadata({ searchParams: { login } }) {
+  const titles = {
+    'sign-in': 'ورود به حساب کاربری',
+    'sign-up': 'ثبت نام حساب کاربری جدید',
+  }
+
+  return { title: titles[login] ?? titles['sign-in'] }
+}
+
 export default async function LoginPage({ searchParams }) {
   const authentication = await auth()
 

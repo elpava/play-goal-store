@@ -7,6 +7,10 @@ import { formatNumberToPersian } from 'library/helper-functions'
 import { getDate } from 'util/date'
 import { ArrowUpRight } from 'lucide-react'
 
+export const metadata = {
+  title: 'سفارشات',
+}
+
 export default async function OrdersPage() {
   const authentication = await auth()
   const orders = await getOrdersAction(authentication?.user.id)

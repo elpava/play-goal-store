@@ -5,6 +5,10 @@ import searchProducts from 'database/products/search-products'
 import UpdateURLAtClient from '@/_components/ui/update-url-at-client'
 import Empty from '@/_components/ui/common/empty'
 
+export const metadata = {
+  title: 'جستجو محصولات',
+}
+
 export default async function SearchPage({ searchParams }) {
   const queries = new URLSearchParams(searchParams)
   const { query } = searchParams
