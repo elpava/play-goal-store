@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import Icon from './icon'
 import icons from 'library/icons-name'
 
@@ -53,13 +53,13 @@ function addLinkToStr(str, links) {
   for (let i = 1; i < splittedStr.length; i += 2) {
     findLink = links.find(link => link.title === splittedStr[i])
     splittedStr[i] = (
-      <Link
+      <PageTransition
         key={i}
         href={findLink.href}
         className="relative mx-0.5 border-b-2 border-b-lime-400 font-bold"
       >
         {splittedStr[i]}
-      </Link>
+      </PageTransition>
     )
   }
 

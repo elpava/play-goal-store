@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import Icon from '@/_components/ui/common/icon'
 import { Sticker } from 'lucide-react'
 import icons from 'library/icons-name'
@@ -15,15 +15,15 @@ export default function RootNotFound() {
   return (
     <main
       style={{
-        width: '100%',
         height: '100svh',
         maxHeight: '100svh',
         display: 'grid',
-        placeContent: 'center',
-        placeItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
         gap: '1.5rem',
         backgroundImage: 'linear-gradient(to top, #e4e4e7, #fde047)',
         textAlign: 'center',
+        margin: '-0.5rem',
       }}
     >
       <div>
@@ -68,77 +68,49 @@ export default function RootNotFound() {
           <div
             key={text}
             style={{
+              display: 'grid',
               width: '8rem',
               height: '8rem',
               overflow: 'hidden',
               borderRadius: '9999px',
               mixBlendMode: 'multiply',
-              margin: '-0.25rem',
+              marginInline: '-0.25rem',
               ...(idx === 0 && { backgroundColor: 'rgb(239 68 68)' }),
               ...(idx === 1 && { backgroundColor: 'rgb(249 115 22)' }),
               ...(idx === 2 && { backgroundColor: 'rgb(245 158 11)' }),
+              position: 'relative',
             }}
           >
-            <Link
+            <Icon
+              name={classicBall}
+              size="6rem"
+              style={{
+                position: 'absolute',
+                placeSelf: 'center',
+                ...(idx === 1 && { transform: 'rotate(90deg)' }),
+                ...(idx === 2 && { transform: 'rotate(180deg)' }),
+                mixBlendMode: 'multiply',
+              }}
+            />
+
+            <PageTransition
               href={href}
               style={{
-                position: 'relative',
-                display: 'inline-block',
+                position: 'absolute',
+                justifySelf: 'center',
+                alignSelf: 'end',
+                display: 'grid',
                 width: '100%',
-                height: '100%',
+                textDecoration: 'none',
+                paddingBlock: '0.5rem 1.25rem',
+                marginBlockEnd: '-0.25rem',
+                color: 'rgb(244 244 245)',
+                border: '1.5px solid blue',
+                backgroundColor: 'rgb(161 161 170 / 0.75)',
               }}
             >
-              <Icon
-                name={classicBall}
-                size="6rem"
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  mixBlendMode: 'multiply',
-                  ...(idx === 1 && {
-                    transform: 'translate(-50%, -50%) rotate(90deg)',
-                  }),
-                  ...(idx === 2 && {
-                    transform: 'translate(-50%, -50%) rotate(180deg)',
-                  }),
-                }}
-              />
-
-              <div
-                style={{
-                  position: 'absolute',
-                  insetInline: '0',
-                  top: '66.666667%',
-                  width: '100%',
-                  textAlign: 'center',
-                  color: 'rgb(244 244 245)',
-                }}
-              >
-                <span
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    height: '100%',
-                    width: '100%',
-                    backgroundColor: 'rgb(161 161 170)',
-                    mixBlendMode: 'multiply',
-                  }}
-                ></span>
-
-                <span
-                  style={{
-                    display: 'absolute',
-                    insetInline: 0,
-                    top: '33.333333%',
-                    transform: 'translateY(-50%)',
-                  }}
-                >
-                  {text}
-                </span>
-              </div>
-            </Link>
+              {text}
+            </PageTransition>
           </div>
         ))}
       </div>

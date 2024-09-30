@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import clsx from 'clsx/lite'
 import { getProducts } from 'database/products/get-produtcs'
 import ProductsTabelContent from '@/_components/ui/products/products-table-content'
 import Price from '@/_components/ui/products/price'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import ShoppingButton from '@/_components/ui/products/shopping-button'
 import { convertToShortDescription } from 'library/helper-functions'
 import { ArrowUpRight } from 'lucide-react'
@@ -38,7 +38,7 @@ export default async function ProductsPage() {
   }))
 
   return (
-    <section className="ignore bg-zinc-900 text-zinc-100">
+    <section data-bg-dark className="ignore">
       <ProductsTabelContent brandsAnchors={brandsAnchors} />
 
       <div className="space-y-60 py-4 ps-4 pt-16 md:relative md:space-y-80 md:pt-20">
@@ -87,13 +87,13 @@ export default async function ProductsPage() {
                         <Price className="md:basis-auto" price={price} />
 
                         <div className="grid grid-cols-2 items-center text-xs md:basis-auto md:text-base">
-                          <Link
+                          <PageTransition
                             href={`/products/${slug}`}
                             className="relative p-1 underline underline-offset-4"
                           >
                             مشاهده
                             <ArrowUpRight className="absolute -top-3 right-0 w-4 stroke-1" />
-                          </Link>
+                          </PageTransition>
 
                           <ShoppingButton productId={_id} />
                         </div>

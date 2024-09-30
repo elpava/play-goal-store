@@ -1,5 +1,5 @@
 import clsx from 'clsx/lite'
-import { DOLLAR_RATE } from 'library/fix-values'
+import { DOLLAR_RATE } from 'library/constants'
 import { formatNumberToPersian } from 'library/helper-functions'
 
 export default function Price({ className, price }) {

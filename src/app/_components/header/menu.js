@@ -2,15 +2,15 @@
 
 import * as React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import clsx from 'clsx/lite'
 import { animated, useSprings } from '@react-spring/web'
+import useResize from 'hook/useResize'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import Logo from '/public/play-goal.png'
-import useScreenSize from 'hook/useScreenSize'
 
 const menu = [
   ({ style, itemClassName }) => (
-    <Link href="/">
+    <PageTransition href="/">
       <animated.div style={style} className={itemClassName}>
         <Image
           src={Logo}
@@ -21,39 +21,40 @@ const menu = [
         />
         <span className="md:hidden">صفحه اصلی</span>
       </animated.div>
-    </Link>
+    </PageTransition>
   ),
   ({ style, itemClassName }) => (
-    <Link href="/products">
+    <PageTransition href="/products">
       <animated.div style={style} className={itemClassName}>
         محصولات
       </animated.div>
-    </Link>
+    </PageTransition>
   ),
   ({ style, itemClassName }) => (
-    <Link href="/cart">
+    <PageTransition href="/cart">
       <animated.div style={style} className={itemClassName}>
         سبد خرید
       </animated.div>
-    </Link>
+    </PageTransition>
   ),
   ({ style, itemClassName }) => (
-    <Link href="/contact-us">
+    <PageTransition href="/contact-us">
       <animated.div style={style} className={itemClassName}>
         تماس
       </animated.div>
-    </Link>
+    </PageTransition>
   ),
 ]
 
 export default function Menu({ className, itemClassName, isVisible }) {
-  const screenSize = useScreenSize()
+  const resize = useResize()
+  const menuRef = React.useRef()
   const [springs, api] = useSprings(menu.length, () => ({
     from: { opacity: 0, transform: 'translateX(-25px)' },
   }))
 
   React.useEffect(() => {
-    if (screenSize?.md) {
+    if (resize?.md) {
       api.start(idx => ({
         to: {
           opacity: 1,
@@ -72,12 +73,23 @@ export default function Menu({ className, itemClassName, isVisible }) {
         config: { mass: 0.5, friction: 8, tension: 200 },
       }))
     }
-  }, [api, isVisible, screenSize])
+  }, [api, isVisible, resize])
+
+  React.useEffect(() => {
+    if (menuRef.current) {
+      if (resize?.md) {
+        menuRef.current.removeAttribute('data-mobile-menu')
+      } else {
+        menuRef.current.setAttribute('data-mobile-menu', true)
+      }
+    }
+  }, [resize])
 
   return (
     <div
+      ref={menuRef}
       className={clsx(
-        'overflow-hidden whitespace-nowrap border-b border-b-rose-500 bg-[var(--bg-menu-clr,black)] text-inherit md:border-b-0',
+        'overflow-hidden whitespace-nowrap border-b border-b-rose-500 text-inherit md:border-b-0',
         className,
       )}
     >

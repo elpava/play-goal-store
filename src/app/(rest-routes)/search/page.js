@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import clsx from 'clsx/lite'
 import searchProducts from 'database/products/search-products'
 import UpdateURLAtClient from '@/_components/ui/update-url-at-client'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import Empty from '@/_components/ui/common/empty'
 
 export const metadata = {
@@ -51,7 +51,7 @@ export default async function SearchPage({ searchParams }) {
             <ol className="divide-y divide-zinc-300 px-10 py-4">
               {data.map(({ _id, slug, name, brand, thumbnails }, idx) => (
                 <li key={_id} className="relative py-1">
-                  <Link
+                  <PageTransition
                     href={`/products/${slug}`}
                     className="mr-4 flex items-center gap-8 py-4 text-sm font-bold sm:text-2xl"
                   >
@@ -70,7 +70,7 @@ export default async function SearchPage({ searchParams }) {
                         {brand}
                       </span>
                     </div>
-                  </Link>
+                  </PageTransition>
                   <span className="absolute -right-6 top-1/2 -translate-y-1/2 text-lg sm:text-2xl">
                     {idx + 1}.
                   </span>

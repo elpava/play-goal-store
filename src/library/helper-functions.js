@@ -1,3 +1,7 @@
+export function delay(ms) {
+  return new Promise(res => setTimeout(res, ms))
+}
+
 export function formatNumberToPersian(number) {
   return Intl.NumberFormat('fa').format(number)
 }

@@ -32,8 +32,37 @@ html:has(section[data-no-scrollbar])::-webkit-scrollbar {
 }
 
 @layer components {
+  body,
+  header,
+  div[data-mobile-menu] {
+    @apply transition-[color,background] duration-[800ms] ease-in-out;
+  }
+  body:has(main > section[data-bg-dark]) {
+    @apply bg-black;
+  }
+  body:has([data-product-page]) {
+    @apply overflow-hidden;
+  }
+  header:has(+ main > section[data-bg-dark]) {
+    @apply text-zinc-50;
+  }
+  header button[data-login-button] {
+    @apply bg-white;
+  }
+  header:has(+ main > section[data-bg-dark]) button[data-login-button] {
+    @apply bg-black;
+  }
+  header div[data-mobile-menu] {
+    @apply bg-gradient-to-b from-white to-zinc-100;
+  }
+  header:has(+ main > section[data-bg-dark]) div[data-mobile-menu] {
+    @apply bg-gradient-to-b from-black to-zinc-900;
+  }
   main {
-    @apply min-h-svh;
+    @apply min-h-svh transition-[background,opacity,transform,filter] duration-500 ease-in-out;
+  }
+  main:has(> section[data-bg-dark]) {
+    @apply bg-black;
   }
   main:has(> section:not(.ignore)) {
     @apply mx-auto w-11/12 max-w-7xl py-20 sm:pt-28;

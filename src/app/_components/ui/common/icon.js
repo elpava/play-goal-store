@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import PropTypes from 'prop-types'
 
 const iconSize = {
@@ -11,15 +12,22 @@ export default function Icon({
   name,
   href,
   size = 'medium',
+  withPageTransition,
   className,
   ...props
 }) {
   return href ? (
-    <Link href={href}>
-      <SVG className={className} size={size} name={name} {...props} />
-    </Link>
+    withPageTransition ? (
+      <PageTransition href={href}>
+        <SVG {...props} className={className} size={size} name={name} />
+      </PageTransition>
+    ) : (
+      <Link href={href}>
+        <SVG {...props} className={className} size={size} name={name} />
+      </Link>
+    )
   ) : (
-    <SVG className={className} size={size} name={name} {...props} />
+    <SVG {...props} className={className} size={size} name={name} />
   )
 }
 

@@ -7,7 +7,7 @@ import { animated, useSpring, config } from '@react-spring/web'
 import clsx from 'clsx/lite'
 import useVisibility from 'hook/useVisibility'
 import useCheckDevice from 'hook/useCheckDevice'
-import { DEVICES_LIST } from 'library/fix-values'
+import { DEVICES_LIST } from 'library/constants'
 import { clamp } from 'library/helper-functions'
 import AdidasTelestar1970 from '/public/images/adidas-telestar-1970.jpg'
 import AdidasTrazuca2014 from '/public/images/adidas-brazuca-2014.jpg'
@@ -141,11 +141,7 @@ export default function ParallaxBalls() {
   }, [isVisible])
 
   return (
-    <div
-      ref={wrapperRef}
-      className="h-screen bg-black"
-      style={{ direction: 'ltr' }}
-    >
+    <div ref={wrapperRef} className="h-screen" style={{ direction: 'ltr' }}>
       <Parallax
         ref={parallaxRef}
         className={clsx(
@@ -277,8 +273,8 @@ export default function ParallaxBalls() {
                 <h2
                   className={clsx(
                     'w-40 text-sm italic position-center sm:w-64 sm:!text-[1.25rem] sm:leading-[1.75] lg:w-80',
-                    idx % 2 === 0 && '-mt-8 ',
-                    idx % 2 === 1 && 'mt-10 ',
+                    idx % 2 === 0 && '-mt-8',
+                    idx % 2 === 1 && 'mt-10',
                     idx === LAST_ITEM &&
                       '!mt-72 text-nowrap !text-base font-bold',
                   )}

@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import clsx from 'clsx/lite'
+import PageTransition from '@/_components/ui/animation/page-transition'
 const DynamicBall3D = dynamic(() => import('@/_components/ui/home/ball-3d'), {
   loading: () => (
     <div className="size-7 animate-bounce rounded-full bg-zinc-100 text-3xl font-bold position-center" />
@@ -40,8 +41,16 @@ export default function Footer() {
         </div>
 
         <div className="grid w-full grid-cols-1 gap-y-10 md:w-auto md:grid-cols-3 md:gap-y-0">
-          <CurvyNavigation data={productsLink} className="z-[3]" />
-          <CurvyNavigation data={usefulLinks} className="z-[2]" />
+          <CurvyNavigation
+            data={productsLink}
+            className="z-[3]"
+            withPageTransition
+          />
+          <CurvyNavigation
+            data={usefulLinks}
+            className="z-[2]"
+            withPageTransition
+          />
           <CurvyNavigation data={socialLinks} className="z-[1]" />
         </div>
       </div>
@@ -51,7 +60,7 @@ export default function Footer() {
   )
 }
 
-function CurvyNavigation({ data, className }) {
+function CurvyNavigation({ data, className, withPageTransition }) {
   return (
     <div className={clsx('relative w-56 shrink-0 flex-center', className)}>
       <ul
@@ -87,7 +96,15 @@ function CurvyNavigation({ data, className }) {
                 transform: `rotate(calc(360deg / var(--quantity) * ${idx} * 1 + calc(90deg + var(--items-rotation))))`,
               }}
             >
-              <Link href={href}>{name}</Link>
+              {href !== '#' ? (
+                withPageTransition ? (
+                  <PageTransition href={href}>{name}</PageTransition>
+                ) : (
+                  <Link href={href}>{name}</Link>
+                )
+              ) : (
+                name
+              )}
             </div>
           </li>
         ))}

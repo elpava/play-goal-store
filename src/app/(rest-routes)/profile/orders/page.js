@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { auth } from '@/auth'
 import getOrdersAction from 'action/orders/get-orders'
 import getProductsAction from 'action/products/get-products'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import Empty from '@/_components/ui/common/empty'
 import { formatNumberToPersian } from 'library/helper-functions'
 import { getDate } from 'util/date'
@@ -86,12 +87,12 @@ export default async function OrdersPage() {
                             <h4 className="mb-1 font-bold">{productName}</h4>
                             <span className="relative">
                               اندازه {size}
-                              <Link
+                              <PageTransition
                                 href={`/products/${slug}`}
                                 className="absolute -left-5 top-0"
                               >
                                 <ArrowUpRight size={16} />
-                              </Link>
+                              </PageTransition>
                             </span>
                           </div>
                         </div>

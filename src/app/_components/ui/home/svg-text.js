@@ -10,7 +10,7 @@ import {
 } from '@react-spring/web'
 import useVisibility from 'hook/useVisibility'
 import useCheckDevice from 'hook/useCheckDevice'
-import { DEVICES_LIST } from 'library/fix-values'
+import { DEVICES_LIST } from 'library/constants'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 export default function SvgText() {
@@ -110,7 +110,7 @@ export default function SvgText() {
   return (
     <div
       ref={wrapperRef}
-      className="relative isolate grid h-screen place-items-center overflow-hidden bg-black"
+      className="relative isolate grid h-screen place-items-center overflow-hidden"
       style={{ cursor: 'url(/shapes/cursor.svg), auto', direction: 'ltr' }}
       onClick={() => !clickLockedRef.current && setRerender(!rerender)}
     >

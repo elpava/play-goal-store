@@ -1,22 +1,7 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
 import clsx from 'clsx/lite'
 
 export default function Header({ children, className }) {
-  const pathname = usePathname()
-
-  const isRootPath = pathname === '/'
-
-  return (
-    <header
-      className={clsx(
-        isRootPath && 'text-zinc-50',
-        !isRootPath && '[--bg-menu-clr:white]',
-        className,
-      )}
-    >
-      {children}
-    </header>
-  )
+  return <header className={clsx(className)}>{children}</header>
 }

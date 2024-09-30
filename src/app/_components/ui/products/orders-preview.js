@@ -2,16 +2,17 @@
 
 import * as React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import useOrders from 'hook/useOrders'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import ChangeQuantityProduct from './change-quantity-product'
 import RemoveButton from './remove-button'
 import Button from '../common/button'
 import Empty from '../common/empty'
+import { startPageTransition, endPageTransition } from 'library/dom-helper'
 import { formatNumberToPersian } from 'library/helper-functions'
-import { DOLLAR_RATE } from 'library/fix-values'
+import { DOLLAR_RATE } from 'library/constants'
 
 export default function OrdersPreview() {
   const { push } = useRouter()
@@ -65,8 +66,10 @@ export default function OrdersPreview() {
     return acc + totalAmount
   }, 0)
 
-  function clickRedirectHandler() {
+  async function clickRedirectHandler() {
+    await startPageTransition()
     push('/payment')
+    await endPageTransition()
   }
 
   return (
@@ -104,7 +107,7 @@ export default function OrdersPreview() {
                       className="relative flex items-start gap-4 rounded-lg border-2 border-zinc-200 p-4"
                     >
                       <div className="shrink-0 text-center">
-                        <Link
+                        <PageTransition
                           href={`/products/${slug}`}
                           className="relative inline-block size-14 sm:size-24"
                         >
@@ -115,7 +118,7 @@ export default function OrdersPreview() {
                             sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
                             className="object-cover"
                           />
-                        </Link>
+                        </PageTransition>
 
                         <hr className="my-2 sm:my-4" />
 

@@ -6,7 +6,7 @@ import { animated, useSpring, useSprings, to } from '@react-spring/web'
 import { useGesture } from '@use-gesture/react'
 import clsx from 'clsx/lite'
 import useCheckDevice from 'hook/useCheckDevice'
-import { DEVICES_LIST } from 'library/fix-values'
+import { DEVICES_LIST } from 'library/constants'
 import Adidas1 from '/public/images/grid-adidas-1.jpg'
 import Adidas2 from '/public/images/grid-adidas-2.jpg'
 import Adidas3 from '/public/images/grid-adidas-3.jpg'
@@ -102,7 +102,7 @@ export default function GridImages() {
     <div
       {...bind()}
       className={clsx(
-        'relative grid h-screen overflow-hidden bg-black',
+        'relative grid h-screen overflow-hidden',
         isMobileDevice && 'touch-pan-y',
       )}
       style={{ direction: 'ltr' }}

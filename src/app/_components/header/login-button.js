@@ -5,37 +5,39 @@ import { usePathname } from 'next/navigation'
 import clsx from 'clsx/lite'
 import { signIn } from 'next-auth/react'
 import { User } from 'lucide-react'
+import { startPageTransition, endPageTransition } from 'library/dom-helper'
 
 export default function LoginButton({ className, isAuthurized, props }) {
   const { push } = useRouter()
   const pathname = usePathname()
 
-  const isHomePath = pathname === '/'
   const isProductsPath = pathname.startsWith('/products')
-  const isDark = isHomePath || isProductsPath
 
-  function clickSignInButtonHandler() {
+  async function clickSignInButtonHandler() {
     if (isAuthurized) {
+      await startPageTransition()
       push('/profile')
+      await endPageTransition()
     } else {
+      await startPageTransition()
       signIn()
+      await endPageTransition()
     }
   }
 
   return (
     <button
-      onClick={clickSignInButtonHandler}
+      {...props}
+      data-login-button
       className={clsx(
         'relative rounded-full p-0.5',
-        !isDark && 'bg-white md:hover:text-zinc-600',
-        isHomePath && 'bg-black md:hover:text-zinc-400',
         isProductsPath && 'bg-zinc-700',
         isAuthurized && 'rounded-full border-green-600',
         isAuthurized && isProductsPath && 'border',
         isAuthurized && !isProductsPath && 'border-[1.75px]',
         className,
       )}
-      {...props}
+      onClick={clickSignInButtonHandler}
     >
       {isAuthurized && (
         <span
