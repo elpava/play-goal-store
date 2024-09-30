@@ -84,8 +84,8 @@ export default function ContactUsPage() {
 
       <Card label="پیام شما">
         <Form className="bg-white p-6">
-          <Input name="fullName" placeholder="نام" />
-          <Input name="email" placeholder="ایمیل" />
+          <Input name="fullName" type="text" placeholder="نام" />
+          <Input name="email" type="text" placeholder="ایمیل" />
           <Input name="message" type="textarea" placeholder="پیام" />
 
           <Button label="ارسال پیام" />

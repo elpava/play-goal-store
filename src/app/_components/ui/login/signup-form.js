@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { useRouter } from 'next/navigation'
+import { useMutation } from '@tanstack/react-query'
 import { loginAction } from 'action/auth/login'
 import {
   signUpFormSchema,
@@ -14,10 +14,14 @@ import Row from '@/_components/ui/login/row'
 import Input from '@/_components/ui/common/input'
 import Button from '@/_components/ui/common/button'
 import FormErrorMessage from './form-error-message'
-import FormSuccessMessage from './form-success-message'
+import { IdCard, Mail, LockKeyhole, Smartphone } from 'lucide-react'
 
 export default function SignUpForm() {
-  const { push } = useRouter()
+  const { mutateAsync, isPending } = useMutation({
+    mutationKey: ['pending-form'],
+    mutationFn: formData => loginAction(formData),
+  })
+
   const [signUpForm, setSignUpForm] = React.useState({
     firstName: '',
     lastName: '',
@@ -111,13 +115,17 @@ export default function SignUpForm() {
 
   async function submitFormHandler(e) {
     e.preventDefault()
+    let isEmptyForm = false
 
     for (const input in signUpForm) {
       isEmptyFormRef.current[input] = signUpForm[input] === ''
+
+      if (!isEmptyForm) isEmptyForm = signUpForm[input] === ''
     }
 
-    if (isEmptyFormRef.current) {
+    if (isEmptyForm) {
       refresh({ target: e.target[0] })
+      return
     }
 
     const formData = {
@@ -128,23 +136,19 @@ export default function SignUpForm() {
       role: 'user',
     }
 
-    const result = await loginAction(formData)
+    const result = await mutateAsync(formData)
     if (result?.error) {
       const { error } = result
       signUpResultRef.current = error
-      refresh({ target: e.target[0] })
+      refresh()
     } else {
-      signUpResultRef.current = 'signup successfully'
-      refresh({ target: e.target[0] })
       setTimeout(() => {
         window.location.replace('/')
       }, 3000)
     }
   }
 
-  return signUpResultRef.current === 'signup successfully' ? (
-    <FormSuccessMessage type={signUpResultRef.current} icon />
-  ) : (
+  return (
     <Form onSubmit={submitFormHandler}>
       <Row>
         <Input
@@ -153,6 +157,7 @@ export default function SignUpForm() {
           name="firstName"
           value={signUpForm.firstName}
           placeholder="نام"
+          variant="outlined"
           error={inputsError}
           className="grow"
           onChange={changeInputHandler}
@@ -164,6 +169,7 @@ export default function SignUpForm() {
           name="lastName"
           value={signUpForm.lastName}
           placeholder="نام خانوادگی"
+          variant="outlined"
           error={inputsError}
           className="grow"
           onChange={changeInputHandler}
@@ -176,17 +182,9 @@ export default function SignUpForm() {
         name="nationalId"
         value={signUpForm.nationalId}
         placeholder="کد ملی"
+        variant="outlined"
         error={inputsError}
-        onChange={changeInputHandler}
-        onFocus={focusInputHandler}
-      />
-      <Input
-        id="email"
-        type="text"
-        name="email"
-        value={signUpForm.email}
-        placeholder="ایمیل"
-        error={inputsError}
+        icon={<IdCard className="stroke-inherit" />}
         onChange={changeInputHandler}
         onFocus={focusInputHandler}
       />
@@ -197,7 +195,9 @@ export default function SignUpForm() {
           name="password"
           value={signUpForm.password}
           placeholder="رمز عبور"
+          variant="outlined"
           error={inputsError}
+          icon={<LockKeyhole className="stroke-inherit" />}
           className="grow"
           onChange={changeInputHandler}
           onFocus={focusInputHandler}
@@ -208,29 +208,50 @@ export default function SignUpForm() {
           name="confirmPassword"
           value={signUpForm.confirmPassword}
           placeholder="تکرار رمز عبور"
+          variant="outlined"
           error={inputsError}
+          icon={<LockKeyhole className="stroke-inherit" />}
           className="grow"
           onChange={changeInputHandler}
           onFocus={focusInputHandler}
         />
       </Row>
-      <Input
-        id="mobile"
-        type="number"
-        name="mobile"
-        value={signUpForm.mobile}
-        placeholder="موبایل"
-        error={inputsError}
-        onChange={changeInputHandler}
-        onFocus={focusInputHandler}
-      />
+      <Row>
+        <Input
+          id="email"
+          type="text"
+          name="email"
+          value={signUpForm.email}
+          placeholder="ایمیل"
+          variant="outlined"
+          error={inputsError}
+          icon={<Mail className="stroke-inherit" />}
+          className="grow"
+          onChange={changeInputHandler}
+          onFocus={focusInputHandler}
+        />
+        <Input
+          id="mobile"
+          type="number"
+          name="mobile"
+          value={signUpForm.mobile}
+          placeholder="موبایل"
+          variant="outlined"
+          error={inputsError}
+          icon={<Smartphone className="stroke-inherit" />}
+          className="grow"
+          onChange={changeInputHandler}
+          onFocus={focusInputHandler}
+        />
+      </Row>
 
       {signUpResultRef.current && (
         <FormErrorMessage type={signUpResultRef.current} />
       )}
 
       <Button
-        label="ثبت حساب کاربری جدید"
+        label="ثبت نام"
+        disabled={isPending}
         className="mt-auto bg-green-600 text-zinc-100"
       />
     </Form>

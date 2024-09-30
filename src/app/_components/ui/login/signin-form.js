@@ -1,17 +1,21 @@
 'use client'
 
 import * as React from 'react'
-import { useRouter } from 'next/navigation'
-import Input from '@/_components/ui/common/input'
-import Button from '@/_components/ui/common/button'
-import FormErrorMessage from './form-error-message'
-import FormSuccessMessage from './form-success-message'
+import { useMutation } from '@tanstack/react-query'
 import { loginAction } from 'action/auth/login'
 import { signInFormSchema } from 'library/inputs-schema'
 import Form from '@/_components/ui/common/form'
+import Input from '@/_components/ui/common/input'
+import Button from '@/_components/ui/common/button'
+import FormErrorMessage from './form-error-message'
+import { Mail, LockKeyhole } from 'lucide-react'
 
 export default function SignInForm() {
-  const { push } = useRouter()
+  const { mutateAsync, isPending } = useMutation({
+    mutationKey: ['pending-form'],
+    mutationFn: formData => loginAction(formData),
+  })
+
   const [signInForm, setSignInForm] = React.useState({
     email: '',
     password: '',
@@ -74,34 +78,34 @@ export default function SignInForm() {
 
   async function submitFormHandler(e) {
     e.preventDefault()
+    let isEmptyForm = false
 
     for (const input in signInForm) {
       isEmptyFormRef.current[input] = signInForm[input] === ''
+
+      if (!isEmptyForm) isEmptyForm = signInForm[input] === ''
     }
 
-    if (isEmptyFormRef.current) {
-      refresh({ ...e, target: e.target[0] })
+    if (isEmptyForm) {
+      refresh({ target: e.target[0] })
+      return
     }
 
     const formData = { ...signInForm, state: 'sign-in' }
 
-    const result = await loginAction(formData)
+    const result = await mutateAsync(formData)
     if (result?.error) {
       const { error } = result
       signInResultRef.current = error
-      refresh({ ...e, target: e.target[0] })
+      refresh()
     } else {
-      signInResultRef.current = 'signin successfully'
-      refresh({ ...e, target: e.target[0] })
       setTimeout(() => {
         window.location.replace('/')
       }, 3000)
     }
   }
 
-  return signInResultRef.current === 'signin successfully' ? (
-    <FormSuccessMessage type={signInResultRef.current} icon />
-  ) : (
+  return (
     <Form onSubmit={submitFormHandler}>
       <Input
         id="email"
@@ -109,7 +113,9 @@ export default function SignInForm() {
         name="email"
         value={signInForm.email}
         placeholder="ایمیل"
+        variant="outlined"
         error={inputsError}
+        icon={<Mail className="stroke-inherit" />}
         onChange={changeInputHandler}
         onFocus={focusInputHandler}
       />
@@ -119,7 +125,9 @@ export default function SignInForm() {
         name="password"
         value={signInForm.password}
         placeholder="رمز عبور"
+        variant="outlined"
         error={inputsError}
+        icon={<LockKeyhole className="stroke-inherit" />}
         onChange={changeInputHandler}
         onFocus={focusInputHandler}
       />
@@ -130,6 +138,7 @@ export default function SignInForm() {
 
       <Button
         label="ورود به حساب کاربری"
+        disabled={isPending}
         className="mt-auto !bg-blue-600 text-zinc-100"
       />
     </Form>
