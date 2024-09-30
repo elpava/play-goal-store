@@ -8,7 +8,7 @@ import { Menu as MenuIcon, X } from 'lucide-react'
 
 export default function ToggleMenu({ className }) {
   const [toggle, setToggle] = React.useState(false)
-  const [disable, setDisable] = React.useState(false)
+  const disableRef = React.useRef(false)
   const transitions = useTransition(toggle, {
     from: v => ({
       opacity: 0,
@@ -24,8 +24,8 @@ export default function ToggleMenu({ className }) {
     }),
     exitBeforeEnter: true,
     config: { mass: 0.5, friction: 11, tension: 400 },
-    onStart: () => setDisable(true),
-    onRest: () => setDisable(false),
+    onStart: () => (disableRef.current = true),
+    onRest: () => (disableRef.current = false),
   })
 
   function clickPopupHandler() {
@@ -36,7 +36,7 @@ export default function ToggleMenu({ className }) {
     <div className={className}>
       <button
         className="relative z-50 touch-none select-none overflow-hidden rounded-lg border border-dashed border-zinc-700 p-1"
-        disabled={disable}
+        disabled={disableRef.current}
         onClick={clickPopupHandler}
       >
         {transitions((style, toggle) =>

@@ -38,6 +38,9 @@ html:has(section[data-no-scrollbar])::-webkit-scrollbar {
   main:has(> section:not(.ignore)) {
     @apply mx-auto w-11/12 max-w-7xl py-20 sm:pt-28;
   }
+  main:has(.ignore) {
+    @apply grid;
+  }
   h2 {
     @apply mb-6 text-xl lg:mb-8 lg:text-3xl;
   }
