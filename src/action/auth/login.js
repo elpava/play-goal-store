@@ -4,24 +4,33 @@ import { AuthError } from 'next-auth'
 import { signIn } from '@/auth'
 
 export async function loginAction(formData) {
+  let result = { error: null }
+
   try {
     await signIn('credentials', { ...formData })
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'EmailRegistered':
-          return { error: 'email registered' }
-        case 'EmailExists':
-          return { error: 'email exists' }
+          result.error = 'email registered'
+          break
+        case 'EmailNotExists':
+          result.error = 'email not exists'
+          break
         case 'InvalidPassword':
-          return { error: 'invalid password' }
+          result.error = 'invalid password'
+          break
         case 'CallbackRouteError':
-          return { error: 'callback error' }
+          result.error = 'callback error'
+          break
         case 'CredentialsSignin':
-          return { error: 'invalid credentials' }
+          result.error = 'invalid credentials'
+          break
         default:
-          return { error: 'unknown error' }
+          result.error = 'unknown error'
       }
     }
   }
+
+  return result
 }

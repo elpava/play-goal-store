@@ -16,7 +16,7 @@ export default async function userExists(email) {
     data = data._id.toString('hex')
   } catch (error) {
     throw new CredentialsError(
-      'EmailExists',
+      'EmailNotExists',
       `[${caller}]: The user doesn't exist.\n message: ${error}`,
     )
   } finally {

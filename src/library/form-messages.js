@@ -1,7 +1,7 @@
 export const errorMessages = {
   'email registered':
     'این آدرس ایمیل قبلاً ثبت شده است، لطفاً وارد حساب کاربری خود شوید.',
-  'email exists': 'این آدرس ایمیل ثبت نشده است، لطفاً ثبت نام نمایید.',
+  'email not exists': 'این آدرس ایمیل ثبت نشده است، لطفاً ثبت نام نمایید.',
   'invalid password': 'نام کاربری/رمز عبور را بررسی نمایید.',
   'callback error': 'خطایی رخ داده است',
   'invalid credentials': 'خطای ورود',
