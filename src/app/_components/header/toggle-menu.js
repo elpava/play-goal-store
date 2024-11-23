@@ -7,9 +7,9 @@ import Popup from '@/_components/ui/common/popup'
 import { Menu as MenuIcon, X } from 'lucide-react'
 
 export default function ToggleMenu({ className }) {
-  const [toggle, setToggle] = React.useState(false)
+  const [showMenu, setShowMenu] = React.useState(false)
   const disableRef = React.useRef(false)
-  const transitions = useTransition(toggle, {
+  const transitions = useTransition(showMenu, {
     from: v => ({
       opacity: 0,
       transform: `translateY(${v ? -40 : 40}px) scale(0.85)`,
@@ -29,7 +29,7 @@ export default function ToggleMenu({ className }) {
   })
 
   function clickPopupHandler() {
-    setToggle(prev => !prev)
+    setShowMenu(prev => !prev)
   }
 
   return (
@@ -52,11 +52,11 @@ export default function ToggleMenu({ className }) {
         )}
       </button>
 
-      <Popup className="pt-14" toggle={toggle} onToggle={clickPopupHandler}>
+      <Popup className="pt-14" show={showMenu} onShow={clickPopupHandler}>
         <Menu
           className="flex flex-col items-start divide-y-2 p-6 text-4xl font-bold *:w-full"
-          itemClassName="p-6 "
-          isVisible={toggle}
+          itemClassName="p-6"
+          isVisible={showMenu}
         />
       </Popup>
     </div>

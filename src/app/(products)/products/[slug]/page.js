@@ -47,7 +47,9 @@ export default async function ProductPage({ params: { slug } }) {
 
   return (
     <section
-      className={`ignore bg-zinc-900 text-zinc-100 md:grid md:h-screen md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
+      data-bg-dark
+      data-product-page
+      className={`ignore md:grid md:h-screen md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
     >
       <div
         className={clsx(

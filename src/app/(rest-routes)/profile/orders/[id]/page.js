@@ -4,6 +4,7 @@ import { auth } from '@/auth'
 import getOrderAction from 'action/orders/get-order'
 import getProductsAction from 'action/products/get-products'
 import getUserAction from 'action/users/get-user'
+import PageTransition from '@/_components/ui/animation/page-transition'
 import { formatNumberToPersian } from 'library/helper-functions'
 import { DOLLAR_RATE } from 'library/constants'
 import { getDate } from 'util/date'
@@ -232,7 +233,7 @@ export default async function OrderDetailsPage({ params }) {
                           <div className="text-left">{price} تومان</div>
                           <div className="text-left">{quantity} عدد</div>
                           <div className="text-left">{totalPrice} تومان</div>
-                          <Link
+                          <PageTransition
                             href={`/products/${slug}`}
                             className="absolute right-0 top-0"
                           >
@@ -240,7 +241,7 @@ export default async function OrderDetailsPage({ params }) {
                               size={20}
                               className="inline-block text-zinc-400"
                             />
-                          </Link>
+                          </PageTransition>
                         </div>
                       ),
                     )

@@ -39,9 +39,9 @@ export default function DividerText() {
   return (
     <div
       ref={wrapperRef}
-      className="border-y-[0.5px] border-y-[currentColor] bg-black text-sm text-custom-wheat sm:text-base"
+      className="border-y-[0.5px] border-y-[currentColor] text-sm text-custom-wheat sm:text-base"
     >
-      <div className="flex-center mx-auto h-60 max-w-128">
+      <div className="mx-auto h-60 max-w-128 flex-center">
         <div className="flex h-full flex-wrap items-center border-x-[0.5px] border-x-[currentColor]">
           <animated.div
             className="basis-4/5 bg-gradient-to-tr from-custom-wheat to-custom-wheat bg-no-repeat pl-8 pr-4 text-justify"
@@ -58,7 +58,7 @@ export default function DividerText() {
           </animated.div>
           <animated.div
             className={clsx(
-              'flex-center relative basis-1/5 self-stretch border-r-[0.5px] border-r-[currentColor] text-center',
+              'relative basis-1/5 self-stretch border-r-[0.5px] border-r-[currentColor] text-center flex-center',
               "before:absolute before:-right-4 before:h-full before:w-[0.25px] before:bg-[currentColor] before:content-['']",
               'bg-gradient-to-b from-custom-wheat to-custom-wheat bg-no-repeat',
             )}

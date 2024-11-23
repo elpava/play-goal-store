@@ -21,7 +21,7 @@ export default function HeroBanner() {
 
   return (
     <div
-      className="pointer-events-none grid min-h-svh grid-cols-1 grid-rows-[repeat(2,80svh)] bg-black sm:h-screen sm:grid-cols-2 sm:grid-rows-none"
+      className="pointer-events-none grid min-h-svh grid-cols-1 grid-rows-[repeat(2,80svh)] sm:h-screen sm:grid-cols-2 sm:grid-rows-none"
       style={{ direction: 'ltr' }}
     >
       <FieldSpotlight />

@@ -102,7 +102,7 @@ export default function GridImages() {
     <div
       {...bind()}
       className={clsx(
-        'relative grid h-screen overflow-hidden bg-black',
+        'relative grid h-screen overflow-hidden',
         isMobileDevice && 'touch-pan-y',
       )}
       style={{ direction: 'ltr' }}

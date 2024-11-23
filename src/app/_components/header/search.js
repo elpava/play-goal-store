@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import clsx from 'clsx/lite'
+import { startPageTransition, endPageTransition } from 'library/dom-helper'
 import {
   Search as SearchIcon,
   Loader,
@@ -22,10 +23,12 @@ export default function Search({ className }) {
 
   queries.set('query', query || '')
 
-  function focusInputHandler() {
+  async function focusInputHandler() {
     if (isSearchPath) {
       queries.set('state', '')
+      await startPageTransition()
       push('/search?' + queries)
+      await endPageTransition()
     }
   }
 

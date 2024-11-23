@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import useLogout from 'hook/useLogout'
+import { startPageTransition, endPageTransition } from 'library/dom-helper'
 import { ArrowRight, LogOut } from 'lucide-react'
 
 const floatMenu = [
@@ -19,12 +20,16 @@ export default function FloatMenu({ className }) {
   const { logout } = useLogout()
   const isInvoicePath = /.*\/orders\/.*/.test(pathname)
 
-  function backButtonHandler() {
+  async function backButtonHandler() {
+    await startPageTransition()
     back()
+    await endPageTransition()
   }
 
-  function signOutButtonHandler() {
+  async function signOutButtonHandler() {
+    await startPageTransition()
     logout()
+    await endPageTransition()
   }
 
   return (

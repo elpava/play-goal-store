@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import useLogout from 'hook/useLogout'
+import { startPageTransition, endPageTransition } from 'library/dom-helper'
 import { LogOut } from 'lucide-react'
 
 const sidebarMenu = [
@@ -17,8 +18,10 @@ export default function SidebarMenu({ className }) {
   const pathname = usePathname()
   const { logout } = useLogout()
 
-  function signOutButtonHandler() {
+  async function signOutButtonHandler() {
+    await startPageTransition()
     logout()
+    await endPageTransition()
   }
 
   return (

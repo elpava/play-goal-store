@@ -10,7 +10,7 @@ const DynamicGridImages = dynamic(
 
 export default function HomePage() {
   return (
-    <section data-no-scrollbar className="ignore select-none">
+    <section data-no-scrollbar data-bg-dark className="ignore select-none">
       <HeroBanner />
       <ParallaxBalls />
       <DividerText />

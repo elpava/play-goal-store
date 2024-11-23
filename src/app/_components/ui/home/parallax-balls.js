@@ -141,11 +141,7 @@ export default function ParallaxBalls() {
   }, [isVisible])
 
   return (
-    <div
-      ref={wrapperRef}
-      className="h-screen bg-black"
-      style={{ direction: 'ltr' }}
-    >
+    <div ref={wrapperRef} className="h-screen" style={{ direction: 'ltr' }}>
       <Parallax
         ref={parallaxRef}
         className={clsx(
