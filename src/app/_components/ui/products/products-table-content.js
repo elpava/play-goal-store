@@ -5,18 +5,15 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { animated, useSprings, easings } from '@react-spring/web'
 import clsx from 'clsx/lite'
-import useWindowReady from 'hook/useWindowReady'
 import useIntersectionObserver from 'hook/useIntersectionObserver'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 export default function ProductsTabelContent({ brandsAnchors }) {
   const router = useRouter()
-  const { isWindowReady } = useWindowReady()
-
-  const { observe, entries } = useIntersectionObserver()
-  const brandsAnchorsLength = brandsAnchors.length - 1
+  const { entries, observe } = useIntersectionObserver()
   const [active, setActive] = React.useState(0)
   const isScrollingRef = React.useRef(false)
+  const brandsAnchorsLength = brandsAnchors.length - 1
   const [barStyles, barApi] = useSprings(brandsAnchors.length, () => ({
     from: { x: 0 },
   }))
@@ -35,7 +32,7 @@ export default function ProductsTabelContent({ brandsAnchors }) {
   )
 
   React.useEffect(() => {
-    const brandEls = document.querySelectorAll('[id^=brand]')
+    const brandEls = document?.querySelectorAll('[id^=brand]')
     brandEls.forEach(el => {
       observe(el)
     })
@@ -64,13 +61,12 @@ export default function ProductsTabelContent({ brandsAnchors }) {
   }, [active, entries, linkClickHandler, observe])
 
   React.useEffect(() => {
-    if (isWindowReady)
-      barApi.start(idx => ({
-        to: active === idx ? [{ x: 100 }, { x: 5 }] : { x: 30 },
-        loop: true,
-        config: { duration: 1300, easing: easings.easeInOutSine },
-      }))
-  }, [active, barApi, isWindowReady])
+    barApi.start(idx => ({
+      to: active === idx ? [{ x: 100 }, { x: 5 }] : { x: 30 },
+      loop: true,
+      config: { duration: 1300, easing: easings.easeInOutSine },
+    }))
+  }, [active, barApi])
 
   return (
     <nav

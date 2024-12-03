@@ -10,9 +10,13 @@
     "prettier"
   ],
   "rules": {
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "no-console": [1],
     "react/prop-types": [0],
     "react/react-in-jsx-scope": [0],
-    "no-console": [1],
     "react-hooks/rules-of-hooks": [2],
     "react-hooks/exhaustive-deps": [2],
     "react/no-array-index-key": [1],
@@ -48,6 +52,7 @@
         ]
       }
     ],
+
     "react/no-unused-prop-types": [1],
     "react/no-unused-class-component-methods": [1]
   }

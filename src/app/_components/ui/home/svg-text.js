@@ -10,11 +10,10 @@ import {
 } from '@react-spring/web'
 import useVisibility from 'hook/useVisibility'
 import useCheckDevice from 'hook/useCheckDevice'
-import { DEVICES_LIST } from 'library/constants'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 export default function SvgText() {
-  const { is: isMobileDevice } = useCheckDevice(DEVICES_LIST)
+  const { is: isMobileDevice } = useCheckDevice()
   const ROWS = isMobileDevice ? 3 : 6
   const COLUMNS = isMobileDevice ? 10 : 20
   const GRID = isMobileDevice ? 30 : 120

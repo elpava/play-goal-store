@@ -12,6 +12,8 @@ export default function PageTransition({ children, href, ...props }) {
   async function clickHandler(e) {
     e.preventDefault()
 
+    if (pathname === href) return
+
     await startPageTransition()
     push(href)
   }

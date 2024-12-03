@@ -26,12 +26,14 @@ export default function DividerText() {
     from: { x: 200 },
     to: { x: -101 },
     config: { duration: 3000, easing: easings.easeInOutExpo },
+    reset: isVisible,
   })
   const leftStyle = useSpring({
     ref: leftSpringRef,
     from: { y: -100 },
     to: { y: 200 },
     config: { duration: 3000, easing: easings.easeInOutExpo },
+    reset: isVisible,
   })
 
   useChain(isVisible ? [leftSpringRef, rightSpringRef] : [], [0, 1], 1100)

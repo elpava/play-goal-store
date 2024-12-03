@@ -7,7 +7,6 @@ import { animated, useSpring, config } from '@react-spring/web'
 import clsx from 'clsx/lite'
 import useVisibility from 'hook/useVisibility'
 import useCheckDevice from 'hook/useCheckDevice'
-import { DEVICES_LIST } from 'library/constants'
 import { clamp } from 'library/helper-functions'
 import AdidasTelestar1970 from '/public/images/adidas-telestar-1970.jpg'
 import AdidasTrazuca2014 from '/public/images/adidas-brazuca-2014.jpg'
@@ -43,7 +42,7 @@ const data = [
 const LAST_ITEM = data.length - 1
 
 export default function ParallaxBalls() {
-  const { is: isMobileDevice } = useCheckDevice(DEVICES_LIST)
+  const { is: isMobileDevice } = useCheckDevice()
   const wrapperRef = React.useRef()
   const parallaxRef = React.useRef()
   const isVisible = useVisibility({ ref: wrapperRef, threshold: 0.7 })

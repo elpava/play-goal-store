@@ -3,15 +3,16 @@
 import * as React from 'react'
 import clsx from 'clsx/lite'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import useUserId from 'hook/useUserId'
+import useLocalStorage from 'hook/useLocalStorage'
 import useOrders from 'hook/useOrders'
 import addOrderAction from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
 import { ShoppingBag, PackageCheck } from 'lucide-react'
+import { USER_ID_KEY } from 'library/constants'
 
 export default function ShoppingButton({ className, productId, ...props }) {
   const queryClient = useQueryClient()
-  const { userId } = useUserId()
+  const [userId] = useLocalStorage(USER_ID_KEY)
   const { ordersData, isLoading, isSuccess } = useOrders()
   const { mutate: mutateToAddOrder } = useMutation({
     mutationFn: newOrder => addOrderAction(newOrder),

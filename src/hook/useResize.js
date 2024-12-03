@@ -1,18 +1,17 @@
-'use client'
-
 import * as React from 'react'
+
+import { BREAKPOINTS } from 'library/constants'
+
+const { sm, md, lg, xl } = BREAKPOINTS
 
 export default function useResize() {
   const width = React.useSyncExternalStore(subscribe, getSnapshot, () => {})
 
   return {
-    desktop: width > 900 ? true : false,
-    tablet: width <= 900 ? true : false,
-    mobile: width <= 500 ? true : false,
-    sm: width >= 640 ? true : false,
-    md: width >= 768 ? true : false,
-    lg: width >= 1024 ? true : false,
-    xl: width >= 1280 ? true : false,
+    sm: width >= sm,
+    md: width >= md,
+    lg: width >= lg,
+    xl: width >= xl,
   }
 }
 

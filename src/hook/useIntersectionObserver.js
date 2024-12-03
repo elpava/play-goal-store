@@ -1,37 +1,47 @@
 import * as React from 'react'
 
+let observer = [],
+  entries = [],
+  serverSnapshot = []
+
 export default function useIntersectionObserver({
   root,
   rootMargin,
   threshold,
 } = {}) {
-  const [entries, setEntries] = React.useState([])
-  const observerRef = React.useRef(null)
+  if (observer.length > 0) observer.disconnect()
 
-  React.useEffect(() => {
-    if (observerRef.current) observerRef.current.disconnect()
+  const subscribeCB = React.useCallback(
+    callback => subscribe(callback, { root, rootMargin, threshold }),
+    [root, rootMargin, threshold],
+  )
 
-    observerRef.current = new IntersectionObserver(
-      ioEntries => {
-        setEntries(ioEntries)
-      },
-      {
-        root,
-        rootMargin,
-        threshold,
-      },
-    )
+  const entries = React.useSyncExternalStore(
+    subscribeCB,
+    getSnapshot,
+    getServerSnapshot,
+  )
 
-    return () => observerRef.current.disconnect()
-  }, [root, rootMargin, threshold])
+  const observe = React.useCallback(element => {
+    if (element) observer.observe(element)
+  }, [])
 
-  function observe(element) {
-    if (element) observerRef.current.observe(element)
-  }
+  const unobserve = React.useCallback(element => {
+    if (element) observer.unobserve(element)
+  }, [])
 
-  function unobserve(element) {
-    if (element) observerRef.current.unobserve(element)
-  }
-
-  return { observe, unobserve, entries }
+  return { entries, observe, unobserve }
 }
+
+const subscribe = (callback, config) => {
+  observer = new IntersectionObserver(ents => {
+    entries = ents
+    callback()
+  }, config)
+
+  return () => observer.disconnect()
+}
+
+const getSnapshot = () => entries
+
+const getServerSnapshot = () => serverSnapshot
