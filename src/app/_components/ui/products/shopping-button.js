@@ -7,20 +7,24 @@ import useLocalStorage from 'hook/useLocalStorage'
 import useOrders from 'hook/useOrders'
 import addOrderAction from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
-import { ShoppingBag, PackageCheck } from 'lucide-react'
+import { ShoppingBag, PackageCheck, Loader } from 'lucide-react'
 import { USER_ID_KEY } from 'library/constants'
 
 export default function ShoppingButton({ className, productId, ...props }) {
   const queryClient = useQueryClient()
   const [userId] = useLocalStorage(USER_ID_KEY)
   const { ordersData, isLoading, isSuccess } = useOrders()
-  const { mutate: mutateToAddOrder } = useMutation({
-    mutationFn: newOrder => addOrderAction(newOrder),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] })
-    },
-  })
-  const { mutate: mutateToUpdateOrderProducts } = useMutation({
+  const { mutate: mutateToAddOrder, isPending: isPendingAddOrder } =
+    useMutation({
+      mutationFn: newOrder => addOrderAction(newOrder),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['cart'] })
+      },
+    })
+  const {
+    mutate: mutateToUpdateOrderProducts,
+    isPending: isPendingUpdateOrderProducts,
+  } = useMutation({
     mutationFn: ({ orderId, existOrderProductId, newOrder }) =>
       updateProductOrderAction(orderId, existOrderProductId, newOrder),
     onSuccess: () => {
@@ -32,6 +36,7 @@ export default function ShoppingButton({ className, productId, ...props }) {
 
   let isLastOrderData
   let isAdded = false
+  let isPending = isPendingAddOrder || isPendingUpdateOrderProducts
 
   if (isSuccess) {
     lastOrderData = ordersData?.at(-1)
@@ -93,9 +98,8 @@ export default function ShoppingButton({ className, productId, ...props }) {
   return (
     <button
       className={clsx(
-        'rounded-lg p-1',
+        'w-16 rounded-lg p-1 text-center sm:w-24 sm:p-2',
         className,
-        isLoading && 'p-2 sm:p-1',
         !isAdded && 'bg-red-600',
         isAdded && 'border border-red-600 bg-transparent text-red-600',
       )}
@@ -105,6 +109,8 @@ export default function ShoppingButton({ className, productId, ...props }) {
     >
       {isLoading ? (
         'بارگذاری ...'
+      ) : isPending ? (
+        <Loader className="inline-block w-4 animate-spin stroke-1" />
       ) : isAdded ? (
         <>
           افزوده

@@ -56,11 +56,14 @@ export default async function ProductsPage() {
             <div
               id={`brand-${brandName}`}
               data-index={idx}
-              className="space-y-14 pe-20 md:grow md:pe-56 md:ps-20"
+              className="space-y-10 pe-20 md:grow md:pe-56 md:ps-20"
             >
               {products.map(
                 ({ _id, slug, name, price, description, thumbnails }, idx) => (
-                  <div key={_id} className="flex gap-4">
+                  <div
+                    key={_id}
+                    className="flex flex-wrap justify-center gap-4 text-center sm:flex-nowrap sm:justify-normal sm:text-right"
+                  >
                     <div className="relative size-16 shrink-0 overflow-hidden rounded-lg lg:h-36 lg:w-36">
                       <Image
                         src={`/images/products/${thumbnails[0]}`}
@@ -73,29 +76,32 @@ export default async function ProductsPage() {
 
                     <div
                       className={clsx(
-                        'grow space-y-2 border-b pb-2 md:flex md:flex-col',
+                        'grow space-y-2 border-b border-zinc-500 pb-10',
                         idx === products.length - 1 && 'border-none',
                       )}
                     >
                       <h2>{name}</h2>
 
-                      <div className="flex items-end justify-between space-x-2 space-x-reverse p-0.5 md:grow md:text-lg">
-                        <p className="hidden basis-3/5 text-zinc-400 lg:inline-block">
+                      <div className="grid gap-2 p-0.5 md:grow md:text-lg">
+                        <p className="hidden text-zinc-400 md:block">
                           {convertToShortDescription(description, 190)}
                         </p>
 
-                        <Price className="md:basis-auto" price={price} />
+                        <div className="flex items-center justify-center gap-4 text-xs xs:justify-normal md:text-base">
+                          <Price className="" price={price} />
 
-                        <div className="grid grid-cols-2 items-center text-xs md:basis-auto md:text-base">
                           <PageTransition
                             href={`/products/${slug}`}
-                            className="relative p-1 underline underline-offset-4"
+                            className="relative p-1 underline underline-offset-8"
                           >
                             مشاهده
                             <ArrowUpRight className="absolute -top-3 right-0 w-4 stroke-1" />
                           </PageTransition>
 
-                          <ShoppingButton productId={_id} />
+                          <ShoppingButton
+                            className="xs:mr-auto"
+                            productId={_id}
+                          />
                         </div>
                       </div>
                     </div>
