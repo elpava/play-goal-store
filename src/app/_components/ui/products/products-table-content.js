@@ -5,53 +5,49 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { animated, useSprings, easings } from '@react-spring/web'
 import clsx from 'clsx/lite'
-import useWindowReady from 'hook/useWindowReady'
 import useIntersectionObserver from 'hook/useIntersectionObserver'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
 
 export default function ProductsTabelContent({ brandsAnchors }) {
-  const router = useRouter()
-  const { isWindowReady } = useWindowReady()
-
-  const { observe, entries } = useIntersectionObserver()
-  const brandsAnchorsLength = brandsAnchors.length - 1
+  const { replace } = useRouter()
+  const { entries, observe, unobserve } = useIntersectionObserver()
   const [active, setActive] = React.useState(0)
   const isScrollingRef = React.useRef(false)
+  const brandsAnchorsLength = brandsAnchors.length - 1
   const [barStyles, barApi] = useSprings(brandsAnchors.length, () => ({
     from: { x: 0 },
   }))
 
-  const linkClickHandler = React.useCallback(
+  const clickLinkHandler = React.useCallback(
     (hash, e) => {
       if (e) e.preventDefault()
       const { pathname, search } = window.location
-      router.replace(`${pathname}${search}#${hash}`, {
+      replace(`${pathname}${search}#${hash}`, {
         scroll: e ? true : false,
       })
 
       isScrollingRef.current = false
     },
-    [router],
+    [replace],
   )
 
   React.useEffect(() => {
-    const brandEls = document.querySelectorAll('[id^=brand]')
-    brandEls.forEach(el => {
-      observe(el)
-    })
-
     function handleScroll() {
       isScrollingRef.current = true
     }
 
     if (entries.length > 0) {
-      entries.forEach(({ isIntersecting, target }) => {
-        const idx = +target.dataset.index
-        if (isIntersecting && active !== idx) {
-          if (isScrollingRef.current) linkClickHandler(target.id)
-          setActive(idx)
-        }
-      })
+      const entryIdx = entries.findIndex(
+        entry => `#${entry.target.id}` === location.hash,
+      )
+      const entry =
+        entries.length > 1 ? entries[entryIdx > -1 ? entryIdx : 0] : entries[0]
+      const { isIntersecting, target } = entry
+      const idx = +target.dataset.index
+      if (isIntersecting && active !== idx) {
+        if (isScrollingRef.current) clickLinkHandler(target.id)
+        setActive(idx)
+      }
     }
 
     window.addEventListener('wheel', handleScroll)
@@ -61,16 +57,28 @@ export default function ProductsTabelContent({ brandsAnchors }) {
       window.removeEventListener('wheel', handleScroll)
       window.removeEventListener('touchmove', handleScroll)
     }
-  }, [active, entries, linkClickHandler, observe])
+  }, [active, entries, clickLinkHandler])
 
   React.useEffect(() => {
-    if (isWindowReady)
-      barApi.start(idx => ({
-        to: active === idx ? [{ x: 100 }, { x: 5 }] : { x: 30 },
-        loop: true,
-        config: { duration: 1300, easing: easings.easeInOutSine },
-      }))
-  }, [active, barApi, isWindowReady])
+    const brandEls = document?.querySelectorAll('[id^=brand]')
+    brandEls.forEach(el => {
+      observe(el)
+    })
+
+    return () => {
+      brandEls.forEach(el => {
+        unobserve(el)
+      })
+    }
+  }, [observe, unobserve])
+
+  React.useEffect(() => {
+    barApi.start(idx => ({
+      to: active === idx ? [{ x: 100 }, { x: 5 }] : { x: 30 },
+      loop: true,
+      config: { duration: 1300, easing: easings.easeInOutSine },
+    }))
+  }, [active, barApi])
 
   return (
     <nav
@@ -85,7 +93,7 @@ export default function ProductsTabelContent({ brandsAnchors }) {
               active === idx && 'scale-100 font-bold',
               active !== idx && 'scale-90 text-zinc-400',
             )}
-            onClick={e => linkClickHandler(brandsAnchors[idx].hash, e)}
+            onClick={e => clickLinkHandler(brandsAnchors[idx].hash, e)}
           >
             {brandsAnchors[idx].name.toUpperCase(brandsAnchors[idx].hash)}
           </Link>

@@ -6,6 +6,7 @@ const DynamicBall3D = dynamic(() => import('@/_components/ui/home/ball-3d'), {
   loading: () => (
     <div className="size-7 animate-bounce rounded-full bg-zinc-100 text-3xl font-bold position-center" />
   ),
+  ssr: false,
 })
 
 const generateItem = (name, href, icon) => ({

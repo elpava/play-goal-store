@@ -3,15 +3,17 @@
 import * as React from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import useWindowReady from 'hook/useWindowReady'
-
-const PRIMARY_LIGHT_CLR = '#FFFFF0'
-const SECONDARY_LIGHT_CLR = '#FF6347'
+import {
+  SCENE_PRIMARY_LIGHT_CLR,
+  SCENE_SECONDARY_LIGHT_CLR,
+} from 'library/constants'
 
 export default function Ball3D() {
-  const { isWindowReady } = useWindowReady()
-
-  return <div className="mx-auto size-72">{isWindowReady && <Scene />}</div>
+  return (
+    <div className="mx-auto size-72">
+      <Scene />
+    </div>
+  )
 }
 
 function Scene() {
@@ -20,12 +22,12 @@ function Scene() {
   return (
     <Canvas camera={{ position: [0, 0, 5] }}>
       <directionalLight
-        color={PRIMARY_LIGHT_CLR}
+        color={SCENE_PRIMARY_LIGHT_CLR}
         position={[0, 1.75, 2.2]}
         intensity={2}
       />
       <spotLight
-        color={SECONDARY_LIGHT_CLR}
+        color={SCENE_SECONDARY_LIGHT_CLR}
         position={[2, 2.5, 6.25]}
         intensity={50}
         angle={Math.PI / 1.45}

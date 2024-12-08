@@ -1,17 +1,22 @@
 import * as React from 'react'
+import { DEVICES_LIST } from 'library/constants'
 
-export default function useCheckDevice(keywords = []) {
-  const [isDevice, setIsDevice] = React.useState()
+export default function useCheckDevice() {
+  const userAgent = React.useSyncExternalStore(subscribe, getSnapshot, () => {})
+  const regexPattern = new RegExp(DEVICES_LIST.join('|'), 'i')
 
-  React.useEffect(() => {
-    let userAgent
-    if (navigator !== undefined) {
-      userAgent = navigator.userAgent
-    }
-    const regexPattern = new RegExp(keywords.join('|'), 'i')
+  return { is: regexPattern.test(userAgent) }
+}
 
-    setIsDevice(regexPattern.test(userAgent))
-  }, [keywords])
+function subscribe(callback) {
+  window?.addEventListener('online', callback)
+  window?.addEventListener('offline', callback)
+  return () => {
+    window?.removeEventListener('online', callback)
+    window?.removeEventListener('offline', callback)
+  }
+}
 
-  return { is: isDevice }
+function getSnapshot() {
+  return navigator?.userAgent
 }

@@ -1,41 +1,50 @@
 import * as React from 'react'
 
-export default function useVisibility({
+export default function useTemp({
   ref,
   root,
   rootMargin,
   threshold = 0.5,
-  once = false,
+  once,
 }) {
-  const [isVisible, setIsVisible] = React.useState(false)
+  const observerRef = React.useRef()
+  const isVisibleRef = React.useRef()
 
-  React.useEffect(() => {
-    const elRef = ref.current
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
+  const subscribeCB = React.useCallback(
+    callback => {
+      const element = ref.current
 
-          if (once && elRef) {
-            observer.unobserve(elRef)
+      observerRef.current = new IntersectionObserver(
+        ([entry], internalObserver) => {
+          isVisibleRef.current = entry.isIntersecting
+
+          if (isVisibleRef.current && once) {
+            internalObserver.unobserve(element)
           }
-        } else {
-          setIsVisible(false)
-        }
-      },
-      { root, rootMargin, threshold },
-    )
 
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
+          callback()
+        },
+        { root, rootMargin, threshold },
+      )
 
-    return () => {
-      if (elRef) {
-        observer.unobserve(elRef)
+      if (element) {
+        observerRef.current.observe(element)
       }
-    }
-  }, [once, ref, root, rootMargin, threshold])
 
-  return isVisible
+      return () => {
+        if (element) observerRef.current.disconnect()
+      }
+    },
+    [once, ref, root, rootMargin, threshold],
+  )
+
+  const result = React.useSyncExternalStore(
+    subscribeCB,
+    () => isVisibleRef.current,
+    getServerSnapshot,
+  )
+
+  return result
 }
+
+const getServerSnapshot = () => false

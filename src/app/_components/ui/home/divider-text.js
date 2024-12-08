@@ -13,11 +13,7 @@ import useVisibility from 'hook/useVisibility'
 
 export default function DividerText() {
   const wrapperRef = React.useRef(null)
-  const isVisible = useVisibility({
-    ref: wrapperRef,
-    threshold: 1,
-    once: false,
-  })
+  const isVisible = useVisibility({ ref: wrapperRef, threshold: 1 })
   const rightSpringRef = useSpringRef()
   const leftSpringRef = useSpringRef()
 
@@ -26,12 +22,14 @@ export default function DividerText() {
     from: { x: 200 },
     to: { x: -101 },
     config: { duration: 3000, easing: easings.easeInOutExpo },
+    reset: isVisible,
   })
   const leftStyle = useSpring({
     ref: leftSpringRef,
     from: { y: -100 },
     to: { y: 200 },
     config: { duration: 3000, easing: easings.easeInOutExpo },
+    reset: isVisible,
   })
 
   useChain(isVisible ? [leftSpringRef, rightSpringRef] : [], [0, 1], 1100)
@@ -39,7 +37,7 @@ export default function DividerText() {
   return (
     <div
       ref={wrapperRef}
-      className="border-y-[0.5px] border-y-[currentColor] text-sm text-custom-wheat sm:text-base"
+      className="mb-10 border-y-[0.5px] border-y-[currentColor] text-sm text-custom-wheat sm:text-base"
     >
       <div className="mx-auto h-60 max-w-128 flex-center">
         <div className="flex h-full flex-wrap items-center border-x-[0.5px] border-x-[currentColor]">

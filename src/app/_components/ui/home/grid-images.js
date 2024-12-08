@@ -6,7 +6,6 @@ import { animated, useSpring, useSprings, to } from '@react-spring/web'
 import { useGesture } from '@use-gesture/react'
 import clsx from 'clsx/lite'
 import useCheckDevice from 'hook/useCheckDevice'
-import { DEVICES_LIST } from 'library/constants'
 import Adidas1 from '/public/images/grid-adidas-1.jpg'
 import Adidas2 from '/public/images/grid-adidas-2.jpg'
 import Adidas3 from '/public/images/grid-adidas-3.jpg'
@@ -40,7 +39,7 @@ const MAX_DELAY = 200
 const STEP = 80
 
 export default function GridImages() {
-  const { is: isMobileDevice } = useCheckDevice(DEVICES_LIST)
+  const { is: isMobileDevice } = useCheckDevice()
   const [{ x }, wrapperApi] = useSpring(() => ({
     from: { x: 0 },
   }))

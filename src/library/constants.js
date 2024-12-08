@@ -1,3 +1,5 @@
+export const USER_ID_KEY = 'pg-user-id'
+
 export const DOLLAR_RATE = 56_000
 export const TAX_RATE = 9
 
@@ -16,3 +18,8 @@ export const DEVICES_LIST = [
   'BlackBerry',
   'Windows Phone',
 ]
+
+export const BREAKPOINTS = { sm: 640, md: 768, lg: 1024, xl: 1280 }
+
+export const SCENE_PRIMARY_LIGHT_CLR = '#FFFFF0'
+export const SCENE_SECONDARY_LIGHT_CLR = '#FF6347'

@@ -5,9 +5,8 @@ import Image from 'next/image'
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import { animated, useSpring, config } from '@react-spring/web'
 import clsx from 'clsx/lite'
-import useVisibility from 'hook/useVisibility'
 import useCheckDevice from 'hook/useCheckDevice'
-import { DEVICES_LIST } from 'library/constants'
+import useVisibility from 'hook/useVisibility'
 import { clamp } from 'library/helper-functions'
 import AdidasTelestar1970 from '/public/images/adidas-telestar-1970.jpg'
 import AdidasTrazuca2014 from '/public/images/adidas-brazuca-2014.jpg'
@@ -43,7 +42,7 @@ const data = [
 const LAST_ITEM = data.length - 1
 
 export default function ParallaxBalls() {
-  const { is: isMobileDevice } = useCheckDevice(DEVICES_LIST)
+  const { is: isMobileDevice } = useCheckDevice()
   const wrapperRef = React.useRef()
   const parallaxRef = React.useRef()
   const isVisible = useVisibility({ ref: wrapperRef, threshold: 0.7 })
@@ -112,7 +111,7 @@ export default function ParallaxBalls() {
       wavyArrowApi.start({ length: Math.min(parallax.current, 550) })
     }
 
-    if (parallaxRef.current && !currentPage) setCurrentPage([0])
+    if (parallaxRef.current && !currentPage) setCurrentPage(0)
 
     window.addEventListener('wheel', handleScroll, { passive: true })
     window.addEventListener('touchstart', handleTouchstart)
@@ -368,8 +367,8 @@ function AnimationLayer({
   const DynamicAnimatedElement = animated[element]
   const layerRef = React.useRef(null)
   const isVisible = useVisibility({
-    ref: layerRef,
-    threshold: visibilityThreshold,
+    ref: useIsVisible && layerRef,
+    threshold: useIsVisible && visibilityThreshold,
   })
 
   const [style, api] = useSpring(() => ({

@@ -6,11 +6,12 @@ import {
   useQueryClient,
   QueriesObserver,
 } from '@tanstack/react-query'
-import useUserId from 'hook/useUserId'
+import useLocalStorage from 'hook/useLocalStorage'
 import useOrders from 'hook/useOrders'
 import addOrderAction from 'action/orders/add-order'
 import updateProductOrderAction from 'action/orders/update-product-order'
 import Button from '../common/button'
+import { USER_ID_KEY } from 'library/constants'
 
 export default function AddCartButton({
   label,
@@ -19,7 +20,7 @@ export default function AddCartButton({
   ...props
 }) {
   const queryClient = useQueryClient()
-  const { userId } = useUserId()
+  const [userId] = useLocalStorage(USER_ID_KEY)
   const { ordersData, isSuccess } = useOrders()
   let lastOrderData
   const { mutate: mutateToAddOrder } = useMutation({
