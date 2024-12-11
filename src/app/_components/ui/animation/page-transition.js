@@ -5,12 +5,16 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { startPageTransition, endPageTransition } from 'library/dom-helper'
 
-export default function PageTransition({ children, href, ...props }) {
+export default function PageTransition({ children, href, onClick, ...props }) {
   const { push } = useRouter()
   const pathname = usePathname()
 
   async function clickHandler(e) {
     e.preventDefault()
+
+    if (onClick) {
+      onClick()
+    }
 
     if (pathname === href) return
 
