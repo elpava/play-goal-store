@@ -11,17 +11,17 @@ const aliasName = {
   mobile: 'موبایل',
   registerDate: 'ثبت نام',
 }
-const report = [
-  { title: 'کل خریدهای انجام شده', value: 0 },
-  { title: 'سفارش در حال پردازش', value: 0 },
-  { title: 'سفارش‌های ناموفق', value: 0 },
-]
 
 export default async function ProfilePage() {
   const authentication = await auth()
   const userInfo = await getUserAction(authentication?.user.email)
   const orders = await getOrdersAction(authentication?.user.id)
-  let form = []
+  const form = []
+  const report = [
+    { title: 'کل خریدهای انجام شده', value: 0 },
+    { title: 'سفارش در حال پردازش', value: 0 },
+    { title: 'سفارش‌های ناموفق', value: 0 },
+  ]
 
   for (let [key, value] of Object.entries(userInfo)) {
     if (aliasName[key]) {

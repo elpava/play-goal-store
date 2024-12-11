@@ -40,7 +40,7 @@ html:has(section[data-no-scrollbar])::-webkit-scrollbar {
   body:has(main > section[data-bg-dark]) {
     @apply bg-black;
   }
-  body:has([data-product-page]) {
+  body:has([data-product-page]):not(:has([data-page-ready])) {
     @apply overflow-hidden;
   }
   header:has(+ main > section[data-bg-dark]) {

@@ -62,9 +62,9 @@ export default async function ProductsPage() {
                 ({ _id, slug, name, price, description, thumbnails }, idx) => (
                   <div
                     key={_id}
-                    className="flex flex-wrap justify-center gap-4 text-center sm:flex-nowrap sm:justify-normal sm:text-right"
+                    className="grid grid-cols-1 justify-items-center gap-4 text-center xs:grid-cols-[max-content,1fr] xs:justify-items-stretch sm:text-right"
                   >
-                    <div className="relative size-16 shrink-0 overflow-hidden rounded-lg lg:h-36 lg:w-36">
+                    <div className="relative size-16 overflow-hidden rounded-lg lg:h-36 lg:w-36">
                       <Image
                         src={`/images/products/${thumbnails[0]}`}
                         alt="عکس محصول"

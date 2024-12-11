@@ -1,5 +1,8 @@
 export const USER_ID_KEY = 'pg-user-id'
 
+export const START_TRANSITION_DELAY = 600
+export const END_TRANSITION_DELAY = 500
+
 export const DOLLAR_RATE = 56_000
 export const TAX_RATE = 9
 

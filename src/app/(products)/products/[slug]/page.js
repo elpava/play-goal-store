@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import clsx from 'clsx/lite'
 import {
   getProductsProperties,
@@ -10,6 +11,11 @@ import ProductColorSelection from '@/_components/ui/products/product-color-selec
 import AddCartButton from '@/_components/ui/products/add-cart-button'
 import ImageGallery from '@/_components/ui/products/image-gallery'
 import { VTF_REDZONE_CLASSIC } from 'util/share-font'
+import { START_TRANSITION_DELAY, END_TRANSITION_DELAY } from 'library/constants'
+const DynamicUpdateDomAttrAtClient = dynamic(
+  () => import('@/_components/ui/update-dom-attr-at-client'),
+  { ssr: false },
+)
 
 const productsProperties = await getProductsProperties({
   _id: 0,
@@ -49,8 +55,14 @@ export default async function ProductPage({ params: { slug } }) {
     <section
       data-bg-dark
       data-product-page
-      className={`ignore md:grid md:h-screen md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
+      className={`ignore grid grid-cols-1 md:h-screen md:grid-cols-2 ${VTF_REDZONE_CLASSIC.variable}`}
     >
+      <DynamicUpdateDomAttrAtClient
+        searchByDataAttr="[data-product-page]"
+        newAttribute="data-page-ready"
+        newAttributeValue="true"
+        delay={START_TRANSITION_DELAY + END_TRANSITION_DELAY}
+      />
       <div
         className={clsx(
           'relative isolate space-y-6 px-4 pb-4 pt-16 sm:max-h-screen md:pt-4',

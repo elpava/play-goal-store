@@ -98,7 +98,7 @@ export default function ShoppingButton({ className, productId, ...props }) {
   return (
     <button
       className={clsx(
-        'w-16 rounded-lg p-1 text-center sm:w-24 sm:p-2',
+        'w-16 rounded-lg p-1 text-center md:w-24 md:p-2',
         className,
         !isAdded && 'bg-red-600',
         isAdded && 'border border-red-600 bg-transparent text-red-600',
