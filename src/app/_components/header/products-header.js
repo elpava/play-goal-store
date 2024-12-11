@@ -22,6 +22,7 @@ export default function ProductsHeader({ isAuthurized }) {
   const { ordersData, isSuccess } = useOrders()
   let lastOrderData
   const { back } = useRouter()
+  const popupRef = React.useRef()
   const [showPopup, setShowPopup] = React.useState(false)
 
   let isLastOrderData = false
@@ -35,6 +36,24 @@ export default function ProductsHeader({ isAuthurized }) {
     isShowCounter = Boolean(ordersCount)
   }
 
+  React.useEffect(() => {
+    const handleClick = e => {
+      const isClickOutsidePopup =
+        popupRef.current && !popupRef.current.contains(e.target)
+      if (isClickOutsidePopup) {
+        clickPopupHandler()
+      }
+    }
+
+    if (showPopup) {
+      document.addEventListener('click', handleClick)
+
+      return () => {
+        document.removeEventListener('click', handleClick)
+      }
+    }
+  }, [showPopup])
+
   async function clickBackButtonHandler() {
     await startPageTransition()
     back()
@@ -47,7 +66,7 @@ export default function ProductsHeader({ isAuthurized }) {
 
   return (
     <Header className="fixed inset-x-0 z-50 mx-auto grid justify-center">
-      <div className="flex items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-700 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
+      <div className="relative flex items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-700 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
         <button
           className="relative md:cursor-pointer"
           onClick={clickPopupHandler}
@@ -89,15 +108,15 @@ export default function ProductsHeader({ isAuthurized }) {
       </div>
 
       <Popup
-        className="flex items-start justify-center pt-14"
+        ref={popupRef}
         show={showPopup}
-        onShow={clickPopupHandler}
+        onShow={!isLastOrderData ? clickPopupHandler : null}
       >
         {isLastOrderData ? (
           <CartMenu
             orderId={lastOrderData._id}
             ordersData={lastOrderData.orders}
-            onWrapperClick={clickPopupHandler}
+            onShowPopup={clickPopupHandler}
           />
         ) : (
           <EmptyCartMenu />
@@ -107,7 +126,7 @@ export default function ProductsHeader({ isAuthurized }) {
   )
 }
 
-function CartMenu({ orderId, ordersData, onWrapperClick }) {
+function CartMenu({ orderId, ordersData, onShowPopup }) {
   const { push } = useRouter()
   const queryClient = useQueryClient()
   const products = queryClient.getQueryData(['products'])
@@ -141,24 +160,18 @@ function CartMenu({ orderId, ordersData, onWrapperClick }) {
 
   const last_item = cartMenuData?.length - 1
 
-  function clickWrapperHandler(e) {
+  async function clickRedirectHandler(e) {
     e.stopPropagation()
-    onWrapperClick()
-  }
-
-  async function clickRedirectHandler() {
+    onShowPopup()
     await startPageTransition()
     push('/cart')
     await endPageTransition()
   }
 
   return (
-    <div
-      className="flex rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100"
-      onClick={clickWrapperHandler}
-    >
-      <div className="rounded-lg border-2 border-lime-400 px-2 py-2">
-        <div className="max-h-96 w-80 overflow-auto overscroll-none py-0.5 pe-2 scrollbar scrollbar-w-1 scrollbar-track-transparent scrollbar-corner-transparent scrollbar-thumb-lime-700 scrollbar-thumb-rounded-full md:w-96 md:scrollbar-w-2">
+    <div className="flex rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
+      <div className="rounded-lg border-2 border-lime-400 p-2">
+        <div className="max-h-96 w-80 overflow-auto overscroll-none px-2 py-1 scrollbar scrollbar-w-1 scrollbar-track-transparent scrollbar-corner-transparent scrollbar-thumb-lime-700 scrollbar-thumb-rounded-full md:w-96 md:scrollbar-w-2">
           <ul className="divide-y-2 divide-lime-400">
             {cartMenuData.map(
               (
@@ -176,8 +189,9 @@ function CartMenu({ orderId, ordersData, onWrapperClick }) {
                   <PageTransition
                     href={`/products/${slug}`}
                     className="flex basis-5/6 gap-2 md:gap-4"
+                    onClick={onShowPopup}
                   >
-                    <div className="relative size-10 shrink-0 basis-1/6 md:size-16">
+                    <div className="relative size-12 shrink-0 overflow-hidden rounded-md md:size-16">
                       <Image
                         src={`/images/products/${thumbnail}`}
                         alt="عکس محصول"
@@ -207,6 +221,7 @@ function CartMenu({ orderId, ordersData, onWrapperClick }) {
 
                   <div className="basis-1/6 self-end">
                     <RemoveButton
+                      className="mr-auto"
                       label="حذف"
                       orderId={orderId}
                       itemId={id}
@@ -229,7 +244,7 @@ function CartMenu({ orderId, ordersData, onWrapperClick }) {
 
 function EmptyCartMenu() {
   return (
-    <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
+    <div className="absolute left-1/2 top-full -translate-x-1/2 rounded-lg border-2 border-zinc-500 bg-zinc-700 p-2 text-zinc-100">
       <div className="grid h-28 w-80 place-items-center rounded-lg border-2 border-lime-400 px-2 py-2 text-center text-base sm:text-lg">
         سبد خرید شما خالی است.
       </div>

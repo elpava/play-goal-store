@@ -7,8 +7,9 @@ import Popup from '@/_components/ui/common/popup'
 import { Menu as MenuIcon, X } from 'lucide-react'
 
 export default function ToggleMenu({ className }) {
+  const popupRef = React.useRef()
   const [showMenu, setShowMenu] = React.useState(false)
-  const disableRef = React.useRef(false)
+  const [disable, setDisable] = React.useState(false)
   const transitions = useTransition(showMenu, {
     from: v => ({
       opacity: 0,
@@ -24,9 +25,27 @@ export default function ToggleMenu({ className }) {
     }),
     exitBeforeEnter: true,
     config: { mass: 0.5, friction: 11, tension: 400 },
-    onStart: () => (disableRef.current = true),
-    onRest: () => (disableRef.current = false),
+    onStart: () => setDisable(true),
+    onRest: () => setDisable(false),
   })
+
+  React.useEffect(() => {
+    const handleClick = e => {
+      const isClickOutsidePopup =
+        popupRef.current && !popupRef.current.contains(e.target)
+      if (isClickOutsidePopup) {
+        clickPopupHandler()
+      }
+    }
+
+    if (showMenu) {
+      document.addEventListener('click', handleClick)
+
+      return () => {
+        document.removeEventListener('click', handleClick)
+      }
+    }
+  }, [showMenu])
 
   function clickPopupHandler() {
     setShowMenu(prev => !prev)
@@ -36,7 +55,7 @@ export default function ToggleMenu({ className }) {
     <div className={className}>
       <button
         className="relative z-50 touch-none select-none overflow-hidden rounded-lg border border-dashed border-zinc-700 p-1"
-        disabled={disableRef.current}
+        disabled={disable}
         onClick={clickPopupHandler}
       >
         {transitions((style, toggle) =>
@@ -52,7 +71,12 @@ export default function ToggleMenu({ className }) {
         )}
       </button>
 
-      <Popup className="pt-14" show={showMenu} onShow={clickPopupHandler}>
+      <Popup
+        ref={popupRef}
+        className="w-full"
+        show={showMenu}
+        onShow={clickPopupHandler}
+      >
         <Menu
           className="flex flex-col items-start divide-y-2 p-6 text-4xl font-bold *:w-full"
           itemClassName="p-6"

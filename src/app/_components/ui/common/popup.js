@@ -4,12 +4,15 @@ import * as React from 'react'
 import { animated, useTransition } from '@react-spring/web'
 import clsx from 'clsx/lite'
 
-export default function Popup({ children, className, show: isShow, onShow }) {
+export default React.forwardRef(function Popup(
+  { children, className, show: isShow, onShow },
+  ref,
+) {
   const [show, setShow] = React.useState(false)
   const transitions = useTransition(show, {
-    from: { opacity: 0, transform: 'translateY(-20px)' },
-    enter: { opacity: 1, transform: 'translateY(0)' },
-    leave: { opacity: 0, transform: 'translateY(-20px)' },
+    from: { opacity: 0, transform: 'translateX(-50%) translateY(-20px)' },
+    enter: { opacity: 1, transform: 'translateX(-50%) translateY(0)' },
+    leave: { opacity: 0, transform: 'translateX(-50%) translateY(-20px)' },
   })
 
   React.useEffect(() => {
@@ -17,15 +20,18 @@ export default function Popup({ children, className, show: isShow, onShow }) {
   }, [isShow])
 
   function clickPopupHandler() {
-    setShow(prev => !prev)
-    onShow()
+    if (onShow) {
+      setShow(prev => !prev)
+      onShow()
+    }
   }
 
   return transitions(
     (style, show) =>
       show && (
         <animated.div
-          className={clsx('absolute left-0 top-0 z-40 h-svh w-full', className)}
+          ref={ref}
+          className={clsx('absolute left-1/2 top-full z-40', className)}
           style={style}
           onClick={clickPopupHandler}
         >
@@ -33,4 +39,4 @@ export default function Popup({ children, className, show: isShow, onShow }) {
         </animated.div>
       ),
   )
-}
+})
