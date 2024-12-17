@@ -1,16 +1,14 @@
 import { signOut } from 'next-auth/react'
-import { v4 as uuidv4 } from 'uuid'
 import useLocalStorage from './useLocalStorage'
-import { USER_ID_KEY } from 'library/constants'
-
-const ID = uuidv4()
+import { USER_ID_KEY, USER_ID_INIT_KEY } from 'library/constants'
 
 export default function useLogout() {
   const [_, setUserId] = useLocalStorage(USER_ID_KEY)
+  const [userIdInitilization] = useLocalStorage(USER_ID_INIT_KEY)
 
   function handleLogout() {
-    signOut().then(() => setUserId(ID))
-    setUserId(ID)
+    signOut().then(() => setUserId(userIdInitilization))
+    setUserId(userIdInitilization)
   }
 
   return { logout: handleLogout }

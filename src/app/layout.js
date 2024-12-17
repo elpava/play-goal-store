@@ -6,6 +6,7 @@ import getProductsAction from 'action/products/get-products'
 import { VAZIRMATN_FONT } from 'util/share-font'
 
 import './globals.css'
+import UserIdManagement from './user-id-management'
 
 export const metadata = {
   title: 'پلی گل',
@@ -25,9 +26,11 @@ export default async function RootLayout({ children }) {
       <body>
         <NextAuthProvider>
           <ReactQueryProvider>
-            <HydrationBoundary state={dehydrate(queryClient)}>
-              {children}
-            </HydrationBoundary>
+            <UserIdManagement>
+              <HydrationBoundary state={dehydrate(queryClient)}>
+                {children}
+              </HydrationBoundary>
+            </UserIdManagement>
           </ReactQueryProvider>
         </NextAuthProvider>
       </body>

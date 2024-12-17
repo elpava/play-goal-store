@@ -1,4 +1,5 @@
 export const USER_ID_KEY = 'pg-user-id'
+export const USER_ID_INIT_KEY = 'pg-user-id-initialization'
 
 export const START_TRANSITION_DELAY = 600
 export const END_TRANSITION_DELAY = 500

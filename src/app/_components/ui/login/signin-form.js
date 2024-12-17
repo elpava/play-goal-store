@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { useMutation } from '@tanstack/react-query'
+import useOrders from 'hook/useOrders'
 import { loginAction } from 'action/auth/login'
 import { signInFormSchema } from 'library/inputs-schema'
 import Form from '@/_components/ui/common/form'
@@ -11,6 +12,7 @@ import FormErrorMessage from './form-error-message'
 import { Mail, LockKeyhole } from 'lucide-react'
 
 export default function SignInForm() {
+  const { ordersData } = useOrders()
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ['pending-form'],
     mutationFn: formData => loginAction(formData),
@@ -91,7 +93,13 @@ export default function SignInForm() {
       return
     }
 
-    const formData = { ...signInForm, state: 'sign-in' }
+    const lastOrderData = JSON.stringify(ordersData?.at(-1))
+
+    const formData = {
+      ...signInForm,
+      orderBeforeLogin: lastOrderData,
+      state: 'sign-in',
+    }
 
     const result = await mutateAsync(formData)
     if (result?.error) {

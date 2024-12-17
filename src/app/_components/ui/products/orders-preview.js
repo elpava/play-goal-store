@@ -109,7 +109,7 @@ export default function OrdersPreview() {
                       <div className="shrink-0 text-center">
                         <PageTransition
                           href={`/products/${slug}`}
-                          className="relative inline-block size-14 sm:size-24"
+                          className="relative inline-block size-14 overflow-hidden rounded-lg sm:size-24"
                         >
                           <Image
                             src={`/images/products/${thumbnail}`}
