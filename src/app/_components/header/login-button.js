@@ -7,7 +7,7 @@ import { signIn } from 'next-auth/react'
 import { User } from 'lucide-react'
 import { startPageTransition, endPageTransition } from 'library/dom-helper'
 
-export default function LoginButton({ className, isAuthurized, props }) {
+export default function LoginButton({ className, isAuthurized, ...props }) {
   const { push } = useRouter()
   const pathname = usePathname()
 

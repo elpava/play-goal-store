@@ -42,6 +42,7 @@ export default function SidebarMenu({ className }) {
         ))}
         <li className="!mt-14 border-t-2 border-t-zinc-300 pt-2">
           <div
+            data-close-animation
             onClick={signOutButtonHandler}
             className="flex cursor-pointer items-center justify-between rounded-md bg-red-400 px-1.5 py-1"
           >

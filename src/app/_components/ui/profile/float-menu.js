@@ -65,7 +65,11 @@ export default function FloatMenu({ className }) {
           </li>
         ))}
         <li className="mx-2 h-full w-[1px] select-none bg-zinc-600">&nbsp;</li>
-        <li className="cursor-pointer" onClick={signOutButtonHandler}>
+        <li
+          data-close-animation
+          className="cursor-pointer"
+          onClick={signOutButtonHandler}
+        >
           <LogOut className="text-red-500" />
         </li>
       </ul>

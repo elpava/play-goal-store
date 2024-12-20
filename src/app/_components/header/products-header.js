@@ -65,7 +65,7 @@ export default function ProductsHeader({ isAuthurized }) {
   }
 
   return (
-    <Header className="fixed inset-x-0 z-50 mx-auto grid justify-center">
+    <Header className="fixed inset-x-0 z-50 mx-auto grid w-max justify-center">
       <div className="relative flex items-center gap-4 rounded-ee-lg rounded-es-lg border-b-4 border-zinc-500 bg-zinc-700 px-6 py-2 text-2xl text-zinc-100 backdrop-blur-lg md:px-10 md:py-3 md:text-6xl">
         <button
           className="relative md:cursor-pointer"
@@ -87,13 +87,14 @@ export default function ProductsHeader({ isAuthurized }) {
           )}
         </button>
 
-        <LoginButton isAuthurized={isAuthurized} />
+        <LoginButton data-close-animation isAuthurized={isAuthurized} />
 
-        <button onClick={clickBackButtonHandler}>
+        <button data-close-animation onClick={clickBackButtonHandler}>
           <ArrowLeft className="w-5 stroke-1 md:w-6" />
         </button>
 
         <PageTransition
+          data-close-animation
           href="/"
           className="relative block h-7 w-5 sm:h-8 sm:w-6"
         >

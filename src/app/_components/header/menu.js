@@ -24,7 +24,7 @@ const menu = [
     </PageTransition>
   ),
   ({ style, itemClassName }) => (
-    <PageTransition href="/products">
+    <PageTransition data-close-animation href="/products">
       <animated.div style={style} className={itemClassName}>
         محصولات
       </animated.div>

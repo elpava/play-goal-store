@@ -25,7 +25,11 @@ export default async function MainHeader() {
 
         <Search className="basis-10/12 md:basis-6/12 lg:basis-8/12" />
 
-        <LoginButton className="mr-auto" isAuthurized={isAuthurized} />
+        <LoginButton
+          data-close-animation={!isAuthurized}
+          className="mr-auto"
+          isAuthurized={isAuthurized}
+        />
       </nav>
     </Header>
   )
