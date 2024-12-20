@@ -22,7 +22,7 @@ export default async function LoginPage({ searchParams }) {
   }
 
   return (
-    <section className="ignore relative grid h-full content-center justify-items-start px-8">
+    <section className="ignore relative grid h-full content-center justify-items-center px-8 xs:justify-items-start">
       <Image
         src={LoginWallpaper}
         alt="پس زمینه صفحه ورود"

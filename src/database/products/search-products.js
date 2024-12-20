@@ -7,6 +7,7 @@ import {
 export default async function searchProducts(query) {
   const caller = searchProducts.name
   let data, client
+  query = query.trim()
 
   try {
     client = await connectToDatabase(caller)

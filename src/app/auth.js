@@ -23,6 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       authorize: async authorize => {
+        authorize.email = authorize.email.toLowerCase()
         const { state, password, orderBeforeLogin } = authorize
         let user
         let parsedOrderBeforeLogin =

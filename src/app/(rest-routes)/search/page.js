@@ -53,15 +53,15 @@ export default async function SearchPage({ searchParams }) {
                 <li key={_id} className="relative py-1">
                   <PageTransition
                     href={`/products/${slug}`}
-                    className="mr-4 flex items-center gap-8 py-4 text-sm font-bold sm:text-2xl"
+                    className="flex items-center gap-8 py-4 text-sm font-bold xs:mr-4 sm:text-2xl"
                   >
-                    <div className="relative size-16 basis-1/5 sm:size-28 sm:basis-2/12">
+                    <div className="relative size-16 shrink-0 overflow-hidden rounded-md bg-red-200 sm:size-28">
                       <Image
                         src={`/images/products/${thumbnails[0]}`}
                         alt={name}
                         fill
                         sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
-                        className="object-contain"
+                        className="object-cover"
                       />
                     </div>
                     <div className="basis-4/5 sm:basis-10/12">

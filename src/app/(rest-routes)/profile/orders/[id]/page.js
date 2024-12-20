@@ -198,7 +198,7 @@ export default async function OrderDetailsPage({ params }) {
           {groupedByInvoice.map(({ title, value }) => (
             <div key={title} className="flex gap-4">
               <div className="basis-2/6 sm:basis-1/5">{title}</div>
-              <div className="basis-4/6 divide-y divide-zinc-400 sm:basis-4/5">
+              <div className="basis-4/6 sm:basis-4/5">
                 {Array.isArray(value)
                   ? value.map(
                       ({
@@ -214,34 +214,43 @@ export default async function OrderDetailsPage({ params }) {
                       }) => (
                         <div
                           key={id}
-                          className="relative space-y-2 !border-b border-b-zinc-400 px-2 py-4 text-sm sm:grid sm:grid-cols-7 sm:justify-items-center"
+                          className="relative !border-b border-b-zinc-300 py-2 text-sm xs:space-y-4 xs:px-2"
                         >
-                          <div className="relative size-14 w-full">
-                            <Image
-                              src={`/images/products/${thumbnail}`}
-                              alt="توپ"
-                              fill
-                              sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
-                              className="object-contain"
+                          <div className="grid place-items-center gap-4 xs:flex">
+                            <div className="relative size-16 shrink-0 overflow-hidden rounded-md">
+                              <Image
+                                src={`/images/products/${thumbnail}`}
+                                alt="توپ"
+                                fill
+                                sizes="(min-width: 768px) 100vw, (min-width: 640px) 50vw, (min-width: 475px) 33vw, 85vw"
+                                className="object-contain"
+                              />
+                              <PageTransition
+                                href={`/products/${slug}`}
+                                className="absolute bottom-0 right-0 rounded-tl-md bg-white"
+                              >
+                                <ArrowUpRight
+                                  size={16}
+                                  className="inline-block"
+                                />
+                              </PageTransition>
+                            </div>
+
+                            <div>
+                              <Tag title="مدل" value={productName} />
+                              <Tag title="رنگ" value={color} />
+                            </div>
+                          </div>
+
+                          <div className="md:grid md:grid-cols-4 md:justify-items-center">
+                            <Tag title="اندازه شماره" value={size} />
+                            <Tag title="قیمت واحد" value={`${price} تومان`} />
+                            <Tag title="تعداد" value={`${quantity} عدد`} />
+                            <Tag
+                              title="قیمت نهایی"
+                              value={`${totalPrice} تومان`}
                             />
                           </div>
-                          <div className="text-center xs:text-right">
-                            <div>مدل {productName}</div>
-                          </div>
-                          <div>رنگ {color}</div>
-                          <div>اندازه {size}</div>
-                          <div className="text-left">{price} تومان</div>
-                          <div className="text-left">{quantity} عدد</div>
-                          <div className="text-left">{totalPrice} تومان</div>
-                          <PageTransition
-                            href={`/products/${slug}`}
-                            className="absolute right-0 top-0"
-                          >
-                            <ArrowUpRight
-                              size={20}
-                              className="inline-block text-zinc-400"
-                            />
-                          </PageTransition>
                         </div>
                       ),
                     )
@@ -252,6 +261,14 @@ export default async function OrderDetailsPage({ params }) {
         </DisplayData>
       </div>
     </section>
+  )
+}
+
+function Tag({ title, value }) {
+  return (
+    <div>
+      <span className="text-zinc-500">{title}</span> {value}
+    </div>
   )
 }
 
