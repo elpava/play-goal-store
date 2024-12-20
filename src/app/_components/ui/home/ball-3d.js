@@ -1,24 +1,26 @@
 'use client'
 
 import * as React from 'react'
+import Image from 'next/image'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import useCheckDevice from 'hook/useCheckDevice'
+import SoccerBallImg from '/public/3D/soccer-ball.png'
 import {
   SCENE_PRIMARY_LIGHT_CLR,
   SCENE_SECONDARY_LIGHT_CLR,
 } from 'library/constants'
 
 export default function Ball3D() {
+  const { is: isMobileDevice } = useCheckDevice()
   return (
-    <div className="mx-auto size-72">
-      <Scene />
+    <div className="mx-auto size-48 sm:size-72">
+      {isMobileDevice ? <Image src={SoccerBallImg} alt="" /> : <Scene />}
     </div>
   )
 }
 
 function Scene() {
-  const modelRef = React.useRef()
-
   return (
     <Canvas camera={{ position: [0, 0, 5] }}>
       <directionalLight
@@ -36,7 +38,7 @@ function Scene() {
         penumbra={0.8}
       />
 
-      <Soccerball ref={modelRef} />
+      <Soccerball />
     </Canvas>
   )
 }

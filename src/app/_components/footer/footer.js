@@ -37,7 +37,7 @@ export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-16 overflow-hidden bg-gradient-to-b from-slate-900 to-black pt-16 text-gray-100">
       <div className="flex flex-col items-center gap-y-14 md:flex-row md:gap-y-0">
-        <div className="relative h-[40svh] basis-2/6 text-center">
+        <div className="relative flex h-[40svh] basis-2/6 items-center text-center">
           <DynamicBall3D />
         </div>
 
